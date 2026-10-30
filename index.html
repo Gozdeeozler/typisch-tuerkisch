@@ -1912,6 +1912,22 @@ function startExam(ui){
 }
 
 function boot(){
+  /* Mit #alles am Ende der Adresse wird alles aufgeschlossen.
+     Gedacht zum Durchsehen, nicht für normale Nutzer. */
+  if((location.hash || "").toLowerCase() === "#alles"){
+    if(!ACTIVE || !USERS[ACTIVE]){
+      if(!USERS["__gast"]) USERS["__gast"] = {name:"Vorschau", pin:"", data:fresh()};
+      ACTIVE = "__gast"; S = USERS[ACTIVE].data;
+    }
+    FLAT.forEach((_,i)=>{ if(!S.done.includes(i)) S.done.push(i); });
+    UNITS.forEach((_,ui)=>{
+      if(!S.bonusDone.includes(ui)) S.bonusDone.push(ui);
+      if(!S.passed.includes(ui)) S.passed.push(ui);
+    });
+    S.pro = true;
+    if(!S.xp) S.xp = 1500;
+    save();
+  }
   if(ACTIVE && USERS[ACTIVE]) home(); else authScreen("login");
 }
 
