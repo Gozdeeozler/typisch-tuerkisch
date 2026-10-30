@@ -584,7 +584,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Frauen ansprechen", s:"Anrede, Höflichkeit, Komplimente", icon:"🌸", pro:true, pool:12,
+    t:"Frauen ansprechen", s:"Anrede, Komplimente, Kosenamen", icon:"🌸", pro:true, pool:12,
     lessons:[
       { t:"Wie man eine Frau anspricht", s:"6 Übungen", items:[
         {k:"culture", word:"Abla", lit:"große Schwester",
@@ -609,11 +609,23 @@ const UNITS = [
           tip:"Die sichere Regel: lobe, was jemand gemacht hat, nicht wie jemand aussieht, solange ihr euch nicht gut kennt."},
         {k:"build", de:"Gesundheit deiner Mühe", tiles:["Emeğine","sağlık"], ans:"Emeğine sağlık"},
         {k:"listen", tr:"Nazar değmesin", de:"Möge kein böser Blick treffen", opts:["Möge kein böser Blick treffen","Gute Besserung","Herzlichen Glückwunsch","Schönen Tag noch"]}
+      ]},
+      { t:"Kosenamen für sie", s:"6 Übungen", items:[
+        {k:"culture", word:"Canım und aşkım", lit:"meine Seele und meine Liebe",
+          text:"<b>Canım</b> sagt man zu fast jeder nahestehenden Frau, auch zur Freundin und zur Nachbarin. <b>Aşkım</b> und <b>birtanem</b> dagegen sind eindeutig und gehören der Partnerin.",
+          tip:"Wer canım zu einer Fremden sagt, wirkt aufdringlich. Wer aşkım zur Nachbarin sagt, sorgt für Gerede."},
+        {k:"choice", de:"meine Schöne", tr:"güzelim", opts:["güzelim","tatlım","çiçeğim","gülüm"]},
+        {k:"choice", de:"mein Ein und Alles", tr:"birtanem", opts:["birtanem","hayatım","meleğim","prensesim"]},
+        {k:"culture", word:"Karıcığım", lit:"mein liebes Frauchen",
+          text:"Die Verkleinerung mit <b>-cığım</b> macht aus jedem Wort einen Kosenamen: karıcığım, annecığım, ablacığım. Sie trägt Wärme, keine Herablassung.",
+          tip:"Ehemänner sagen oft einfach <b>hanım</b> oder rufen ihre Frau mit dem Namen des ersten Kindes."},
+        {k:"match", pairs:[["çiçeğim","meine Blume"],["gülüm","meine Rose"],["meleğim","mein Engel"],["bebeğim","mein Baby"]]},
+        {k:"listen", tr:"Sevgili karım", de:"meine geliebte Ehefrau", opts:["meine geliebte Ehefrau","meine liebe Schwester","meine gute Freundin","meine liebe Mutter"]}
       ]}
     ]
   },
   {
-    t:"Männer ansprechen", s:"Anrede, Respekt, Anerkennung", icon:"🧢", pro:true, pool:13,
+    t:"Männer ansprechen", s:"Anrede, Anerkennung, Kosenamen", icon:"🧢", pro:true, pool:13,
     lessons:[
       { t:"Wie man einen Mann anspricht", s:"6 Übungen", items:[
         {k:"culture", word:"Abi", lit:"großer Bruder",
@@ -638,6 +650,18 @@ const UNITS = [
           tip:"Verwandt damit: <b>delikanlı</b>, wörtlich der mit dem heißen Blut, gemeint ist aber jemand, der zu seinem Wort steht."},
         {k:"build", de:"Gott gebe dir Kraft", tiles:["Allah","güç","versin"], ans:"Allah güç versin"},
         {k:"listen", tr:"Eline sağlık usta", de:"Respekt für deine Arbeit, Meister", opts:["Respekt für deine Arbeit, Meister","Guten Appetit","Gute Reise","Danke für alles"]}
+      ]},
+      { t:"Kosenamen für ihn", s:"6 Übungen", items:[
+        {k:"culture", word:"Kocacığım", lit:"mein liebes Männchen",
+          text:"Dieselbe Verkleinerung wie bei den Frauen: <b>-cığım</b> macht aus kocam ein zärtliches kocacığım. Dazu kommen <b>erkeğim</b>, mein Kerl, und <b>adamım</b>.",
+          tip:"<b>Adamım</b> heißt wörtlich mein Mann, gemeint ist aber eher mein Fels, auf den ich mich verlassen kann."},
+        {k:"choice", de:"mein Löwe", tr:"aslanım", opts:["aslanım","koçum","paşam","beyim"]},
+        {k:"choice", de:"mein Hübscher", tr:"yakışıklım", opts:["yakışıklım","delikanlım","adamım","erkeğim"]},
+        {k:"culture", word:"Paşam", lit:"mein Pascha",
+          text:"Militärische und osmanische Titel sind in die Zärtlichkeit gewandert: <b>paşam</b>, <b>beyim</b>, <b>reisim</b>. Halb ernst, halb augenzwinkernd.",
+          tip:"Viele Frauen rufen ihren Mann gar nicht beim Namen, sondern <b>babası</b>, der Vater, nach dem ersten Kind."},
+        {k:"match", pairs:[["kocam","mein Ehemann"],["erkeğim","mein Kerl"],["koçum","mein Großer"],["babası","so nennen viele Frauen ihren Mann"]]},
+        {k:"listen", tr:"Sevgili kocam", de:"mein geliebter Ehemann", opts:["mein geliebter Ehemann","mein lieber Bruder","mein guter Freund","mein lieber Vater"]}
       ]}
     ]
   },
@@ -765,6 +789,48 @@ const UNITS = [
           tip:"Pass auf: in scharfem Ton gesagt wird genau dasselbe Wort zur Zurechtweisung. Der Ton trägt alles."},
         {k:"match", pairs:[["canım","meine Seele"],["gönlüm","mein Herz"],["yürek","Mut, Herz"],["ruh","Geist, Seele"]]},
         {k:"listen", tr:"Gönülden teşekkür ederim", de:"Ich danke von Herzen", opts:["Ich danke von Herzen","Ich danke sehr","Ich bitte herzlich","Ich grüße herzlich"]}
+      ]}
+    ]
+  },
+  {
+    t:"Liebe auf Türkisch", s:"Was Paare einander sagen", icon:"❤️", pro:true, pool:16,
+    lessons:[
+      { t:"Kosenamen", s:"6 Übungen", items:[
+        {k:"culture", word:"Canım", lit:"meine Seele",
+          text:"Der häufigste Kosename ist auch der, der am wenigsten bedeutet. <b>Canım</b> sagt man zum Partner, zur Freundin, zur Nachbarin und manchmal zur Verkäuferin.",
+          tip:"Wenn du willst, dass es wirklich nach Liebe klingt, nimm <b>aşkım</b> oder <b>birtanem</b>. Die sind eindeutig."},
+        {k:"choice", de:"mein Schatz, meine Liebe", tr:"aşkım", opts:["aşkım","arkadaşım","kardeşim","komşum"]},
+        {k:"choice", de:"mein Ein und Alles", tr:"birtanem", opts:["birtanem","hayatım","canım","gözüm"]},
+        {k:"culture", word:"Balım, şekerim, kuzum", lit:"mein Honig, mein Zucker, mein Lämmchen",
+          text:"Viele Kosenamen kommen aus der Küche oder vom Hof. Das klingt im Deutschen schnell albern, im Türkischen ist es ganz normal und warm.",
+          tip:"<b>Kuzum</b> und <b>yavrum</b> sagen vor allem Ältere zu Jüngeren, nicht Partner zueinander."},
+        {k:"match", pairs:[["hayatım","mein Leben"],["meleğim","mein Engel"],["gözüm","mein Auge"],["tatlım","meine Süße"]]},
+        {k:"listen", tr:"Canımın içi", de:"das Innerste meiner Seele", opts:["das Innerste meiner Seele","meine kleine Seele","mein halbes Herz","mein ganzes Leben"]}
+      ]},
+      { t:"Was man sich sagt", s:"7 Übungen", items:[
+        {k:"culture", word:"Seni seviyorum", lit:"ich liebe dich",
+          text:"Dieser Satz wird sparsamer benutzt als das englische I love you. Er ist ernst gemeint. Für Verliebtsein gibt es <b>sana aşığım</b>, das ist stürmischer und meist früher dran.",
+          tip:"Unter Freunden und in der Familie sagt man eher <b>seni çok seviyorum</b> oder gar nichts und zeigt es anders."},
+        {k:"choice", de:"ich bin in dich verliebt", tr:"sana aşığım", opts:["sana aşığım","seni seviyorum","seni özledim","seni düşünüyorum"]},
+        {k:"choice", de:"ohne dich geht es nicht", tr:"sensiz olmuyor", opts:["sensiz olmuyor","seninle her şey güzel","hep yanımda ol","kalbimdesin"]},
+        {k:"build", de:"Du hast mein Herz gestohlen", tiles:["Gönlümü","çaldın"], ans:"Gönlümü çaldın"},
+        {k:"culture", word:"Gözümün nuru", lit:"das Licht meiner Augen",
+          text:"Die stärksten Liebeswörter gehen über Augen, Seele und Leben, nicht über Gefühle direkt. <b>Gözümün nuru</b>, <b>canımın içi</b>, <b>hayatımın anlamı</b>.",
+          tip:"Deshalb wirken wörtliche Übersetzungen ins Deutsche übertrieben. Im Türkischen sind sie der normale Ton."},
+        {k:"choice", de:"Willst du mich heiraten", tr:"Benimle evlenir misin", opts:["Benimle evlenir misin","Benimle gelir misin","Beni sever misin","Bana söz verir misin"]},
+        {k:"match", pairs:[["kalbimdesin","du bist in meinem Herzen"],["aklımdasın","du bist in meinen Gedanken"],["ilk görüşte aşk","Liebe auf den ersten Blick"],["sen benim kaderimsin","du bist mein Schicksal"]]}
+      ]},
+      { t:"Rund um die Beziehung", s:"6 Übungen", items:[
+        {k:"match", pairs:[["sevgili","Partner"],["nişanlı","verlobt"],["eşim","mein Ehepartner"],["kıskanmak","eifersüchtig sein"]]},
+        {k:"choice", de:"zusammen sein, miteinander gehen", tr:"çıkmak", opts:["çıkmak","evlenmek","ayrılmak","barışmak"]},
+        {k:"culture", word:"Bir yastıkta kocayın", lit:"werdet auf einem Kissen alt",
+          text:"Der klassische Hochzeitswunsch. Dazu gehört <b>Allah ayırmasın</b>, möge Gott euch nicht trennen, und <b>mutluluklar dilerim</b>.",
+          tip:"Einem frisch verlobten Paar sagt man <b>hayırlı olsun</b>, möge es Gutes bringen."},
+        {k:"choice", de:"möge Gott euch nicht trennen", tr:"Allah ayırmasın", opts:["Allah ayırmasın","Allah korusun","Allah razı olsun","Allah bağışlasın"]},
+        {k:"culture", word:"Kısmet", lit:"das Zugeteilte",
+          text:"Über Heirat spricht man selten als reinen Plan. Es heißt <b>kısmet olursa</b>, wenn es bestimmt ist, auch wenn alles längst entschieden ist.",
+          tip:"Das ist keine Unsicherheit, sondern Höflichkeit gegenüber dem Schicksal."},
+        {k:"listen", tr:"Seni bırakmam", de:"Ich lasse dich nicht los", opts:["Ich lasse dich nicht los","Ich vermisse dich","Ich warte auf dich","Ich denke an dich"]}
       ]}
     ]
   },
@@ -1584,7 +1650,14 @@ const POOL = [
     ["rahatsız etmek","belästigen"],["laf atmak","jemandem hinterherrufen"],
     ["saygılı olmak","respektvoll sein"],["mesafe","Abstand"],["uygun","angemessen"],
     ["uygunsuz","unangemessen"],["rahatsız oldum","das war mir unangenehm"],
-    ["lütfen rahat bırakın","lassen Sie mich bitte in Ruhe"],["tanımadığın biri","eine fremde Person"]
+    ["lütfen rahat bırakın","lassen Sie mich bitte in Ruhe"],["tanımadığın biri","eine fremde Person"],
+    /* Kosenamen für eine Frau */
+    ["aşkım","mein Schatz"],["birtanem","mein Ein und Alles"],["hayatım","mein Leben"],
+    ["sevgilim","meine Liebste"],["meleğim","mein Engel"],["güzelim","meine Schöne"],
+    ["tatlım","meine Süße"],["prensesim","meine Prinzessin"],["bebeğim","mein Baby"],
+    ["karıcığım","mein liebes Frauchen"],["hanımım","meine Dame"],
+    ["kadınım","meine Frau an meiner Seite"],["çiçeğim","meine Blume"],["gülüm","meine Rose"],
+    ["sevgili karım","meine geliebte Ehefrau"],["kuzum","mein Lämmchen"]
   ],
   /* 14 Männer ansprechen */ [
     ["abi","großer Bruder, Anrede für einen Mann"],["beyefendi","mein Herr"],
@@ -1608,7 +1681,14 @@ const POOL = [
     ["aslan gibi","wie ein Löwe"],["koç gibi","kräftig wie ein Widder"],
     ["saygı","Respekt"],["saygı duymak","Respekt haben"],["el sıkışmak","die Hand schütteln"],
     ["sırtına vurmak","auf die Schulter klopfen"],["hitap","Anrede"],["resmi","förmlich"],
-    ["samimi","vertraut"],["sen demek","duzen"],["siz demek","siezen"]
+    ["samimi","vertraut"],["sen demek","duzen"],["siz demek","siezen"],
+    /* Kosenamen für einen Mann */
+    ["aşkım","mein Schatz"],["birtanem","mein Ein und Alles"],["hayatım","mein Leben"],
+    ["sevgilim","mein Liebster"],["kocacığım","mein liebes Männchen"],["kocam","mein Ehemann"],
+    ["erkeğim","mein Kerl"],["adamım","mein Fels in der Brandung"],["aslanım","mein Löwe"],
+    ["paşam","mein Pascha"],["beyim","mein Herr"],["yakışıklım","mein Hübscher"],
+    ["koçum","mein Großer"],["delikanlım","mein junger Mann"],
+    ["sevgili kocam","mein geliebter Ehemann"],["babası","so nennen viele Frauen ihren Mann"]
   ],
   /* 15 Eee, yani, işte */ [
     ["eee","ähm"],["ıı","äh"],["şey","Dings"],["yani","also, ich meine"],["işte","eben, halt"],
@@ -1669,6 +1749,50 @@ const POOL = [
     ["çocuk oyuncağı","statt: das ist kinderleicht"],
     ["ateşten gömlek","statt: das ist eine undankbare Aufgabe"],
     ["takmıyorum","statt: das ist mir egal"]
+  ],
+  /* 17 Liebe auf Türkisch */ [
+    /* geht an alle */
+    ["aşkım","mein Schatz"],["canım","mein Liebes"],["birtanem","mein Ein und Alles"],
+    ["hayatım","mein Leben"],["sevgilim","mein Liebster oder meine Liebste"],
+    ["meleğim","mein Engel"],["ruhum","meine Seele"],["gözüm","mein Auge"],
+    ["ömrüm","mein Lebtag"],["dünyam","meine Welt"],["her şeyim","mein Alles"],
+    ["cicim","mein Liebes im Scherz"],["balım","mein Honig"],["şekerim","mein Zucker"],
+    ["canımın içi","das Innerste meiner Seele"],["gözümün nuru","das Licht meiner Augen"],
+    /* zu einer Frau */
+    ["güzelim","meine Schöne"],["tatlım","meine Süße"],["prensesim","meine Prinzessin"],
+    ["bebeğim","mein Baby"],["karıcığım","mein liebes Frauchen"],["hanımım","meine Dame"],
+    ["kadınım","meine Frau an meiner Seite"],["çiçeğim","meine Blume"],["gülüm","meine Rose"],
+    ["sevgili karım","meine geliebte Ehefrau"],["yavrum","mein Junges"],["kuzum","mein Lämmchen"],
+    /* zu einem Mann */
+    ["kocacığım","mein liebes Männchen"],["kocam","mein Ehemann"],["erkeğim","mein Kerl"],
+    ["adamım","mein Fels in der Brandung"],["aslanım","mein Löwe"],["paşam","mein Pascha"],
+    ["beyim","mein Herr"],["yakışıklım","mein Hübscher"],["koçum","mein Großer"],
+    ["delikanlım","mein junger Mann"],["sevgili kocam","mein geliebter Ehemann"],
+    ["babası","so nennen viele Frauen ihren Mann"],
+    /* was man sich sagt */
+    ["seni seviyorum","ich liebe dich"],["sana aşığım","ich bin in dich verliebt"],
+    ["seni çok seviyorum","ich liebe dich sehr"],["sensiz olmuyor","ohne dich geht es nicht"],
+    ["kalbimdesin","du bist in meinem Herzen"],["aklımdasın","du bist in meinen Gedanken"],
+    ["seni düşünüyorum","ich denke an dich"],["gözlerine hayranım","ich bin hingerissen von deinen Augen"],
+    ["sana sarılmak istiyorum","ich möchte dich umarmen"],
+    ["hayatımın anlamısın","du bist der Sinn meines Lebens"],
+    ["seninle her şey güzel","mit dir ist alles schön"],
+    ["iyi ki benimlesin","schön, dass du bei mir bist"],["seni bırakmam","ich lasse dich nicht los"],
+    ["hep yanımda ol","bleib immer bei mir"],["benimle evlenir misin","willst du mich heiraten"],
+    ["sana söz veriyorum","ich verspreche es dir"],["sen benim kaderimsin","du bist mein Schicksal"],
+    ["gönlümü çaldın","du hast mein Herz gestohlen"],["ilk görüşte aşk","Liebe auf den ersten Blick"],
+    ["seni özledim","ich habe dich vermisst"],
+    /* rund um die Beziehung */
+    ["sevgili","Partner"],["erkek arkadaş","fester Freund"],["kız arkadaş","feste Freundin"],
+    ["nişanlı","verlobt"],["nişanlım","mein Verlobter"],["eşim","mein Ehepartner"],
+    ["evlenmek","heiraten"],["evlilik","Ehe"],["ayrılmak","sich trennen"],
+    ["kıskanmak","eifersüchtig sein"],["flört etmek","flirten"],["çıkmak","zusammen sein"],
+    /* Wünsche und Zärtlichkeiten */
+    ["bir yastıkta kocayın","werdet auf einem Kissen alt"],
+    ["Allah ayırmasın","möge Gott euch nicht trennen"],
+    ["mutluluklar dilerim","ich wünsche euch Glück"],["kısmet olursa","wenn es bestimmt ist"],
+    ["gözümün bebeği","mein Augapfel"],["yerim seni","ich fress dich auf"],
+    ["ölürüm sana","ich sterbe für dich"],["canım benim","meine Liebste"]
   ]
 ].map(list=>{
   const seenTr = {}, seenDe = {}, out = [];
