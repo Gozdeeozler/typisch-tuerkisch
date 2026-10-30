@@ -1910,10 +1910,25 @@ function migrate(){
     if(d && d.cv !== CONTENT_VERSION){
       d.done = []; d.passed = []; d.bonusDone = []; d.openUnits = null;
       d.cv = CONTENT_VERSION; changed = true;
+      /* Vorschauprofile bleiben aufgeschlossen, auch wenn sich
+         die Einheiten geändert haben. */
+      if(d.preview) unlockAll(d);
     }
   });
   if(ACTIVE && USERS[ACTIVE]) S = Object.assign(fresh(), USERS[ACTIVE].data);
   if(changed) saveAll();
+}
+
+function unlockAll(d){
+  d.preview = true;
+  FLAT.forEach((_,i)=>{ if(d.done.indexOf(i) < 0) d.done.push(i); });
+  UNITS.forEach((_,ui)=>{
+    const bi = bonusIx(ui);
+    if(bi >= 0 && d.bonusDone.indexOf(bi) < 0) d.bonusDone.push(bi);
+    if(d.passed.indexOf(ui) < 0) d.passed.push(ui);
+  });
+  d.pro = true;
+  if(!d.xp) d.xp = 1500;
 }
 function saveAll(){
   try{
@@ -2773,19 +2788,14 @@ function startExam(ui){
 function boot(){
   /* Mit #alles am Ende der Adresse wird alles aufgeschlossen.
      Gedacht zum Durchsehen, nicht für normale Nutzer. */
-  if((location.hash || "").toLowerCase() === "#alles"){
+  const h = (location.hash || "").toLowerCase();
+  if(h === "#alles" || h === "#gozde"){
     if(!ACTIVE || !USERS[ACTIVE]){
-      if(!USERS["__gast"]) USERS["__gast"] = {name:"Vorschau", pin:"", data:fresh()};
+      if(!USERS["__gast"]) USERS["__gast"] = {name:"Gözde", pin:"", data:fresh()};
       ACTIVE = "__gast"; S = USERS[ACTIVE].data;
     }
-    FLAT.forEach((_,i)=>{ if(!S.done.includes(i)) S.done.push(i); });
-    UNITS.forEach((_,ui)=>{
-      const bi = bonusIx(ui);
-      if(bi >= 0 && S.bonusDone.indexOf(bi) < 0) S.bonusDone.push(bi);
-      if(!S.passed.includes(ui)) S.passed.push(ui);
-    });
-    S.pro = true;
-    if(!S.xp) S.xp = 1500;
+    unlockAll(S);
+    if(ACTIVE && USERS[ACTIVE]) USERS[ACTIVE].data = S;
     save();
   }
   if(ACTIVE && USERS[ACTIVE]) home(); else authScreen("login");
