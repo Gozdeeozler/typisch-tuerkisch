@@ -996,6 +996,7 @@ const POOL = [
   return out;
 });
 
+const BUILD = "30.10.2026";
 const LESSON_TARGET = 30;
 function genLessons(){
   UNITS.forEach((u,ui)=>{
@@ -1391,7 +1392,8 @@ function profileSheet(){
     <button class="row" id="voiceHelp"><span class="ava sm" style="background:var(--surface);color:var(--muted)">❓</span><span>${canSpeakTr()?"Türkische Stimme ist installiert":"Türkische Stimme einrichten"}</span></button>
     <button class="row" data-sw="__new__"><span class="ava sm">+</span><span>Neues Profil</span></button>
     <button class="row" id="out"><span class="ava sm" style="background:var(--surface);color:var(--muted)">⎋</span><span>Abmelden</span></button>
-    <p class="note">Dein Fortschritt liegt auf diesem Gerät. Auf einem anderen Handy startest du neu.</p>
+    <p class="note">Dein Fortschritt liegt auf diesem Gerät. Auf einem anderen Handy startest du neu.<br>
+      Stand ${BUILD} · ${TOTAL} Lektionen · ${BONUS.reduce((n,b)=>n+b.cards.length,0)} Sprichwörter · ${KULTUR.reduce((n,k)=>n+k.cards.length,0)} Kulturtexte</p>
     <button class="cta ghost" id="close">Schließen</button>
   </div>`;
   document.body.appendChild(el);
