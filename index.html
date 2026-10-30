@@ -113,6 +113,10 @@
   .node:active .orb{transform:scale(.93)}
   .orb.done{background:var(--green);border-color:var(--green-dark);box-shadow:0 4px 0 var(--green-dark)}
   .orb.open{background:var(--red);border-color:var(--red-dark);box-shadow:0 4px 0 var(--red-dark)}
+  .ic-svg{width:26px;height:26px;display:block}
+  .orb .ic-svg{width:27px;height:27px}
+  .unit-head .ic-svg{width:21px;height:21px}
+  .themerow .ic-svg{width:24px;height:24px}
   .orb.gold{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 4px 0 #a87a13}
   .orb.lock{background:var(--surface-2);border-color:var(--line);color:#aeb1bb;box-shadow:none}
   .orb .crown{
@@ -333,6 +337,12 @@
     border-left:3px solid var(--line);padding-left:12px}
   .sec .mkbtn{margin-top:14px;background:none;color:var(--muted);font-size:13px;font-weight:800;padding:6px 0}
   .sec .mkbtn.on{color:var(--gold)}
+  .secic{
+    width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+    margin-bottom:11px;
+  }
+  .secic .ic-svg{width:22px;height:22px}
+  .ornament{display:block;margin:2px auto 6px;width:92px;height:14px;opacity:.5}
 
   .homebtns{display:flex;gap:10px;padding:0 18px 4px}
   .homebtns button{
@@ -407,7 +417,7 @@ const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.r
 /* ---------- 1. INHALT ---------- */
 const UNITS = [
   {
-    t:"Erste Worte", s:"Begrüßen, danken, Familie", icon:"👋", pool:0, bonus:0,
+    t:"Erste Worte", s:"Begrüßen, danken, Familie", ic:"wave", c:"#fc4847", pool:0, bonus:0,
     lessons:[
       { t:"Hallo und Tschüss", s:"7 Übungen", items:[
         {k:"choice", de:"Hallo", tr:"Merhaba", opts:["Merhaba","Teşekkürler","Günaydın","Hoş geldin"]},
@@ -435,7 +445,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Typisch Türkisch", s:"Höflichkeit, Gäste, Verwandtschaft", icon:"🫖", pool:1, bonus:1,
+    t:"Typisch Türkisch", s:"Höflichkeit, Gäste, Verwandtschaft", ic:"tea", c:"#e08a2e", pool:1, bonus:1,
     lessons:[
       { t:"Kolay gelsin", s:"6 Übungen", items:[
         {k:"culture", word:"Kolay gelsin", lit:"wörtlich: möge es leicht kommen",
@@ -463,7 +473,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Zahlen", s:"Zählen, rechnen, Mengen", icon:"🔢", pool:6, bonus:6,
+    t:"Zahlen", s:"Zählen, rechnen, Mengen", ic:"count", c:"#2f7fd4", pool:6, bonus:6,
     lessons:[
       { t:"Eins bis zehn", s:"6 Übungen", items:[
         {k:"match", pairs:[["bir","eins"],["iki","zwei"],["üç","drei"],["dört","vier"]]},
@@ -488,7 +498,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Farben", s:"Farben nennen und beschreiben", icon:"🎨", pool:7,
+    t:"Farben", s:"Farben nennen und beschreiben", ic:"palette", c:"#9154d8", pool:7,
     lessons:[
       { t:"Die Grundfarben", s:"6 Übungen", items:[
         {k:"match", pairs:[["kırmızı","rot"],["mavi","blau"],["yeşil","grün"],["sarı","gelb"]]},
@@ -512,7 +522,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Wochentage", s:"Montag bis Sonntag", icon:"📆", pool:8,
+    t:"Wochentage", s:"Montag bis Sonntag", ic:"week", c:"#1f9b92", pool:8,
     lessons:[
       { t:"Die sieben Tage", s:"6 Übungen", items:[
         {k:"match", pairs:[["pazartesi","Montag"],["salı","Dienstag"],["çarşamba","Mittwoch"],["perşembe","Donnerstag"]]},
@@ -536,7 +546,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Monate und Jahreszeiten", s:"Monate, Jahreszeiten, Datum", icon:"📅", pool:9, bonus:7,
+    t:"Monate und Jahreszeiten", s:"Monate, Jahreszeiten, Datum", ic:"season", c:"#3f9f52", pool:9, bonus:7,
     lessons:[
       { t:"Die zwölf Monate", s:"6 Übungen", items:[
         {k:"match", pairs:[["ocak","Januar"],["şubat","Februar"],["mart","März"],["nisan","April"]]},
@@ -561,7 +571,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Uhrzeit", s:"Wie spät ist es", icon:"🕐", pool:10, bonus:3,
+    t:"Uhrzeit", s:"Wie spät ist es", ic:"clock", c:"#c9931f", pool:10, bonus:3,
     lessons:[
       { t:"Wie spät ist es", s:"6 Übungen", items:[
         {k:"choice", de:"Wie spät ist es?", tr:"Saat kaç?", opts:["Saat kaç?","Saat kaçta?","Ne zaman?","Kaç gün?"]},
@@ -586,7 +596,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Essen und Trinken", s:"Bestellen, einkaufen, am Tisch", icon:"☕", pool:2, bonus:2,
+    t:"Essen und Trinken", s:"Bestellen, einkaufen, am Tisch", ic:"plate", c:"#cf5230", pool:2, bonus:2,
     lessons:[
       { t:"Bir çay lütfen", s:"6 Übungen", items:[
         {k:"choice", de:"Einen Tee bitte", tr:"Bir çay lütfen", opts:["Bir çay lütfen","Bir kahve lütfen","Hesap lütfen","Su lütfen"]},
@@ -611,7 +621,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Frauen ansprechen", s:"Anrede, Komplimente, Kosenamen", icon:"🌸", pro:true, pool:12,
+    t:"Frauen ansprechen", s:"Anrede, Komplimente, Kosenamen", ic:"flower", c:"#d94f90", pro:true, pool:12,
     lessons:[
       { t:"Wie man eine Frau anspricht", s:"6 Übungen", items:[
         {k:"culture", word:"Abla", lit:"große Schwester",
@@ -652,7 +662,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Männer ansprechen", s:"Anrede, Anerkennung, Kosenamen", icon:"🧢", pro:true, pool:13,
+    t:"Männer ansprechen", s:"Anrede, Anerkennung, Kosenamen", ic:"cap", c:"#4a6fa5", pro:true, pool:13,
     lessons:[
       { t:"Wie man einen Mann anspricht", s:"6 Übungen", items:[
         {k:"culture", word:"Abi", lit:"großer Bruder",
@@ -693,7 +703,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Eee, yani, işte", s:"Die Wörter, die zwischen allem stehen", icon:"💬", pro:true, pool:14,
+    t:"Eee, yani, işte", s:"Die Wörter, die zwischen allem stehen", ic:"chat", c:"#6b7f8e", pro:true, pool:14,
     lessons:[
       { t:"Yani, işte, şey", s:"6 Übungen", items:[
         {k:"culture", word:"Yani", lit:"das heißt",
@@ -722,7 +732,7 @@ const UNITS = [
     ]
   },
   {
-    t:"In der Türkei sagen wir nicht", s:"Was wir stattdessen sagen", icon:"🔥", pro:true, pool:15,
+    t:"In der Türkei sagen wir nicht", s:"Was wir stattdessen sagen", ic:"flame", c:"#e2365a", pro:true, pool:15,
     lessons:[
       { t:"Statt wow", s:"6 Übungen", items:[
         {k:"culture", word:"Nicht einfach super", lit:"harika ya",
@@ -764,7 +774,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Wie Türkisch funktioniert", s:"Endungen, Vokalharmonie, Satzbau", icon:"🧩", pro:true, pool:3, bonus:8,
+    t:"Wie Türkisch funktioniert", s:"Endungen, Vokalharmonie, Satzbau", ic:"puzzle", c:"#5566d8", pro:true, pool:3, bonus:8,
     lessons:[
       { t:"Alles hängt hinten dran", s:"6 Übungen", items:[
         {k:"culture", word:"ev → evim → evimde", lit:"Haus → mein Haus → in meinem Haus",
@@ -792,7 +802,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Gönül Wörter", s:"Gefühle und was Deutsch nicht sagt", icon:"🤍", pro:true, pool:4, bonus:4,
+    t:"Gönül Wörter", s:"Gefühle und was Deutsch nicht sagt", ic:"heart", c:"#b8408a", pro:true, pool:4, bonus:4,
     lessons:[
       { t:"Hasret und Özlem", s:"6 Übungen", items:[
         {k:"culture", word:"Gönül", lit:"das Herz als Ort des Fühlens",
@@ -820,7 +830,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Liebe auf Türkisch", s:"Was Paare einander sagen", icon:"❤️", pro:true, pool:16,
+    t:"Liebe auf Türkisch", s:"Was Paare einander sagen", ic:"hearts", c:"#e0415c", pro:true, pool:16,
     lessons:[
       { t:"Kosenamen", s:"6 Übungen", items:[
         {k:"culture", word:"Canım", lit:"meine Seele",
@@ -862,7 +872,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Unterwegs", s:"Weg fragen, Taxi, Hotel, Reise", icon:"🧭", pro:true, pool:5, bonus:5,
+    t:"Unterwegs", s:"Weg fragen, Taxi, Hotel, Reise", ic:"compass", c:"#2f8fc9", pro:true, pool:5, bonus:5,
     lessons:[
       { t:"Nach dem Weg fragen", s:"6 Übungen", items:[
         {k:"choice", de:"Wo ist die Toilette?", tr:"Tuvalet nerede?", opts:["Tuvalet nerede?","Tuvalet ne kadar?","Tuvalet var mı?","Tuvalet kimde?"]},
@@ -887,7 +897,7 @@ const UNITS = [
     ]
   },
   {
-    t:"Feste und Feiertage", s:"Bayram, Nevruz, Nationalfeiertage", icon:"🎉", pro:true, pool:11, bonus:9,
+    t:"Feste und Feiertage", s:"Bayram, Nevruz, Nationalfeiertage", ic:"festival", c:"#bf7d18", pro:true, pool:11, bonus:9,
     lessons:[
       { t:"Bayram", s:"6 Übungen", items:[
         {k:"culture", word:"Bayram", lit:"das Fest",
@@ -1046,7 +1056,7 @@ const BONUS = [
 /* ---------- 1c. KULTURECKE ----------
    Zum Lesen, nicht zum Abfragen. Sieben Bereiche.       */
 const KULTUR = [
-  { t:"Sprache und Schrift", icon:"📜", cards:[
+  { t:"Sprache und Schrift", ic:"book", c:"#5566d8", cards:[
     {h:"Die ältesten türkischen Sätze", tr:"Orhun Yazıtları",
      x:"Im 8. Jahrhundert ließen türkische Herrscher im heutigen Mongolei Steinstelen aufstellen, für Kültigin, Bilge Kağan und den Ratgeber Tonyukuk. Sie sind die ältesten bekannten Texte in einer Türksprache.",
      tip:"Auf ihnen steht das Wort Türk zum ersten Mal geschrieben, als Name eines Volkes über sich selbst."},
@@ -1063,7 +1073,7 @@ const KULTUR = [
      x:"Vieles wurde jahrhundertelang nicht geschrieben, sondern gesungen. Wandernde Sänger, die âşık, trugen Geschichten mit der Saz von Dorf zu Dorf. Die Erzählungen um Dede Korkut gehören zu den ältesten.",
      tip:"Ein türkü ist kein Schlager, sondern eher eine Ballade, oft über Abschied, Heimat oder Ungerechtigkeit."}
   ]},
-  { t:"Glaube und Weltbild", icon:"🌙", cards:[
+  { t:"Glaube und Weltbild", ic:"moon", c:"#2f8fc9", cards:[
     {h:"Vor dem Islam", tr:"Gök Tanrı",
      x:"Die frühen Türken verehrten einen Himmelsgott, Gök Tanrı, dazu Naturgeister und die Ahnen. Schamanen vermittelten zwischen den Welten.",
      tip:"Das Wort Tanrı für Gott ist aus dieser Zeit geblieben und wird bis heute benutzt."},
@@ -1080,7 +1090,7 @@ const KULTUR = [
      x:"Zwei große Feste gliedern das Jahr: Ramazan Bayramı nach dem Fastenmonat, bekannt für Süßigkeiten, und Kurban Bayramı, bei dem Fleisch an Nachbarn und Bedürftige verteilt wird.",
      tip:"Kinder küssen den Älteren die Hand und führen sie an die Stirn. Dafür gibt es Geld und Bonbons."}
   ]},
-  { t:"Gast und Gemeinschaft", icon:"🚪", cards:[
+  { t:"Gast und Gemeinschaft", ic:"door", c:"#cf5230", cards:[
     {h:"Der Gast kommt von oben", tr:"Misafirperverlik",
      x:"Gastfreundschaft ist keine nette Geste, sondern eine Pflicht. Wer kommt, bekommt das Beste im Haus, auch wenn es das Letzte ist. Ablehnen gilt leicht als Kränkung.",
      tip:"Sag nicht zu schnell nein zum zweiten Teller. Ein einmaliges Nein wird oft nur als Höflichkeit verstanden."},
@@ -1097,7 +1107,7 @@ const KULTUR = [
      x:"Am Abend vor der Hochzeit kommen die Frauen zusammen. Der Braut wird Henna in die Hand gelegt, es wird gesungen und oft geweint, weil sie das Elternhaus verlässt.",
      tip:"Das Weinen gehört dazu und ist kein schlechtes Zeichen."}
   ]},
-  { t:"Küche und Tisch", icon:"🫖", cards:[
+  { t:"Küche und Tisch", ic:"tea", c:"#e08a2e", cards:[
     {h:"Çay", tr:"İnce belli bardak",
      x:"Schwarzer Tee aus der Schwarzmeerregion, aufgebrüht in zwei gestapelten Kannen, serviert im tailliertem Glas. Im Basar wird er auf Tabletts durch die Gassen getragen.",
      tip:"Die Teekultur wurde 2022 gemeinsam mit Aserbaidschan in die UNESCO-Liste des immateriellen Kulturerbes aufgenommen."},
@@ -1114,7 +1124,7 @@ const KULTUR = [
      x:"Viele Produkte dürfen den Ortsnamen nur tragen, wenn sie wirklich von dort kommen: Antep baklavası, Malatya kayısısı, Aydın inciri, Taşköprü sarımsağı.",
      tip:"Antep baklavası war das erste türkische Produkt mit einer geschützten Herkunftsangabe in der EU."}
   ]},
-  { t:"Kunst und Handwerk", icon:"🎨", cards:[
+  { t:"Kunst und Handwerk", ic:"brush", c:"#9154d8", cards:[
     {h:"Teppiche erzählen", tr:"Halı ve kilim",
      x:"Die Muster sind kein Dekor, sondern Zeichen. Eli belinde, die Frau mit den Händen in den Hüften, steht für Fruchtbarkeit, koçboynuzu, das Widderhorn, für Kraft.",
      tip:"Wer die Motive lesen kann, erkennt oft die Region und manchmal die Geschichte der Weberin."},
@@ -1131,7 +1141,7 @@ const KULTUR = [
      x:"Beim Kırkpınar in Edirne ringen Männer in Lederhosen und mit Olivenöl eingerieben. Das Fest findet seit dem 14. Jahrhundert statt.",
      tip:"Es steht seit 2010 auf der UNESCO-Liste und gilt als eines der ältesten durchgehend gefeierten Sportfeste der Welt."}
   ]},
-  { t:"Nur hier so", icon:"🍋", cards:[
+  { t:"Nur hier so", ic:"lemon", c:"#c9931f", cards:[
     {h:"Limon kolonyası", tr:"Kolonya",
      x:"Zitronenduftendes Kölnischwasser wird Gästen beim Ankommen über die Hände gegossen, im Bus nach langer Fahrt angeboten und an Feiertagen von Haus zu Haus gereicht.",
      tip:"Es ist Begrüßung, Erfrischung und kleine Fürsorge in einem. Ablehnen tut niemand."},
@@ -1148,7 +1158,7 @@ const KULTUR = [
      x:"Im Laden, in der Werkstatt, im Büro: Tee wird bestellt, geliefert und gemeinsam getrunken. Verhandlungen beginnen damit und enden damit.",
      tip:"Ein Geschäft ohne angebotenen Tee gilt als unhöflich, auch wenn du nichts kaufst."}
   ]},
-  { t:"Aberglaube", icon:"🧿", cards:[
+  { t:"Aberglaube", ic:"eye", c:"#1f9b92", cards:[
     {h:"Klopf auf Holz, aber zieh am Ohr", tr:"Tahtaya vur, kulağını çek",
      x:"Wenn jemand etwas Schlimmes ausspricht, klopft man dreimal auf Holz, zieht sich am Ohrläppchen und schnalzt zweimal mit der Zunge. Die ganze Folge gehört dazu, nicht nur das Klopfen.",
      tip:"Allah korusun oder Tövbe tövbe wird oft dazu gesagt."},
@@ -1171,7 +1181,7 @@ const KULTUR = [
      x:"Juckt die linke Hand, kommt Geld. Juckt die rechte, geht Geld. Zuckt das rechte Auge, kommt eine gute Nachricht, beim linken eine schlechte.",
      tip:"Über die Seiten streiten sich die Leute, je nach Region genau andersherum."}
   ]},
-  { t:"Orte", icon:"🎈", cards:[
+  { t:"Orte", ic:"balloon", c:"#d94f90", cards:[
     {h:"Kapadokya", tr:"Peri bacaları",
      x:"Weiches Tuffgestein, aus dem Wind und Wasser Kegel geformt haben, dazu Höhlenkirchen und unterirdische Städte. Morgens steigen hunderte Ballons auf.",
      tip:"Der Nationalpark Göreme steht seit 1985 auf der UNESCO-Welterbeliste."},
@@ -2039,6 +2049,55 @@ function isOpen(i){
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
+/* ---------- Symbole ----------
+   Von Hand gezeichnet statt Emoji, damit sie auf jedem
+   Gerät gleich aussehen und die Farbe der Einheit annehmen. */
+const ICON = {
+  wave:'<path d="M7.5 11V5.6a1.5 1.5 0 0 1 3 0V11"/><path d="M10.5 10.6V4.6a1.5 1.5 0 0 1 3 0V11"/><path d="M13.5 11V6.6a1.5 1.5 0 0 1 3 0V13"/><path d="M16.5 9.6a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a7 7 0 0 1-7-7v-1.4a1.5 1.5 0 0 1 3 0V14"/>',
+  tea:'<path d="M6.2 4.5h11.6l-1.5 10.8a3.2 3.2 0 0 1-3.2 2.7h-2.2a3.2 3.2 0 0 1-3.2-2.7Z"/><path d="M4.5 21h15"/>',
+  count:'<path d="M4 6.5h16M4 12h16M4 17.5h16"/><circle cx="8" cy="6.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="14.5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="10" cy="17.5" r="1.7" fill="currentColor" stroke="none"/>',
+  palette:'<path d="M12 3.2a8.8 8.8 0 1 0 0 17.6c1.1 0 1.9-.8 1.9-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.1 0-.9.8-1.7 1.8-1.7h1.4a4 4 0 0 0 4-4c0-4.3-3.9-7.8-8.1-7.8Z"/><circle cx="7.8" cy="11" r="1.25" fill="currentColor" stroke="none"/><circle cx="10.2" cy="7.6" r="1.25" fill="currentColor" stroke="none"/><circle cx="14.4" cy="7.6" r="1.25" fill="currentColor" stroke="none"/>',
+  week:'<rect x="3.2" y="5" width="17.6" height="15.8" rx="2.6"/><path d="M3.2 10h17.6M8 3.2v3.4M16 3.2v3.4"/><circle cx="8" cy="15.2" r="1.35" fill="currentColor" stroke="none"/><circle cx="12" cy="15.2" r="1.35" fill="currentColor" stroke="none"/><circle cx="16" cy="15.2" r="1.35" fill="currentColor" stroke="none"/>',
+  season:'<circle cx="8.2" cy="8.6" r="3.1"/><path d="M8.2 3v1.3M8.2 12.9v1.3M2.6 8.6h1.3M12.5 8.6h1.3M4.3 4.7l.9.9M11.2 11.6l.9.9M12.1 4.7l-.9.9M5.2 11.6l-.9.9"/><path d="M21 12.6c0 4.2-3.2 7.4-7.4 7.4 0-4.2 3.2-7.4 7.4-7.4Z"/>',
+  clock:'<circle cx="12" cy="12" r="8.8"/><path d="M12 6.8V12l3.6 2.1"/>',
+  plate:'<circle cx="12" cy="12.5" r="7.6"/><circle cx="12" cy="12.5" r="3.4"/><path d="M20.4 3.4v7.2"/>',
+  flower:'<circle cx="12" cy="12" r="2.3"/><circle cx="12" cy="6.4" r="2.7"/><circle cx="17.3" cy="10.3" r="2.7"/><circle cx="15.3" cy="16.5" r="2.7"/><circle cx="8.7" cy="16.5" r="2.7"/><circle cx="6.7" cy="10.3" r="2.7"/>',
+  cap:'<path d="M4 14.2a8 8 0 0 1 16 0Z"/><path d="M20 14.2h1.4a1.6 1.6 0 0 1 0 3.2H4.2"/>',
+  chat:'<path d="M21 11.6a8 8 0 0 1-8 8H7.6L3.4 22.4v-5.2A8 8 0 0 1 13 3.6a8 8 0 0 1 8 8Z"/><circle cx="9" cy="11.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="13" cy="11.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="17" cy="11.6" r="1.15" fill="currentColor" stroke="none"/>',
+  flame:'<path d="M12 2.8c3.1 4.1 6.2 5.7 6.2 9.8A6.2 6.2 0 0 1 5.8 12.6C5.8 9 7.9 6.9 9 4.8c.5 2.1 1.6 2.6 2.1 2.6C11.1 5.9 11.5 4.4 12 2.8Z"/>',
+  puzzle:'<rect x="3.4" y="3.4" width="8.4" height="8.4" rx="2.2"/><rect x="12.2" y="12.2" width="8.4" height="8.4" rx="2.2"/><path d="M11.8 7.6h4.6a1 1 0 0 1 1 1v3.6"/>',
+  heart:'<path d="M12 20.4S4.6 15.6 4.6 10.6A4.4 4.4 0 0 1 12 7.6a4.4 4.4 0 0 1 7.4 3c0 5-7.4 9.8-7.4 9.8Z"/>',
+  hearts:'<path d="M9.6 19.4S3.4 15.4 3.4 11.2A3.7 3.7 0 0 1 9.6 8.6a3.7 3.7 0 0 1 6.2 2.6c0 4.2-6.2 8.2-6.2 8.2Z"/><path d="M17.4 12.4c2.2-1.9 3.6-3.8 3.6-5.6a2.6 2.6 0 0 0-4.4-1.8 2.6 2.6 0 0 0-2.3-.7"/>',
+  compass:'<circle cx="12" cy="12" r="8.8"/><path d="M15.8 8.2 13.2 13.2 8.2 15.8l2.6-5Z"/>',
+  festival:'<path d="M16.4 4.1A8.1 8.1 0 1 0 19.7 15a6.6 6.6 0 0 1-3.3-10.9Z"/><path d="M18.4 2.6l.75 1.95 1.95.75-1.95.75-.75 1.95-.75-1.95-1.95-.75 1.95-.75Z"/>',
+  book:'<path d="M4.2 5.6A2.6 2.6 0 0 1 6.8 3h12.4v15H6.8a2.6 2.6 0 0 0-2.6 2.6Z"/><path d="M4.2 20.6A2.6 2.6 0 0 1 6.8 18h12.4v3.2H6.8"/>',
+  moon:'<path d="M20.2 14.8A8.6 8.6 0 0 1 9.4 4a8.6 8.6 0 1 0 10.8 10.8Z"/>',
+  door:'<rect x="5.2" y="2.8" width="13.6" height="18.4" rx="1.8"/><circle cx="15" cy="12.4" r="1.3" fill="currentColor" stroke="none"/>',
+  brush:'<path d="M14.4 3.4 20.6 9.6 11 19.2H4.8v-6.2Z"/><path d="M12.4 5.4 18.6 11.6"/>',
+  lemon:'<ellipse cx="12" cy="12" rx="8.4" ry="6.3" transform="rotate(-32 12 12)"/><path d="M12.6 11.4 18.4 6.6"/>',
+  eye:'<path d="M2.6 12S6.2 5.8 12 5.8 21.4 12 21.4 12 17.8 18.2 12 18.2 2.6 12 2.6 12Z"/><circle cx="12" cy="12" r="3"/>',
+  balloon:'<path d="M12 2.8a6.6 6.6 0 0 1 6.6 6.6c0 3.6-3 6.2-6.6 8.6-3.6-2.4-6.6-5-6.6-8.6A6.6 6.6 0 0 1 12 2.8Z"/><rect x="10" y="18.2" width="4" height="3" rx="1"/>',
+  lock:'<rect x="5" y="10.4" width="14" height="10.2" rx="2.4"/><path d="M8.2 10.4V7.7a3.8 3.8 0 0 1 7.6 0v2.7"/>',
+  check:'<path d="M5 12.8 10 17.6 19.4 7"/>',
+  star:'<path d="M12 3.4l2.6 5.4 6 .9-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6L3.4 9.7l6-.9Z"/>',
+  scroll:'<path d="M6.4 3.4h11.2a2 2 0 0 1 2 2v13.2a2 2 0 0 1-2 2H6.4a2 2 0 0 1-2-2V5.4a2 2 0 0 1 2-2Z"/><path d="M8.4 8h7.2M8.4 12h7.2M8.4 16h4.4"/>',
+  cap2:'<path d="M12 3.4 21 8l-9 4.6L3 8Z"/><path d="M7 10.4v4.2c0 1.8 2.2 3 5 3s5-1.2 5-3v-4.2"/>'
+};
+function ornament(col){
+  return `<svg class="ornament" viewBox="0 0 120 18" fill="none" stroke="${col}"
+    stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+    <path d="M4 9h34M82 9h34"/>
+    <path d="M60 3c-3 2-4.5 4-4.5 6.2 0 2.6 2 4.8 4.5 4.8s4.5-2.2 4.5-4.8C64.5 7 63 5 60 3Z"/>
+    <path d="M55.5 9.2c-2 .4-3.2 1.6-3.4 3.4M64.5 9.2c2 .4 3.2 1.6 3.4 3.4"/>
+    <circle cx="44" cy="9" r="2"/><circle cx="76" cy="9" r="2"/>
+  </svg>`;
+}
+function svgIcon(name, cls){
+  const d = ICON[name] || ICON.wave;
+  return `<svg class="ic-svg ${cls||""}" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+}
+
 /* ---------- Maskottchen ----------
    Eine Straßenkatze, eigens für diese App gezeichnet.
    Kein Bild, nur Vektoren, also winzig und überall scharf. */
@@ -2396,22 +2455,23 @@ function home(){
     const fertig = arr.filter(isDone).length;
     const expanded = open && unitExpanded(ui);
     path += `<div class="unit">
-      <button class="unit-head ${open?"":"locked"}" ${open?`data-u="${ui}"`:"disabled"}>
-        <div class="n" ${open?"":'style="background:var(--surface-2);color:var(--muted)"'}>${passed?"✓":ui+1}</div>
+      <button class="unit-head ${open?"":"locked"}" ${open?`data-u="${ui}" style="border-left-color:${u.c}"`:"disabled"}>
+        <div class="n" style="${open?`background:${u.c}`:"background:var(--surface-2);color:var(--muted)"}">${passed?"✓":ui+1}</div>
         <div class="uh"><div class="t">${esc(u.t)}</div>
           <div class="s">${open ? `${esc(u.s)} · ${fertig}/${arr.length}` : "Erst den Test der Einheit davor bestehen"}</div></div>
-        <span class="chev ${expanded?"up":""}">${open?"▾":"🔒"}</span>
+        <span class="chev ${expanded?"up":""}">${open?"▾":svgIcon("lock")}</span>
       </button>`;
 
     if(expanded){
       arr.forEach(i=>{
         const l = FLAT[i], pro = proLocked(i);
         const st = pro ? "lock" : (isDone(i) ? "done" : (isOpen(i) ? "open" : "lock"));
-        const ic = pro ? "⭐" : (isDone(i) ? "✓" : (isOpen(i) ? u.icon : "🔒"));
+        const ic = pro ? svgIcon("star") : (isDone(i) ? svgIcon("check") : (isOpen(i) ? svgIcon(u.ic) : svgIcon("lock")));
         const sub = pro ? "Mit Premium freischalten" : (st==="lock" ? "Erst die Lektion davor" : esc(l.s));
         const dis = (!pro && st==="lock") ? "disabled" : "";
+        const style = (st==="open") ? ` style="background:${u.c};border-color:${u.c};box-shadow:0 4px 0 ${u.c}99"` : "";
         path += `<button class="node" ${pro?'data-pay="1"':`data-les="${i}"`} ${dis}>
-          <div class="orb ${st}">${ic}${(!pro&&isDone(i))?'<span class="crown">fertig</span>':""}</div>
+          <div class="orb ${st}"${style}>${ic}${(!pro&&isDone(i))?'<span class="crown">fertig</span>':""}</div>
           <div class="meta"><b>${esc(l.t)}</b><span>${sub}</span></div>
         </button>`;
       });
@@ -2420,7 +2480,7 @@ function home(){
       if(bSet){
         const bDone = bonusDone(ui), bOpen = bonusOpen(ui);
         path += `<button class="node" ${bOpen?`data-bonus="${bonusIx(ui)}"`:""} ${bOpen?"":"disabled"}>
-          <div class="orb ${bDone?"done":(bOpen?"gold":"lock")}">${bDone?"✓":(bOpen?"📜":"🔒")}</div>
+          <div class="orb ${bDone?"done":(bOpen?"gold":"lock")}">${bDone?svgIcon("check"):(bOpen?svgIcon("scroll"):svgIcon("lock"))}</div>
           <div class="meta"><b>Bonus: ${esc(bSet.t)}</b>
             <span>${bOpen?bSet.cards.length+" Sprichwörter und Redewendungen":"Erst alle Lektionen dieser Einheit"}</span></div>
         </button>`;
@@ -2428,7 +2488,7 @@ function home(){
 
       const eOpen = examOpen(ui);
       path += `<button class="node" ${eOpen?`data-exam="${ui}"`:""} ${eOpen?"":"disabled"}>
-        <div class="orb ${passed?"done":(eOpen?"gold":"lock")}">${passed?"✓":(eOpen?"🎓":"🔒")}</div>
+        <div class="orb ${passed?"done":(eOpen?"gold":"lock")}">${passed?svgIcon("check"):(eOpen?svgIcon("cap2"):svgIcon("lock"))}</div>
         <div class="meta"><b>Abschlusstest</b>
           <span>${passed?"Bestanden, noch einmal üben":(eOpen?"8 Fragen aus dieser Einheit":"Erst die Lektionen und den Bonus")}</span></div>
       </button>`;
@@ -2688,7 +2748,7 @@ function kulturScreen(){
     </div>` : ""}
     <div class="read" style="padding-top:0">
       ${KULTUR.map((th,ti)=>`<button class="themerow" data-th="${ti}">
-        <span class="ti">${th.icon}</span>
+        <span class="ti" style="color:${th.c};background:${th.c}1a">${svgIcon(th.ic)}</span>
         <span><b>${esc(th.t)}</b><small>${th.cards.length} Abschnitte</small></span>
         ${m && m.t===ti ? `<span class="mk">🔖</span>` : ""}
       </button>`).join("")}
@@ -2706,13 +2766,15 @@ function kulturRead(ti, scrollTo){
   app.innerHTML = `<div class="lessbar">
       <button class="x" id="quit">✕</button>
       <div style="flex:1;font-size:15px;font-weight:900">${esc(th.t)}</div>
-      <span style="font-size:19px">${th.icon}</span>
+      <span style="color:${th.c}">${svgIcon(th.ic)}</span>
     </div>
     ${ambBar()}
+    ${ornament(th.c)}
     <div class="read">
       ${th.cards.map((c,ci)=>{
         const on = S.mark && S.mark.t===ti && S.mark.c===ci;
         return `<div class="sec ${on?"marked":""}" id="sec${ci}">
+          <div class="secic" style="color:${th.c};background:${th.c}1a">${svgIcon(th.ic)}</div>
           <h3>${esc(c.h)}</h3>
           <p class="tw">${esc(c.tr)}</p>
           <p>${esc(c.x)}</p>
