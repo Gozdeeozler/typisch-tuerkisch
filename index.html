@@ -584,6 +584,135 @@ const UNITS = [
     ]
   },
   {
+    t:"Frauen ansprechen", s:"Anrede, Höflichkeit, Komplimente", icon:"🌸", pro:true, pool:12,
+    lessons:[
+      { t:"Wie man eine Frau anspricht", s:"6 Übungen", items:[
+        {k:"culture", word:"Abla", lit:"große Schwester",
+          text:"Fremde werden nach Alter angesprochen, nicht nach Namen. Eine Frau etwa im eigenen Alter ist <b>abla</b>, eine deutlich ältere <b>teyze</b>, eine jüngere <b>kızım</b> nur von Älteren.",
+          tip:"Sehr förmlich geht immer: <b>hanımefendi</b>. Damit macht man nie etwas falsch, auch im Amt oder im Geschäft."},
+        {k:"choice", de:"Entschuldigen Sie bitte, gnädige Frau", tr:"Hanımefendi, affedersiniz", opts:["Hanımefendi, affedersiniz","Beyefendi, affedersiniz","Teyze, affedersiniz","Kızım, affedersiniz"]},
+        {k:"choice", de:"Frau Ayşe", tr:"Ayşe Hanım", opts:["Ayşe Hanım","Hanım Ayşe","Ayşe Bey","Bayan Ayşe"]},
+        {k:"culture", word:"Maşallah", lit:"was Gott gewollt hat",
+          text:"Ein Lob ohne <b>maşallah</b> kann als Neid gelesen werden. Deshalb hängt man es an: çok güzel olmuşsun, maşallah.",
+          tip:"Bei Babys und Kindern ist es fast Pflicht. Wer es weglässt, erntet manchmal einen schiefen Blick."},
+        {k:"match", pairs:[["abla","große Schwester"],["teyze","Tante"],["yenge","Schwägerin"],["hanımefendi","gnädige Frau"]]},
+        {k:"listen", tr:"Ablacığım", de:"meine liebe Abla", opts:["meine liebe Abla","meine liebe Tante","meine Tochter","meine Freundin"]}
+      ]},
+      { t:"Komplimente, die ankommen", s:"6 Übungen", items:[
+        {k:"culture", word:"Eline sağlık", lit:"Gesundheit deiner Hand",
+          text:"Das stärkste Kompliment im Alltag gilt nicht dem Aussehen, sondern dem, was jemand getan hat. Für Gekochtes, Genähtes, Gebautes: <b>eline sağlık</b>. Für Mühe allgemein: <b>emeğine sağlık</b>.",
+          tip:"Es kommt fast immer besser an als ein Kompliment über das Äußere, besonders bei jemandem, den du kaum kennst."},
+        {k:"choice", de:"Es steht dir gut", tr:"Yakışmış", opts:["Yakışmış","Yakışıklı","Yakışır","Yakıştı mı"]},
+        {k:"choice", de:"Schön, dass es dich gibt", tr:"İyi ki varsın", opts:["İyi ki varsın","İyi ki geldin","İyi ki oldu","İyi ki biliyorsun"]},
+        {k:"culture", word:"Was nicht geht", lit:"laf atmak",
+          text:"Einer fremden Frau auf der Straße hinterherzurufen heißt <b>laf atmak</b> und gilt als Belästigung, nicht als Kompliment. Auch gut gemeinte Bemerkungen über den Körper sind unter Fremden daneben.",
+          tip:"Die sichere Regel: lobe, was jemand gemacht hat, nicht wie jemand aussieht, solange ihr euch nicht gut kennt."},
+        {k:"build", de:"Gesundheit deiner Mühe", tiles:["Emeğine","sağlık"], ans:"Emeğine sağlık"},
+        {k:"listen", tr:"Nazar değmesin", de:"Möge kein böser Blick treffen", opts:["Möge kein böser Blick treffen","Gute Besserung","Herzlichen Glückwunsch","Schönen Tag noch"]}
+      ]}
+    ]
+  },
+  {
+    t:"Männer ansprechen", s:"Anrede, Respekt, Anerkennung", icon:"🧢", pro:true, pool:13,
+    lessons:[
+      { t:"Wie man einen Mann anspricht", s:"6 Übungen", items:[
+        {k:"culture", word:"Abi", lit:"großer Bruder",
+          text:"Wie bei den Frauen entscheidet das Alter. Etwa gleichaltrig ist <b>abi</b>, deutlich älter <b>amca</b>. Sehr förmlich geht immer <b>beyefendi</b>.",
+          tip:"Im Laden, im Taxi, auf der Baustelle hörst du ständig abi. Es ist keine Anbiederung, sondern einfach die normale Anrede."},
+        {k:"culture", word:"Usta", lit:"Meister",
+          text:"Jeder, der etwas mit den Händen kann, ist <b>usta</b>: der Handwerker, der Koch, der Busfahrer. Es ist ein echter Titel, kein Scherz.",
+          tip:"Zu einem Lehrer, Arzt oder überhaupt zu jemandem, den man respektiert, sagt man <b>hocam</b>."},
+        {k:"choice", de:"Entschuldigen Sie bitte, mein Herr", tr:"Beyefendi, affedersiniz", opts:["Beyefendi, affedersiniz","Hanımefendi, affedersiniz","Amca, affedersiniz","Usta, affedersiniz"]},
+        {k:"choice", de:"Herr Mehmet", tr:"Mehmet Bey", opts:["Mehmet Bey","Bey Mehmet","Mehmet Hanım","Bay Mehmet"]},
+        {k:"match", pairs:[["abi","großer Bruder"],["amca","Onkel"],["usta","Meister"],["hocam","respektvolle Anrede"]]},
+        {k:"listen", tr:"Kolay gelsin usta", de:"Möge die Arbeit leicht fallen, Meister", opts:["Möge die Arbeit leicht fallen, Meister","Guten Appetit, Meister","Gute Besserung, Meister","Auf Wiedersehen, Meister"]}
+      ]},
+      { t:"Anerkennung zeigen", s:"6 Übungen", items:[
+        {k:"culture", word:"Helal olsun", lit:"es sei dir erlaubt",
+          text:"Der stärkste Ausdruck von Anerkennung. Man sagt es zu jemandem, der etwas Schweres geschafft oder sich anständig verhalten hat.",
+          tip:"Es geht weit über bravo hinaus. Es heißt ungefähr: du hast dir das redlich verdient, ich gönne es dir."},
+        {k:"choice", de:"Alle Achtung", tr:"Helal olsun", opts:["Helal olsun","Afiyet olsun","Geçmiş olsun","Hayırlı olsun"]},
+        {k:"choice", de:"Auf dich ist Verlass", tr:"Güvenilirsin", opts:["Güvenilirsin","Çalışkansın","Yakışıklısın","Yüreklisin"]},
+        {k:"culture", word:"Adamsın", lit:"du bist ein Mann",
+          text:"<b>Adamsın</b> heißt nicht, dass jemand männlich ist, sondern dass er sich anständig verhalten hat. Man sagt es auch zu einer Frau, die einem aus der Patsche geholfen hat.",
+          tip:"Verwandt damit: <b>delikanlı</b>, wörtlich der mit dem heißen Blut, gemeint ist aber jemand, der zu seinem Wort steht."},
+        {k:"build", de:"Gott gebe dir Kraft", tiles:["Allah","güç","versin"], ans:"Allah güç versin"},
+        {k:"listen", tr:"Eline sağlık usta", de:"Respekt für deine Arbeit, Meister", opts:["Respekt für deine Arbeit, Meister","Guten Appetit","Gute Reise","Danke für alles"]}
+      ]}
+    ]
+  },
+  {
+    t:"Eee, yani, işte", s:"Die Wörter, die zwischen allem stehen", icon:"💬", pro:true, pool:14,
+    lessons:[
+      { t:"Yani, işte, şey", s:"6 Übungen", items:[
+        {k:"culture", word:"Yani", lit:"das heißt",
+          text:"Das meistgehörte Wort im türkischen Alltag. Es heißt eigentlich also oder ich meine, steht aber überall: am Anfang, in der Mitte und ganz allein als Antwort.",
+          tip:"Ein alleinstehendes <b>yani</b> mit hochgezogenen Augenbrauen heißt: na was soll ich sagen, es ist eben so."},
+        {k:"choice", de:"also, ich meine", tr:"yani", opts:["yani","işte","hani","falan"]},
+        {k:"choice", de:"eben, halt", tr:"işte", opts:["işte","yani","şey","ya"]},
+        {k:"culture", word:"Şey", lit:"Ding",
+          text:"Wenn das Wort fehlt, kommt <b>şey</b>. Es ersetzt jedes Hauptwort und jedes Zeitwort: şey yaptım heißt ungefähr ich habe dings gemacht.",
+          tip:"Das deutsche ähm entspricht im Türkischen eher <b>eee</b>. Şey ist gezielter, es steht für ein bestimmtes Wort, das gerade weg ist."},
+        {k:"match", pairs:[["eee","ähm"],["şey","Dings"],["falan","und so"],["ne bileyim","was weiß ich"]]},
+        {k:"listen", tr:"Yani ne diyeyim", de:"Also was soll ich sagen", opts:["Also was soll ich sagen","Was hast du gesagt","Sag das noch mal","Ich verstehe nicht"]}
+      ]},
+      { t:"Hani, ya, be", s:"6 Übungen", items:[
+        {k:"culture", word:"Hani", lit:"wo ist",
+          text:"<b>Hani</b> holt gemeinsames Wissen hervor: hani şu adam var ya heißt du weißt schon, der Typ. Es fragt auch vorwurfsvoll nach etwas Versprochenem: hani gelecektin.",
+          tip:"Im Deutschen entspricht es am ehesten dem weißt du schon oder dem du wolltest doch."},
+        {k:"culture", word:"Ya und be", lit:"zwei kleine Wörter",
+          text:"<b>Ya</b> hängt sich an Sätze und färbt sie: harika ya, yok ya, hadi ya. <b>Be</b> ist kräftiger und unter Vertrauten: vay be, gel be.",
+          tip:"Be klingt bei Fremden grob. Ya kannst du fast überall benutzen, es macht den Satz weicher und persönlicher."},
+        {k:"choice", de:"ach nee, das glaube ich nicht", tr:"yok ya", opts:["yok ya","hadi ya","vay be","aman aman"]},
+        {k:"choice", de:"Donnerwetter", tr:"vay be", opts:["vay be","yok ya","neyse","aynen"]},
+        {k:"match", pairs:[["neyse","wie auch immer"],["aynen","genau so"],["galiba","vermutlich"],["açıkçası","ehrlich gesagt"]]},
+        {k:"listen", tr:"Ne bileyim ya", de:"Was weiß ich denn", opts:["Was weiß ich denn","Ich weiß es genau","Sag du es mir","Das ist klar"]}
+      ]}
+    ]
+  },
+  {
+    t:"In der Türkei sagen wir nicht", s:"Was wir stattdessen sagen", icon:"🔥", pro:true, pool:15,
+    lessons:[
+      { t:"Statt wow", s:"6 Übungen", items:[
+        {k:"culture", word:"Nicht einfach super", lit:"harika ya",
+          text:"Für Begeisterung gibt es im Türkischen ein ganzes Lager voll Wörter, und sie sind alle größer als nötig: <b>bomba gibi</b>, <b>efsane</b>, <b>müthiş</b>, <b>şahane</b>.",
+          tip:"Untertreibung gilt nicht als bescheiden, sondern als lustlos. Wenn das Essen gut war, sagt man nicht, es war in Ordnung."},
+        {k:"choice", de:"bombastisch", tr:"bomba gibi", opts:["bomba gibi","boş ver","boşuna","bol bol"]},
+        {k:"choice", de:"legendär", tr:"efsane", opts:["efsane","eksik","eski","emin"]},
+        {k:"culture", word:"Valla und vallahi", lit:"bei Gott",
+          text:"Damit beteuert man, dass etwas stimmt. <b>Valla</b> ist leicht und alltäglich, <b>vallahi</b> ist ernster, und <b>yemin ederim</b> ist ein richtiger Schwur.",
+          tip:"Im Deutschen würde man sagen: echt jetzt. Im Türkischen wird dafür Gott bemüht, ohne dass es jemand wörtlich nimmt."},
+        {k:"match", pairs:[["şahane","fantastisch"],["müthiş","großartig"],["bayıldım","ich bin hin und weg"],["inanamıyorum","ich kann es nicht glauben"]]},
+        {k:"listen", tr:"Yok daha neler", de:"Was es nicht alles gibt", opts:["Was es nicht alles gibt","Es gibt nichts mehr","Was ist noch da","Nichts Neues"]}
+      ]},
+      { t:"Zärtlich und drastisch", s:"6 Übungen", items:[
+        {k:"culture", word:"Yerim seni", lit:"ich fresse dich",
+          text:"Im Türkischen klingt Zuneigung oft bedrohlich und ist das Gegenteil davon. <b>Yerim seni</b> sagt eine Mutter zu ihrem Kind, <b>ölürüm sana</b> heißt ich sterbe für dich.",
+          tip:"Noch eins davon: <b>canım çıktı</b>, meine Seele ist ausgetreten, heißt nur, dass man sehr müde ist."},
+        {k:"choice", de:"ich sterbe für dich", tr:"ölürüm sana", opts:["ölürüm sana","yerim seni","canım çıktı","bayıldım"]},
+        {k:"choice", de:"ich bin völlig erledigt", tr:"canım çıktı", opts:["canım çıktı","canım sıkkın","canım istemiyor","canım benim"]},
+        {k:"culture", word:"Aşk olsun", lit:"es sei Liebe",
+          text:"Klingt nach einer Liebeserklärung, ist aber ein sanfter Vorwurf: wie konntest du nur, das hätte ich nicht von dir gedacht.",
+          tip:"Ein schönes Beispiel dafür, dass man türkische Sätze nicht Wort für Wort übersetzen darf."},
+        {k:"match", pairs:[["boş ver","lass es gut sein"],["kafana takma","mach dir nichts draus"],["kusura bakma","nimm es mir nicht übel"],["hadi canım","ach komm schon"]]},
+        {k:"listen", tr:"Başım üstüne", de:"Sehr gerne, selbstverständlich", opts:["Sehr gerne, selbstverständlich","Auf meinem Kopf tut es weh","Über meinem Kopf","Ich habe Kopfschmerzen"]}
+      ]},
+      { t:"Niemand sagt das schlicht", s:"7 Übungen", items:[
+        {k:"culture", word:"Kafayı yedim", lit:"ich habe den Kopf gegessen",
+          text:"Niemand sagt <b>çok sinirlendim</b>, ich bin sehr wütend. Man sagt <b>kafayı yedim</b> oder <b>tepem attı</b>, mir ist der Deckel hochgegangen.",
+          tip:"Die schlichte Form ist nicht falsch, sie klingt nur wie aus dem Lehrbuch. Wer so redet, wird sofort als Lernender erkannt."},
+        {k:"choice", de:"ich bin sehr wütend", tr:"kafayı yedim", opts:["kafayı yedim","içim şişti","canım çıktı","ödüm koptu"]},
+        {k:"choice", de:"ich bin sehr glücklich", tr:"içim içime sığmıyor", opts:["içim içime sığmıyor","içim şişti","içim daraldı","içim rahat"]},
+        {k:"choice", de:"mir ist furchtbar langweilig", tr:"içim şişti", opts:["içim şişti","içim içime sığmıyor","canım çekti","kanım kaynadı"]},
+        {k:"culture", word:"Sarmak", lit:"einwickeln",
+          text:"Wenn ein Film, ein Lied oder ein Buch jemanden packt, heißt es <b>sardı</b>, es hat mich eingewickelt. Verstärkt: <b>aşırı sardı</b>.",
+          tip:"Das Gegenteil ist <b>sarmadı</b>, es hat mich nicht gepackt. Höflicher als zu sagen, es war schlecht."},
+        {k:"choice", de:"ich verstehe gar nichts mehr", tr:"beynim yandı", opts:["beynim yandı","ağzım açık kaldı","gözüm aydın","başım üstüne"]},
+        {k:"match", pairs:[["ödüm koptu","ich hatte große Angst"],["gülmekten öldüm","ich habe sehr gelacht"],["yerin dibine girdim","es war mir furchtbar peinlich"],["gına geldi","ich habe es satt"]]}
+      ]}
+    ]
+  },
+  {
     t:"Wie Türkisch funktioniert", s:"Endungen, Vokalharmonie, Satzbau", icon:"🧩", pro:true, pool:3, bonus:8,
     lessons:[
       { t:"Alles hängt hinten dran", s:"6 Übungen", items:[
@@ -1116,7 +1245,16 @@ const POOL = [
     /* Mengen */
     ["gram","Gramm"],["litre","Liter"],["şişe","Flasche"],
     ["kutu","Dose"],["paket","Packung"],["dilim","Scheibe"],["biraz daha","ein bisschen mehr"],
-    ["yeter","Das reicht"]
+    ["yeter","Das reicht"],
+    /* Erweiterung 2: am Tisch und an der Kasse */
+    ["üstü kalsın","Stimmt so"],["hesabı alabilir miyim","Kann ich die Rechnung haben"],
+    ["hesap benden","Die Rechnung geht auf mich"],["ben ısmarlıyorum","Ich lade ein"],
+    ["bölüşelim","Lass uns teilen"],["ayrı ayrı lütfen","Getrennt bitte"],
+    ["hepsi birlikte","Alles zusammen"],["kart geçiyor mu","Nehmen Sie Karte"],
+    ["bahşiş bırakmak","Trinkgeld lassen"],["çok lezzetliydi","Es war sehr lecker"],
+    ["ellerinize sağlık","Gesundheit Ihren Händen"],["yanında ne var","Was gibt es dazu"],
+    ["içecek ne alırsınız","Was möchten Sie trinken"],["afiyet olsun","Guten Appetit"],
+    ["buyurun oturun","Bitte, setzen Sie sich"],["bir şey daha ister misiniz","Möchten Sie noch etwas"]
   ],
   /* 4 Wie Türkisch funktioniert */ [
     ["ev","Haus"],["evim","mein Haus"],["evin","dein Haus"],["evde","zu Hause"],
@@ -1418,6 +1556,119 @@ const POOL = [
     ["ramazan davulcusu","Ramadan-Trommler"],["bayram sabahı","Festmorgen"],
     ["Şeker Bayramı","anderer Name für das Zuckerfest"],["misafir ağırlamak","Gäste bewirten"],
     ["hediye almak","ein Geschenk kaufen"]
+  ],
+  /* 13 Frauen ansprechen */ [
+    ["abla","große Schwester, Anrede für eine Frau"],["hanımefendi","gnädige Frau"],
+    ["hanım","Frau, nach dem Vornamen"],["teyze","Tante, für ältere Frauen"],
+    ["yenge","Schwägerin, auch die Frau eines Freundes"],["kızım","mein Mädchen, von Älteren"],
+    ["canım","meine Liebe"],["ablacığım","meine liebe Abla"],["anneciğim","meine liebe Mama"],
+    ["arkadaşım","meine Freundin"],["Ayşe Hanım","Frau Ayşe"],
+    ["Hanımefendi, affedersiniz","Entschuldigen Sie bitte, gnädige Frau"],
+    ["çok zarifsin","du bist sehr elegant"],["çok şıksın","du siehst sehr schick aus"],
+    ["yakışmış","es steht dir gut"],["çok güzel olmuşsun","du siehst wunderschön aus"],
+    ["gözlerin çok güzel","du hast schöne Augen"],["gülüşün çok tatlı","dein Lachen ist süß"],
+    ["sesin çok güzel","du hast eine schöne Stimme"],["çok naziksin","du bist sehr höflich"],
+    ["çok kibarsın","du bist sehr feinfühlig"],["akıllısın","du bist klug"],
+    ["başarılısın","du bist erfolgreich"],["yüreklisin","du bist mutig"],
+    ["eline sağlık","Gesundheit deiner Hand, für Gekochtes"],
+    ["emeğine sağlık","Gesundheit deiner Mühe"],["maşallah","wie schön, möge nichts es treffen"],
+    ["nazar değmesin","möge kein böser Blick treffen"],
+    ["Allah nazardan saklasın","Gott bewahre vor dem bösen Blick"],
+    ["ne güzel düşünmüşsün","wie schön du mitgedacht hast"],
+    ["sana çok yakıştı","das stand dir ausgesprochen gut"],
+    ["iyi ki varsın","schön, dass es dich gibt"],
+    ["seninle gurur duyuyorum","ich bin stolz auf dich"],["canım benim","meine Liebste"],
+    ["gül gibisin","du bist wie eine Rose"],
+    ["ellerin dert görmesin","mögen deine Hände keinen Kummer sehen"],
+    ["ağzından bal damlıyor","Honig tropft aus deinem Mund"],
+    ["rahatsız etmek","belästigen"],["laf atmak","jemandem hinterherrufen"],
+    ["saygılı olmak","respektvoll sein"],["mesafe","Abstand"],["uygun","angemessen"],
+    ["uygunsuz","unangemessen"],["rahatsız oldum","das war mir unangenehm"],
+    ["lütfen rahat bırakın","lassen Sie mich bitte in Ruhe"],["tanımadığın biri","eine fremde Person"]
+  ],
+  /* 14 Männer ansprechen */ [
+    ["abi","großer Bruder, Anrede für einen Mann"],["beyefendi","mein Herr"],
+    ["bey","Herr, nach dem Vornamen"],["amca","Onkel, für ältere Männer"],
+    ["dayı","Onkel mütterlicherseits, auch vertraulich"],["usta","Meister"],
+    ["hocam","respektvolle Anrede für Lehrer und Ärzte"],["kardeşim","mein Bruder"],
+    ["abicim","mein lieber Abi"],["dostum","mein Freund"],["kanka","Kumpel"],
+    ["Mehmet Bey","Herr Mehmet"],["Beyefendi, affedersiniz","Entschuldigen Sie bitte, mein Herr"],
+    ["reis","Anführer, sehr vertraulich"],
+    ["helal olsun","alle Achtung"],["valla bravo","wirklich, Respekt"],
+    ["adamsın","du hast dich anständig verhalten"],["delikanlısın","du stehst zu deinem Wort"],
+    ["sözünün eri","einer, der sein Wort hält"],["mert","aufrecht und ehrlich"],
+    ["yürekli","mutig"],["çalışkansın","du bist fleißig"],["güvenilirsin","auf dich ist Verlass"],
+    ["iyi insansın","du bist ein guter Mensch"],["yakışıklı","gut aussehend"],
+    ["yakışmış","es steht dir gut"],["çok şık olmuşsun","du siehst sehr schick aus"],
+    ["sağlam adam","ein verlässlicher Mann"],["eline sağlık usta","Respekt für deine Arbeit, Meister"],
+    ["emeğine sağlık","Gesundheit deiner Mühe"],["Allah güç versin","Gott gebe dir Kraft"],
+    ["kolay gelsin usta","möge die Arbeit leicht fallen, Meister"],
+    ["seninle gurur duyuyorum","ich bin stolz auf dich"],["iyi ki varsın","schön, dass es dich gibt"],
+    ["maşallah","wie schön"],["Allah bağışlasın","möge Gott ihn bewahren"],
+    ["aslan gibi","wie ein Löwe"],["koç gibi","kräftig wie ein Widder"],
+    ["saygı","Respekt"],["saygı duymak","Respekt haben"],["el sıkışmak","die Hand schütteln"],
+    ["sırtına vurmak","auf die Schulter klopfen"],["hitap","Anrede"],["resmi","förmlich"],
+    ["samimi","vertraut"],["sen demek","duzen"],["siz demek","siezen"]
+  ],
+  /* 15 Eee, yani, işte */ [
+    ["eee","ähm"],["ıı","äh"],["şey","Dings"],["yani","also, ich meine"],["işte","eben, halt"],
+    ["hani","weißt du, also das"],["ne bileyim","was weiß ich"],["falan","und so"],
+    ["filan","und so weiter"],["falan filan","und so weiter und so fort"],
+    ["ya","ach, also"],["be","he, Mann"],["bak","schau mal"],
+    ["bakar mısın","hallo, entschuldigen Sie"],["dur bakalım","warte mal"],["hadi","los"],
+    ["hadi ya","ach komm"],["yok ya","ach nee"],["yok artık","das gibt es doch nicht"],
+    ["vay be","Donnerwetter"],["aman","ach herrje"],["aman aman","nun mal langsam"],
+    ["tövbe","um Gottes willen"],["of","puh"],["ay","ach"],["hay Allah","ach du meine Güte"],
+    ["neyse","wie auch immer"],["her neyse","egal"],["o yüzden","deshalb"],
+    ["mesela","zum Beispiel"],["tabii","klar"],["aynen","genau so"],
+    ["kesinlikle","auf jeden Fall"],["sanırım","ich glaube"],["galiba","vermutlich"],
+    ["herhalde","wahrscheinlich"],["bence","meiner Meinung nach"],
+    ["açıkçası","ehrlich gesagt"],["doğrusu","um die Wahrheit zu sagen"],
+    ["bir de","und außerdem"],["şöyle","so ungefähr"],["böyle","so hier"],
+    ["demek ki","das heißt also"],["anladın mı","hast du verstanden"],
+    ["değil mi","oder nicht"],["ne diyeyim","was soll ich sagen"]
+  ],
+  /* 16 In der Türkei sagen wir nicht */ [
+    ["yerim seni","ich fress dich auf, als Zärtlichkeit"],["ölürüm sana","ich sterbe für dich"],
+    ["canım çıktı","ich bin völlig erledigt"],["gözüm aydın","ich freue mich für dich"],
+    ["başım üstüne","sehr gerne, selbstverständlich"],["helal olsun","alle Achtung"],
+    ["ağzına sağlık","gut gesagt"],["valla","wirklich"],["vallahi","ich schwöre"],
+    ["yemin ederim","ich schwöre es"],["bomba gibi","bombastisch"],["şahane","fantastisch"],
+    ["harika ya","echt super"],["müthiş","großartig"],["efsane","legendär"],["kıyak","klasse"],
+    ["bayıldım","ich bin hin und weg"],["aklımı aldı","es hat mich umgehauen"],
+    ["inanamıyorum","ich kann es nicht glauben"],["yok daha neler","was es nicht alles gibt"],
+    ["hadi canım","ach komm schon"],["yapma ya","das meinst du nicht ernst"],
+    ["cidden mi","im Ernst"],["sahi mi","wirklich"],["ne alaka","was hat das damit zu tun"],
+    ["boş ver","lass es gut sein"],["kafana takma","mach dir nichts draus"],
+    ["Allah Allah","na so was"],["yuh","unglaublich, pfui"],["ayıp","das gehört sich nicht"],
+    ["yazık","wie schade, auch: der Arme"],["tüh","so ein Mist"],["eyvah","oh nein"],
+    ["aşk olsun","das ist aber nicht nett von dir"],["kusura bakma","nimm es mir nicht übel"],
+    ["sağ olasın","sei gesegnet"],["var ol","danke dir, sei lebendig"],
+    /* Was man statt der schlichten Variante sagt */
+    ["kafayı yedim","statt: ich bin sehr wütend"],
+    ["tepem attı","statt: mir ist der Kragen geplatzt"],
+    ["içim içime sığmıyor","statt: ich bin sehr glücklich"],
+    ["içim şişti","statt: mir ist furchtbar langweilig"],
+    ["aşırı sardı","statt: der Film ist sehr gut"],
+    ["beynim yandı","statt: ich verstehe gar nichts mehr"],
+    ["kafam almadı","statt: das geht über meinen Verstand"],
+    ["ödüm koptu","statt: ich hatte große Angst"],
+    ["gülmekten öldüm","statt: ich habe sehr gelacht"],
+    ["koptum","statt: ich habe mich weggeschmissen"],
+    ["ağzım açık kaldı","statt: ich war sprachlos"],
+    ["donup kaldım","statt: ich war wie erstarrt"],
+    ["yerin dibine girdim","statt: es war mir furchtbar peinlich"],
+    ["açlıktan ölüyorum","statt: ich habe großen Hunger"],
+    ["donuyorum","statt: mir ist sehr kalt"],
+    ["bittim","statt: ich kann nicht mehr"],
+    ["gına geldi","statt: ich habe es satt"],
+    ["kanımız kaynadı","statt: wir haben uns sofort verstanden"],
+    ["canım çekti","statt: ich habe große Lust darauf"],
+    ["kazık yedim","statt: ich wurde übers Ohr gehauen"],
+    ["rezalet","statt: das war eine Katastrophe"],
+    ["çocuk oyuncağı","statt: das ist kinderleicht"],
+    ["ateşten gömlek","statt: das ist eine undankbare Aufgabe"],
+    ["takmıyorum","statt: das ist mir egal"]
   ]
 ].map(list=>{
   const seenTr = {}, seenDe = {}, out = [];
