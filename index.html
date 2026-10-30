@@ -114,6 +114,10 @@
   .orb.done{background:var(--green);border-color:var(--green-dark);box-shadow:0 4px 0 var(--green-dark)}
   .orb.open{background:var(--red);border-color:var(--red-dark);box-shadow:0 4px 0 var(--red-dark)}
   .ic-svg{width:26px;height:26px;display:block}
+  .stat .ic-svg{width:19px;height:19px}
+  .ic-svg.mini{width:17px;height:17px;display:inline-block;vertical-align:-3px}
+  .score .ic-svg{width:24px;height:24px;margin:0 auto}
+  .emo .ic-svg{width:54px;height:54px;margin:0 auto;color:var(--gold)}
   .orb .ic-svg{width:27px;height:27px}
   .unit-head .ic-svg{width:21px;height:21px}
   .themerow .ic-svg{width:24px;height:24px}
@@ -2053,6 +2057,9 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
    Von Hand gezeichnet statt Emoji, damit sie auf jedem
    Gerät gleich aussehen und die Farbe der Einheit annehmen. */
 const ICON = {
+  fire:'<path d="M12 3.2c.6 2.5-.5 4-1.8 5.3-1.6 1.6-3.4 3-3.4 5.9A5.2 5.2 0 0 0 12 20.8a5.2 5.2 0 0 0 5.2-6.4c-.3-1.6-1.2-2.7-1.9-3.6-.5 1-1.2 1.6-2 1.9.6-2.4-.2-4.9-1.3-6.2Z"/>',
+  simit:'<circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="3.2"/><circle cx="8.4" cy="8.6" r=".85" fill="currentColor" stroke="none"/><circle cx="15.6" cy="8.6" r=".85" fill="currentColor" stroke="none"/><circle cx="8.4" cy="15.4" r=".85" fill="currentColor" stroke="none"/><circle cx="15.6" cy="15.4" r=".85" fill="currentColor" stroke="none"/><circle cx="12" cy="6.6" r=".85" fill="currentColor" stroke="none"/><circle cx="12" cy="17.4" r=".85" fill="currentColor" stroke="none"/>',
+  phones:'<path d="M4.4 15.6v-3.4a7.6 7.6 0 0 1 15.2 0v3.4"/><rect x="2.8" y="14.2" width="4.2" height="6" rx="2.1"/><rect x="17" y="14.2" width="4.2" height="6" rx="2.1"/>',
   wave:'<path d="M7.5 11V5.6a1.5 1.5 0 0 1 3 0V11"/><path d="M10.5 10.6V4.6a1.5 1.5 0 0 1 3 0V11"/><path d="M13.5 11V6.6a1.5 1.5 0 0 1 3 0V13"/><path d="M16.5 9.6a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a7 7 0 0 1-7-7v-1.4a1.5 1.5 0 0 1 3 0V14"/>',
   tea:'<path d="M6.2 4.5h11.6l-1.5 10.8a3.2 3.2 0 0 1-3.2 2.7h-2.2a3.2 3.2 0 0 1-3.2-2.7Z"/><path d="M4.5 21h15"/>',
   count:'<path d="M4 6.5h16M4 12h16M4 17.5h16"/><circle cx="8" cy="6.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="14.5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="10" cy="17.5" r="1.7" fill="currentColor" stroke="none"/>',
@@ -2299,10 +2306,10 @@ function sfx(kind){
 function topbar(){
   return `<div class="topbar">
     <button class="chip" id="chip"><span class="ava sm">${esc(initial())}</span></button>
-    <div class="stat fire"><span class="ic">🔥</span>${S.streak}</div>
-    <div class="stat gem"><span class="ic">☕</span>${S.xp}</div>
+    <div class="stat fire">${svgIcon("fire")}${S.streak}</div>
+    <div class="stat gem">${svgIcon("tea")}${S.xp}</div>
     <div class="spacer"></div>
-    <div class="stat heart"><span class="ic">🥯</span>${S.hearts}</div>
+    <div class="stat heart">${svgIcon("simit")}${S.hearts}</div>
   </div>`;
 }
 
@@ -2511,12 +2518,12 @@ function home(){
     <div class="daily">
       <div class="daily-row"><b>Tagesziel</b><span>${S.dayXp>=DAILY_GOAL ? "geschafft" : S.dayXp+" / "+DAILY_GOAL+" Çay"}</span></div>
       <div class="bar"><i style="width:${pct}%"></i></div>
-      <div class="daily-row" style="margin:9px 0 0"><span>${S.done.length} von ${TOTAL} Lektionen</span><span>${S.streak>0?"🔥 "+tage(S.streak):"Heute starten"}</span></div>
+      <div class="daily-row" style="margin:9px 0 0"><span>${S.done.length} von ${TOTAL} Lektionen</span><span>${S.streak>0?svgIcon("fire","mini")+" "+tage(S.streak):"Heute starten"}</span></div>
     </div>
     <div class="homebtns">
-      <button id="kulturBtn">🧿 Kulturecke</button>
-      <button id="hoerBtn">🎧 Hörecke</button>
-      <button id="savedBtn">📜 ${S.saved.length}</button>
+      <button id="kulturBtn">${svgIcon("eye","mini")} Kulturecke</button>
+      <button id="hoerBtn">${svgIcon("phones","mini")} Hörecke</button>
+      <button id="savedBtn">${svgIcon("scroll","mini")} ${S.saved.length}</button>
     </div>
     <div class="path">${path}</div>`;
 
@@ -2538,7 +2545,7 @@ function bonusScreen(bi, pos){
   app.innerHTML = `<div class="lessbar">
       <button class="x" id="quit">✕</button>
       <div class="bar"><i style="width:${Math.round(pos/set.cards.length*100)}%"></i></div>
-      <div class="stat gem"><span class="ic">📜</span>${pos+1}/${set.cards.length}</div>
+      <div class="stat gem">${svgIcon("scroll")}${pos+1}/${set.cards.length}</div>
     </div>
     <div class="q">
       <div class="q-kind">Bonus · ${esc(set.t)}</div>
@@ -2960,7 +2967,7 @@ function startLesson(idx){
 
 function noHearts(){
   app.innerHTML = topbar() + `<div class="result">
-    <div class="emo">🥯</div>
+    <div class="emo">${svgIcon("simit")}</div>
     <h2>Simit alle</h2>
     <p>Jeder Fehler kostet ein Simit. Morgen liegen wieder fünf im Korb. Im Abschlusstest kostet dich ein Fehler übrigens keins.</p>
   </div>
@@ -3081,7 +3088,7 @@ function render(){
   app.innerHTML = `<div class="lessbar">
       <button class="x" id="quit">✕</button>
       <div class="bar"><i style="width:${pct}%"></i></div>
-      <div class="stat heart"><span class="ic">🥯</span>${S.hearts}</div>
+      <div class="stat heart">${svgIcon("simit")}${S.hearts}</div>
     </div>` + body + foot;
 
   wire(it);
@@ -3184,9 +3191,9 @@ function finish(){
     <div class="bigword">${perfect ? "Ohne<br>Fehler" : "Lektion<br>geschafft"}</div>
     <p>${esc(L.title)}</p>
     <div class="scores">
-      <div class="score gold"><div class="ic">☕</div><div class="v">+${gained}</div><div class="k">Çay</div></div>
-      <div class="score red"><div class="ic">◎</div><div class="v">${acc}%</div><div class="k">Treffer</div></div>
-      <div class="score blue"><div class="ic">◷</div><div class="v">${fmtTime(L.t0)}</div><div class="k">Zeit</div></div>
+      <div class="score gold"><div class="ic">${svgIcon("tea")}</div><div class="v">+${gained}</div><div class="k">Çay</div></div>
+      <div class="score red"><div class="ic">${svgIcon("eye")}</div><div class="v">${acc}%</div><div class="k">Treffer</div></div>
+      <div class="score blue"><div class="ic">${svgIcon("clock")}</div><div class="v">${fmtTime(L.t0)}</div><div class="k">Zeit</div></div>
     </div>
   </div>
   <div class="foot">
