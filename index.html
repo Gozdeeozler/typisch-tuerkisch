@@ -4,24 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Typisch Türkisch</title>
+<link rel="icon" href="img/logo-192.png">
+<link rel="apple-touch-icon" href="img/logo-192.png">
+<meta name="theme-color" content="#fc4847">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#15161c;
-    --surface:#1e2029;
-    --surface-2:#262933;
-    --line:#333745;
-    --text:#f2f1ee;
-    --muted:#9ba0b0;
-    --red:#e03a46;
-    --red-dark:#b22a35;
-    --nazar:#2f9ad6;
-    --nazar-dark:#1f76a8;
-    --gold:#e8b84b;
-    --green:#4caf72;
-    --green-dark:#3a8d59;
+    --bg:#ffffff;
+    --surface:#fbfbfc;
+    --surface-2:#f1f2f5;
+    --line:#e2e4ea;
+    --text:#17181d;
+    --muted:#70737f;
+    --red:#fc4847;        /* Rot aus dem Logo */
+    --red-dark:#d6322f;
+    --red-soft:#fff0ef;
+    --nazar:#1d7fc0;
+    --nazar-dark:#14608f;
+    --gold:#c9931f;
+    --gold-soft:#fdf4e0;
+    --green:#2f9e5c;
+    --green-dark:#237a46;
+    --green-soft:#e8f6ee;
     --r:16px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -49,6 +55,12 @@
   .topbar .spacer{flex:1}
 
   /* ---------- home ---------- */
+  .logo{display:block;border-radius:50%;box-shadow:0 2px 8px rgba(23,24,29,.12)}
+  .logo.big{width:148px;height:148px;margin:0 auto 20px}
+  .logo.sm{width:46px;height:46px;flex:none}
+  .herorow{display:flex;align-items:center;gap:13px}
+  .herorow .ht{flex:1;min-width:0}
+
   .hero{padding:4px 18px 18px}
   .hero h1{
     margin:0;font-size:25px;font-weight:900;letter-spacing:-.4px;
@@ -81,6 +93,9 @@
     display:grid;place-items:center;transition:transform .15s ease;
   }
   .unit-head .chev.up{transform:rotate(180deg)}
+  .unit-head.locked{border-left-color:var(--line);background:var(--surface-2)}
+  .unit-head.locked .t{color:#8e919c}
+  .unit-head.locked .s{color:#a9acb6}
   .unit-head .n{
     width:26px;height:26px;border-radius:8px;background:var(--red);
     display:grid;place-items:center;font-size:13px;font-weight:900;flex:none;
@@ -98,16 +113,18 @@
   .node:active .orb{transform:scale(.93)}
   .orb.done{background:var(--green);border-color:var(--green-dark);box-shadow:0 4px 0 var(--green-dark)}
   .orb.open{background:var(--red);border-color:var(--red-dark);box-shadow:0 4px 0 var(--red-dark)}
-  .orb.gold{background:var(--gold);border-color:#b8902f;color:#2a2109;box-shadow:0 4px 0 #b8902f}
-  .orb.lock{opacity:.42}
+  .orb.gold{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 4px 0 #a87a13}
+  .orb.lock{background:var(--surface-2);border-color:var(--line);color:#aeb1bb;box-shadow:none}
   .orb .crown{
     position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);
-    background:var(--gold);color:#2a2109;font-size:10px;font-weight:900;
+    background:var(--gold);color:#fff;font-size:10px;font-weight:900;
     padding:1px 7px;border-radius:99px;border:2px solid var(--bg);
   }
   .node .meta{flex:1;min-width:0}
   .node .meta b{display:block;font-size:15px;font-weight:800}
   .node .meta span{display:block;font-size:12.5px;color:var(--muted);font-weight:700;margin-top:2px}
+  .node:disabled .meta b{color:#8e919c}
+  .node:disabled .meta span{color:#a9acb6}
 
   /* ---------- lesson ---------- */
   .lessbar{display:flex;align-items:center;gap:12px;padding:14px 18px 6px}
@@ -137,9 +154,9 @@
     transition:background .1s,border-color .1s;
   }
   .opt:active{background:var(--surface-2)}
-  .opt.sel{background:rgba(47,154,214,.14);border-color:var(--nazar)}
-  .opt.ok{background:rgba(76,175,114,.16);border-color:var(--green)}
-  .opt.no{background:rgba(224,58,70,.14);border-color:var(--red)}
+  .opt.sel{background:#eaf4fb;border-color:var(--nazar)}
+  .opt.ok{background:var(--green-soft);border-color:var(--green)}
+  .opt.no{background:var(--red-soft);border-color:var(--red)}
   .opt small{display:block;color:var(--muted);font-size:12.5px;font-weight:700;margin-top:3px}
 
   /* build */
@@ -161,7 +178,7 @@
     background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;
     border-radius:12px;padding:14px 10px;font-size:15px;text-align:center;min-height:56px;
   }
-  .mcell.sel{background:rgba(47,154,214,.16);border-color:var(--nazar)}
+  .mcell.sel{background:#eaf4fb;border-color:var(--nazar)}
   .mcell.gone{opacity:.2;pointer-events:none;border-color:var(--green)}
 
   /* culture card */
@@ -179,8 +196,8 @@
 
   /* footer / feedback */
   .foot{padding:16px 18px calc(30px + env(safe-area-inset-bottom));border-top:1px solid transparent}
-  .foot.ok{background:rgba(76,175,114,.1);border-top-color:rgba(76,175,114,.3)}
-  .foot.no{background:rgba(224,58,70,.09);border-top-color:rgba(224,58,70,.3)}
+  .foot.ok{background:var(--green-soft);border-top-color:#bfe3cd}
+  .foot.no{background:var(--red-soft);border-top-color:#f6c6ca}
   .fb{display:flex;align-items:flex-start;gap:10px;margin-bottom:13px}
   .fb .mark{font-size:20px;line-height:1.25;flex:none}
   .fb b{display:block;font-size:16px;font-weight:900;margin-bottom:2px}
@@ -188,25 +205,35 @@
   .fb.ok b{color:var(--green)}
   .fb.no b{color:var(--red)}
   .cta{
-    width:100%;padding:16px;border-radius:14px;font-size:16px;letter-spacing:.3px;
+    width:100%;padding:16px;border-radius:14px;font-size:16px;letter-spacing:.3px;color:#fff;
     background:var(--green);box-shadow:0 4px 0 var(--green-dark);text-transform:uppercase;
   }
-  .cta:disabled{background:var(--surface-2);box-shadow:0 4px 0 #1b1d25;color:#5f6578;cursor:default}
+  .cta:disabled{background:var(--surface-2);box-shadow:0 4px 0 #dcdee4;color:#a7aab4;cursor:default}
   .cta.red{background:var(--red);box-shadow:0 4px 0 var(--red-dark)}
   .cta:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
   .cta.ghost{background:none;box-shadow:none;color:var(--muted);text-transform:none;font-weight:800;padding:12px}
 
   /* result */
-  .result{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px 24px;text-align:center}
+  .result{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 24px;text-align:center}
   .result .emo{font-size:58px;margin-bottom:10px}
   .result h2{margin:0 0 6px;font-size:25px;font-weight:900}
   .result p{margin:0;color:var(--muted);font-size:15px;font-weight:700;line-height:1.5}
-  .scores{display:flex;gap:12px;margin:26px 0 8px;width:100%}
-  .score{flex:1;border-radius:14px;padding:2px;background:var(--gold)}
-  .score.b{background:var(--nazar)}
-  .score .in{background:var(--surface);border-radius:12px;padding:11px 8px}
-  .score .k{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:800}
-  .score .v{font-size:21px;font-weight:900;margin-top:2px}
+  .mascot{width:190px;height:190px;margin:0 auto 4px;display:block}
+  .mascot.sm{width:104px;height:104px;margin-bottom:0}
+  .bigword{
+    font-size:30px;font-weight:900;line-height:1.02;letter-spacing:-.5px;
+    color:var(--red);text-transform:uppercase;margin:6px 0 2px;
+    text-shadow:0 2px 0 #fff, 0 3px 0 #f3c3c6;
+  }
+  .scores{display:flex;gap:10px;margin:22px 0 4px;width:100%}
+  .score{
+    flex:1;background:#fff;border:1.5px solid var(--line);border-radius:16px;
+    padding:12px 6px;box-shadow:0 1px 2px rgba(23,24,29,.04);
+  }
+  .score .ic{font-size:17px;line-height:1;margin-bottom:5px}
+  .score .v{font-size:19px;font-weight:900;line-height:1.1}
+  .score .k{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:3px}
+  .score.gold .ic{color:var(--gold)} .score.red .ic{color:var(--red)} .score.blue .ic{color:var(--nazar)}
 
   /* ---------- Bonus / Merkliste ---------- */
   .bcard{
@@ -215,7 +242,7 @@
   }
   .btag{
     display:inline-block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
-    font-weight:900;color:var(--gold);border:1px solid rgba(232,184,75,.4);
+    font-weight:900;color:var(--gold);border:1px solid #ecd9a6;
     border-radius:99px;padding:3px 10px;margin-bottom:12px;
   }
   .bcard .tr{font-size:20px;font-weight:900;line-height:1.35;margin:0 0 8px}
@@ -227,7 +254,7 @@
     margin-top:16px;width:100%;background:var(--surface-2);border:2px solid var(--line);
     border-radius:12px;padding:12px;font-size:14.5px;font-weight:800;color:var(--muted);
   }
-  .savebtn.on{background:rgba(232,184,75,.14);border-color:var(--gold);color:var(--gold)}
+  .savebtn.on{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
   .counter{font-size:13px;color:var(--muted);font-weight:800;text-align:center;margin-top:14px}
 
   .listitem{
@@ -246,7 +273,7 @@
     flex:none;background:var(--surface);border:2px solid var(--line);border-radius:99px;
     padding:8px 14px;font-size:13.5px;font-weight:800;color:var(--muted);white-space:nowrap;
   }
-  .chips button.on{background:rgba(47,154,214,.16);border-color:var(--nazar);color:var(--text)}
+  .chips button.on{background:#eaf4fb;border-color:var(--nazar);color:var(--text)}
   .player{padding:0 18px}
   .pcard{
     background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
@@ -270,7 +297,7 @@
   }
   .controls button:disabled{opacity:.35}
   .warn{
-    margin:0 18px 14px;background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.35);
+    margin:0 18px 14px;background:var(--gold-soft);border:1px solid #ecd9a6;
     border-radius:12px;padding:12px 14px;font-size:13px;font-weight:700;color:var(--gold);line-height:1.5;
   }
 
@@ -293,15 +320,15 @@
     flex:1;background:var(--surface);border:2px solid var(--line);border-radius:12px;
     padding:10px 6px;font-size:13px;font-weight:800;color:var(--muted);
   }
-  .ambbar button.on{background:rgba(47,154,214,.15);border-color:var(--nazar);color:var(--text)}
+  .ambbar button.on{background:#eaf4fb;border-color:var(--nazar);color:var(--text)}
 
   .read{padding:0 20px 40px}
   .sec{padding:22px 0;border-bottom:1px solid var(--line)}
   .sec:last-child{border-bottom:0}
-  .sec.marked{background:rgba(232,184,75,.05);margin:0 -14px;padding-left:14px;padding-right:14px;border-radius:12px}
+  .sec.marked{background:var(--gold-soft);margin:0 -14px;padding-left:14px;padding-right:14px;border-radius:12px}
   .sec h3{margin:0 0 3px;font-size:18.5px;font-weight:900;line-height:1.3}
   .sec .tw{font-size:14px;color:var(--gold);font-weight:800;margin:0 0 12px}
-  .sec p{margin:0;font-size:16px;font-weight:600;line-height:1.75;color:#e6e5e1}
+  .sec p{margin:0;font-size:16px;font-weight:600;line-height:1.75;color:#2c2e36}
   .sec .tp{margin-top:13px;font-size:14.5px;color:var(--muted);font-weight:700;line-height:1.6;
     border-left:3px solid var(--line);padding-left:12px}
   .sec .mkbtn{margin-top:14px;background:none;color:var(--muted);font-size:13px;font-weight:800;padding:6px 0}
@@ -344,7 +371,7 @@
 
   .chip{display:flex;align-items:center;gap:7px;background:none;padding:0;font-size:14px;font-weight:800}
   .sheet{
-    position:fixed;inset:0;background:rgba(10,11,15,.72);
+    position:fixed;inset:0;background:rgba(23,24,29,.45);
     display:flex;align-items:flex-end;justify-content:center;z-index:40;
   }
   .sheet .inner{
@@ -1939,6 +1966,11 @@ function saveAll(){
 }
 const slug = n => n.trim().toLowerCase();
 const tage = n => n + (n === 1 ? " Tag" : " Tage");
+function fmtTime(t0){
+  if(!t0) return "0:00";
+  const s = Math.max(0, Math.round((Date.now() - t0)/1000));
+  return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+}
 const displayName = () => (ACTIVE && USERS[ACTIVE]) ? USERS[ACTIVE].name : "Gast";
 const initial = () => (displayName()[0] || "?").toUpperCase();
 
@@ -2006,6 +2038,51 @@ function isOpen(i){
 /* ---------- 3. HILFSMITTEL ---------- */
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- Maskottchen ----------
+   Eine Straßenkatze, eigens für diese App gezeichnet.
+   Kein Bild, nur Vektoren, also winzig und überall scharf. */
+function mascot(mood, cls){
+  const sad = mood === "sad";
+  const eyes = sad
+    ? `<path d="M74 90 q10 -8 20 -2" stroke="#2f2f38" stroke-width="6" fill="none" stroke-linecap="round"/>
+       <path d="M106 88 q10 -6 20 2" stroke="#2f2f38" stroke-width="6" fill="none" stroke-linecap="round"/>`
+    : `<circle cx="84" cy="88" r="9" fill="#2f2f38"/>
+       <circle cx="116" cy="88" r="9" fill="#2f2f38"/>
+       <circle cx="87" cy="84.5" r="3.1" fill="#fff"/>
+       <circle cx="119" cy="84.5" r="3.1" fill="#fff"/>`;
+  const mouth = sad
+    ? `<path d="M90 116 q10 -7 20 0" stroke="#b5705f" stroke-width="3" fill="none" stroke-linecap="round"/>`
+    : `<path d="M100 107 v4.5" stroke="#b5705f" stroke-width="3" stroke-linecap="round"/>
+       <path d="M100 111.5 q-8 7 -14 0" stroke="#b5705f" stroke-width="3" fill="none" stroke-linecap="round"/>
+       <path d="M100 111.5 q8 7 14 0" stroke="#b5705f" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  const extra = sad ? "" :
+    `<ellipse cx="68" cy="100" rx="7.5" ry="5" fill="#f58a8a" opacity=".55"/>
+     <ellipse cx="132" cy="100" rx="7.5" ry="5" fill="#f58a8a" opacity=".55"/>`;
+  return `<svg class="mascot ${cls||""}" viewBox="0 0 200 200" role="img" aria-label="Maskottchen">
+    <ellipse cx="100" cy="186" rx="56" ry="8" fill="#17181d" opacity=".07"/>
+    <path d="M146 168 C180 170 188 142 176 130 C166 120 150 126 153 138 C155 146 165 145 166 139"
+          fill="none" stroke="#e8913f" stroke-width="14" stroke-linecap="round"/>
+    <ellipse cx="100" cy="143" rx="50" ry="42" fill="#f2a05a"/>
+    <ellipse cx="100" cy="153" rx="31" ry="29" fill="#fbdcb4"/>
+    <ellipse cx="80" cy="177" rx="16" ry="9.5" fill="#fbdcb4"/>
+    <ellipse cx="120" cy="177" rx="16" ry="9.5" fill="#fbdcb4"/>
+    <path d="M62 54 L57 18 L92 42 Z" fill="#f2a05a"/>
+    <path d="M138 54 L143 18 L108 42 Z" fill="#f2a05a"/>
+    <path d="M68 50 L65 29 L86 43 Z" fill="#f6bfae"/>
+    <path d="M132 50 L135 29 L114 43 Z" fill="#f6bfae"/>
+    <circle cx="100" cy="85" r="45" fill="#f2a05a"/>
+    <path d="M88 45 q12 -7 24 0" stroke="#d9833a" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M79 57 q21 -11 42 0" stroke="#d9833a" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    ${extra}
+    ${eyes}
+    <ellipse cx="100" cy="104" rx="21" ry="14" fill="#fbdcb4"/>
+    <path d="M94 101 h12 l-6 6 Z" fill="#e0756a"/>
+    ${mouth}
+    <path d="M58 101 h-16 M58 107 l-15 5" stroke="#e3c6a3" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M142 101 h16 M142 107 l15 5" stroke="#e3c6a3" stroke-width="2.6" stroke-linecap="round"/>
+  </svg>`;
+}
 
 /* ---------- Stimmen ----------
    Benutzt die Stimmen des Geräts. Türkisch wird bevorzugt
@@ -2175,7 +2252,8 @@ function authScreen(mode){
   const names = Object.keys(USERS).filter(k=>k!=="__gast");
   const isNew = mode === "new" || names.length === 0;
   app.innerHTML = `<div class="auth">
-    <h1 class="brand">Typisch <span class="tr">Türkisch</span></h1>
+    <img class="logo big" src="img/logo-512.png" alt="Typisch Türkisch">
+    <h1 class="brand" style="text-align:center">Typisch <span class="tr">Türkisch</span></h1>
     <p class="lead">${isNew
       ? "Türkisch lernen und verstehen, wie in der Türkei wirklich gelebt wird. Leg ein Profil an, damit dein Fortschritt gespeichert bleibt."
       : "Willkommen zurück. Wähle dein Profil."}</p>
@@ -2318,7 +2396,7 @@ function home(){
     const fertig = arr.filter(isDone).length;
     const expanded = open && unitExpanded(ui);
     path += `<div class="unit">
-      <button class="unit-head" ${open?`data-u="${ui}"`:'disabled style="border-left-color:var(--line);opacity:.6"'}>
+      <button class="unit-head ${open?"":"locked"}" ${open?`data-u="${ui}"`:"disabled"}>
         <div class="n" ${open?"":'style="background:var(--surface-2);color:var(--muted)"'}>${passed?"✓":ui+1}</div>
         <div class="uh"><div class="t">${esc(u.t)}</div>
           <div class="s">${open ? `${esc(u.s)} · ${fertig}/${arr.length}` : "Erst den Test der Einheit davor bestehen"}</div></div>
@@ -2360,8 +2438,13 @@ function home(){
 
   app.innerHTML = topbar() + `
     <div class="hero">
+      <div class="herorow">
+        <img class="logo sm" src="img/logo-192.png" alt="">
+        <div class="ht">
       <h1>${ACTIVE === "__gast" ? `Typisch <span class="tr">Türkisch</span>` : `Hallo ${esc(displayName())}`}</h1>
-      <p>${ACTIVE === "__gast"
+        </div>
+      </div>
+      <p style="margin-top:9px">${ACTIVE === "__gast"
         ? "Türkisch und türkisches Leben. Wie wirklich gesprochen wird, was man sagt und was man glaubt."
         : (S.streak > 0 ? `Du bist seit ${S.streak} ${S.streak===1?"Tag":"Tagen"} dabei, weiter geht es.` : "Such dir eine Lektion aus und fang an.")}</p>
     </div>
@@ -2781,7 +2864,7 @@ function startExam(ui){
   const picked = shuffle(pool).slice(0, Math.min(EXAM_N, pool.length));
   picked.forEach(it=>{ delete it._played; });
   L = { idx:-1, ui, exam:true, items:picked, pos:0, right:0, wrong:0,
-        title:"Abschlusstest", state:"ask", picked:null, built:[], matched:[], msel:null, score:0 };
+        title:"Abschlusstest", state:"ask", picked:null, built:[], matched:[], msel:null, score:0, t0:Date.now() };
   render();
 }
 
@@ -2809,7 +2892,7 @@ function startLesson(idx){
   clearAdv();
   const les = FLAT[idx];
   les.items.forEach(it => { delete it._played; });
-  L = { idx, items: les.items.slice(), pos:0, right:0, wrong:0, title:les.t, state:"ask", picked:null, built:[], matched:[], msel:null };
+  L = { idx, items: les.items.slice(), pos:0, right:0, wrong:0, title:les.t, state:"ask", picked:null, built:[], matched:[], msel:null, t0:Date.now() };
   render();
 }
 
@@ -2919,7 +3002,7 @@ function render(){
         <div class="fb ${ok?"ok":"no"}">
           <span class="mark">${ok?"✓":"✕"}</span>
           <span><b>${ok?"Richtig":"Richtige Antwort: "+esc(correct)}</b>
-          <span>${esc(it.why || (it.k==="listen" ? it.tr : (ok ? "" : it.tr||"")))}</span></span>
+          <span>${esc(it.why || (it.k==="listen" ? it.tr : ""))}</span></span>
         </div>
         <button class="cta ${ok?"":"red"}" id="next">Weiter</button>
       </div>`;
@@ -3035,12 +3118,13 @@ function finish(){
   const acc = total ? Math.round(L.right/total*100) : 100;
 
   app.innerHTML = `<div class="result">
-    <div class="emo">${perfect?"🏆":"👏"}</div>
-    <h2>${perfect ? (ACTIVE==="__gast" ? "Ohne Fehler" : "Ohne Fehler, "+esc(displayName())) : "Lektion geschafft"}</h2>
+    ${mascot(perfect ? "happy" : "happy")}
+    <div class="bigword">${perfect ? "Ohne<br>Fehler" : "Lektion<br>geschafft"}</div>
     <p>${esc(L.title)}</p>
     <div class="scores">
-      <div class="score"><div class="in"><div class="k">Çay</div><div class="v">+${gained}</div></div></div>
-      <div class="score b"><div class="in"><div class="k">Treffer</div><div class="v">${acc}%</div></div></div>
+      <div class="score gold"><div class="ic">☕</div><div class="v">+${gained}</div><div class="k">Çay</div></div>
+      <div class="score red"><div class="ic">◎</div><div class="v">${acc}%</div><div class="k">Treffer</div></div>
+      <div class="score blue"><div class="ic">◷</div><div class="v">${fmtTime(L.t0)}</div><div class="k">Zeit</div></div>
     </div>
   </div>
   <div class="foot">
@@ -3066,12 +3150,13 @@ function examResult(){
 
   const nextUnit = UNITS[ui+1];
   app.innerHTML = `<div class="result">
-    <div class="emo">${ok?"🎓":"📚"}</div>
-    <h2>${ok ? (first ? "Test bestanden" : "Noch einmal bestanden") : "Noch nicht bestanden"}</h2>
+    ${mascot(ok ? "happy" : "sad")}
+    <div class="bigword" ${ok?"":'style="color:var(--muted);text-shadow:none"'}>${ok ? "Test<br>bestanden" : "Noch<br>nicht"}</div>
     <p>${esc(UNITS[ui].t)}</p>
     <div class="scores">
-      <div class="score"><div class="in"><div class="k">Richtig</div><div class="v">${L.score}/${n}</div></div></div>
-      <div class="score b"><div class="in"><div class="k">Nötig</div><div class="v">${need}/${n}</div></div></div>
+      <div class="score red"><div class="ic">✓</div><div class="v">${L.score}/${n}</div><div class="k">Richtig</div></div>
+      <div class="score gold"><div class="ic">◎</div><div class="v">${need}/${n}</div><div class="k">Nötig</div></div>
+      <div class="score blue"><div class="ic">◷</div><div class="v">${fmtTime(L.t0)}</div><div class="k">Zeit</div></div>
     </div>
     <p style="margin-top:20px">${ok
       ? (first && nextUnit ? "Einheit "+(ui+2)+" ist jetzt offen: "+esc(nextUnit.t) : "Du kannst jederzeit weiterüben.")
