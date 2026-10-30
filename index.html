@@ -1208,10 +1208,9 @@ function playClip(key, text, lang, cb){
 const canSpeakTr = () => !!trVoice;
 const canPlayAudio = () => Object.keys(AUDIO).length > 0 || canSpeakTr();
 
-/* kurze türkische Rückmeldungen */
-const V_RIGHT = ["Doğru","Aferin","Çok güzel","Başardın","Harika","Bildin"];
-const V_WRONG = ["Olmadı","Tekrar dene","Bu yanlış oldu","Yakındın","Bir daha dene"];
-const V_DONE  = ["Tebrikler","Çok iyi gidiyorsun","Bugün de yaptın"];
+/* Gesprochen wird nur am Ende einer Lektion oder eines Tests,
+   nicht nach jeder einzelnen Antwort. */
+const V_DONE  = ["Tebrikler, başardın","Çok iyi gidiyorsun","Aferin, bugün de yaptın"];
 const V_PASS  = ["Tebrikler, sınavı geçtin"];
 const V_FAIL  = ["Olmadı, tekrar dene"];
 const pick = a => a[Math.random()*a.length|0];
@@ -1285,8 +1284,8 @@ const AMBS = [["yagmur","🌧 Regen"],["deniz","🌊 Meer"],["ruzgar","🍃 Wind
 
 function sfx(kind){
   if(!S.sound) return;
-  if(kind === "right"){ tone(784, 0, .10, .13); tone(1175, .075, .14, .11); }
-  else if(kind === "wrong"){ tone(196, 0, .16, .13, "triangle"); tone(147, .1, .20, .10, "triangle"); }
+  if(kind === "right"){ tone(784, 0, .08, .08); tone(1175, .06, .10, .07); }
+  else if(kind === "wrong"){ tone(196, 0, .14, .09, "triangle"); }
   else if(kind === "done"){ [523,659,784,1047].forEach((f,i)=>tone(f, i*.085, .22, .11)); }
   else if(kind === "pass"){ [523,659,784,1047,1319].forEach((f,i)=>tone(f, i*.09, .3, .12)); }
   else if(kind === "fail"){ tone(330, 0, .2, .11, "triangle"); tone(247, .15, .3, .10, "triangle"); }
@@ -1900,6 +1899,7 @@ function plPlay(){
 const EXAM_N = 8, EXAM_PASS = 6;
 
 function startExam(ui){
+  clearAdv();
   const pool = [];
   lessonsOf(ui).forEach(i=>{
     FLAT[i].items.forEach(it=>{ if(it.k !== "culture") pool.push(it); });
@@ -1920,6 +1920,7 @@ let L = null;
 
 function startLesson(idx){
   if(S.hearts <= 0){ noHearts(); return; }
+  clearAdv();
   const les = FLAT[idx];
   les.items.forEach(it => { delete it._played; });
   L = { idx, items: les.items.slice(), pos:0, right:0, wrong:0, title:les.t, state:"ask", picked:null, built:[], matched:[], msel:null };
@@ -2055,9 +2056,25 @@ function render(){
   wire(it);
 }
 
+let advTimer = null;
+function clearAdv(){ if(advTimer){ clearTimeout(advTimer); advTimer = null; } }
+
+function advance(){
+  clearAdv();
+  if(!L || !L.items) return;
+  const it = L.items[L.pos];
+  if(!it) return;
+  if(L.exam){
+    if(it.k === "match"){ if(!L.qWrong) L.score++; }
+    else if(L.state === "right") L.score++;
+  } else if(S.hearts <= 0){ noHearts(); return; }
+  L.pos++; L.state="ask"; L.picked=null; L.built=[]; L.matched=[]; L.msel=null; L.qWrong=false;
+  if(L.pos >= L.items.length) finish(); else render();
+}
+
 function wire(it){
   const q = id => document.getElementById(id);
-  if(q("quit")) q("quit").onclick = home;
+  if(q("quit")) q("quit").onclick = () => { clearAdv(); home(); };
   if(q("sp")) q("sp").onclick = () => {
     say(it.k==="culture" ? it.word : it.tr);
     const rw = q("revealWrap");
@@ -2105,22 +2122,20 @@ function wire(it){
     if(it.k==="build") ok = L.built.join(" ") === it.ans;
     else if(it.k==="listen") ok = it._opts[L.picked] === it.de;
     else ok = it._opts[L.picked] === it.tr;
-    if(ok){ L.right++; L.state="right"; sfx("right"); voiceFb(V_RIGHT); }
-    else {
-      L.wrong++; L.qWrong = true; L.state="wrong"; sfx("wrong"); voiceFb(V_WRONG);
-      if(!L.exam){ S.hearts = Math.max(0,S.hearts-1); save(); }
+    if(ok){
+      L.right++; L.state="right"; sfx("right");
+      render();
+      /* richtig: nach einer kurzen Pause von selbst weiter,
+         kein zweiter Tipp nötig */
+      advTimer = setTimeout(()=>{ advTimer = null; advance(); }, 900);
+      return;
     }
+    L.wrong++; L.qWrong = true; L.state="wrong"; sfx("wrong");
+    if(!L.exam){ S.hearts = Math.max(0,S.hearts-1); save(); }
     render();
   };
 
-  if(q("next")) q("next").onclick = () => {
-    if(L.exam){
-      if(it.k === "match"){ if(!L.qWrong) L.score++; }
-      else if(L.state === "right") L.score++;
-    } else if(S.hearts <= 0){ noHearts(); return; }
-    L.pos++; L.state="ask"; L.picked=null; L.built=[]; L.matched=[]; L.msel=null; L.qWrong=false;
-    if(L.pos >= L.items.length) finish(); else render();
-  };
+  if(q("next")) q("next").onclick = advance;
 }
 
 /* ---------- 6. ERGEBNIS ---------- */
