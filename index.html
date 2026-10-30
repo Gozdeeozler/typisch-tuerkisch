@@ -69,11 +69,18 @@
   .path{padding:0 18px 40px;display:flex;flex-direction:column;gap:0}
   .unit{margin-bottom:10px}
   .unit-head{
-    display:flex;align-items:center;gap:11px;
+    display:flex;align-items:center;gap:11px;width:100%;text-align:left;
     background:var(--surface);border:1px solid var(--line);
     border-left:4px solid var(--red);
-    border-radius:12px;padding:11px 14px;margin:16px 0 4px;
+    border-radius:12px;padding:12px 14px;margin:16px 0 4px;
   }
+  .unit-head .uh{flex:1;min-width:0}
+  .unit-head .chev{
+    margin-left:auto;flex:none;color:var(--muted);font-size:13px;
+    width:26px;height:26px;border-radius:8px;background:var(--surface-2);
+    display:grid;place-items:center;transition:transform .15s ease;
+  }
+  .unit-head .chev.up{transform:rotate(180deg)}
   .unit-head .n{
     width:26px;height:26px;border-radius:8px;background:var(--red);
     display:grid;place-items:center;font-size:13px;font-weight:900;flex:none;
@@ -1064,7 +1071,7 @@ const todayStr = () => new Date().toISOString().slice(0,10);
 
 const fresh = () => ({done:[],xp:0,streak:0,lastDay:null,dayXp:0,hearts:5,heartDay:todayStr(),
                       pro:false, passed:[], bonusDone:[], saved:[], sound:true, voice:true,
-                      mark:null, amb:null});
+                      mark:null, amb:null, openUnits:null});
 
 let USERS = {}, ACTIVE = null, S = fresh();
 
@@ -1122,6 +1129,25 @@ function addXp(n){
 }
 
 const isDone = i => S.done.includes(i);
+
+/* Ein- und ausklappbare Einheiten. null heißt: automatisch
+   die Einheit offen, an der gerade gearbeitet wird. */
+function currentUnit(){
+  for(let ui=0; ui<UNITS.length; ui++) if(!S.passed.includes(ui)) return ui;
+  return UNITS.length - 1;
+}
+function unitExpanded(ui){
+  if(S.openUnits == null) return ui === currentUnit();
+  return S.openUnits.indexOf(ui) >= 0;
+}
+function toggleUnit(ui){
+  const y = window.scrollY;
+  if(S.openUnits == null) S.openUnits = [currentUnit()];
+  const i = S.openUnits.indexOf(ui);
+  if(i >= 0) S.openUnits.splice(i,1); else S.openUnits.push(ui);
+  save(); home();
+  window.scrollTo(0, y);
+}
 
 /* Fortschritt läuft jetzt Einheit für Einheit:
    Lektionen -> Bonus -> Abschlusstest -> nächste Einheit */
@@ -1448,14 +1474,16 @@ function home(){
     const open = unitOpen(ui), passed = S.passed.includes(ui);
     const arr = lessonsOf(ui);
     const fertig = arr.filter(isDone).length;
+    const expanded = open && unitExpanded(ui);
     path += `<div class="unit">
-      <div class="unit-head" ${open?"":'style="border-left-color:var(--line);opacity:.6"'}>
+      <button class="unit-head" ${open?`data-u="${ui}"`:'disabled style="border-left-color:var(--line);opacity:.6"'}>
         <div class="n" ${open?"":'style="background:var(--surface-2);color:var(--muted)"'}>${passed?"✓":ui+1}</div>
-        <div><div class="t">${esc(u.t)}</div>
+        <div class="uh"><div class="t">${esc(u.t)}</div>
           <div class="s">${open ? `${esc(u.s)} · ${fertig}/${arr.length}` : "Erst den Test der Einheit davor bestehen"}</div></div>
-      </div>`;
+        <span class="chev ${expanded?"up":""}">${open?"▾":"🔒"}</span>
+      </button>`;
 
-    if(open){
+    if(expanded){
       arr.forEach(i=>{
         const l = FLAT[i], pro = proLocked(i);
         const st = pro ? "lock" : (isDone(i) ? "done" : (isOpen(i) ? "open" : "lock"));
@@ -1508,6 +1536,7 @@ function home(){
   document.getElementById("savedBtn").onclick = savedScreen;
   document.getElementById("kulturBtn").onclick = kulturScreen;
   document.getElementById("hoerBtn").onclick = () => hoerScreen(null);
+  app.querySelectorAll("[data-u]").forEach(b=>{ b.onclick = () => toggleUnit(+b.dataset.u); });
   app.querySelectorAll("[data-les]").forEach(b=>{ b.onclick = () => startLesson(+b.dataset.les); });
   app.querySelectorAll("[data-bonus]").forEach(b=>{ b.onclick = () => bonusScreen(+b.dataset.bonus, 0); });
   app.querySelectorAll("[data-exam]").forEach(b=>{ b.onclick = () => startExam(+b.dataset.exam); });
@@ -2217,6 +2246,13 @@ function examResult(){
 }
 
 boot();
+/* Adresse ändert sich auf #alles, während die Seite offen ist:
+   der Browser lädt dann nicht neu, also hier selbst reagieren. */
+try{
+  window.addEventListener("hashchange", () => {
+    if((location.hash || "").toLowerCase() === "#alles") boot();
+  });
+}catch(e){}
 </script>
 </body>
 </html>
