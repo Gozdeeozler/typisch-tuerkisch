@@ -2057,6 +2057,11 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
    Von Hand gezeichnet statt Emoji, damit sie auf jedem
    Gerät gleich aussehen und die Farbe der Einheit annehmen. */
 const ICON = {
+  rain:'<path d="M7.4 15.4a4.4 4.4 0 0 1-.4-8.8 5.6 5.6 0 0 1 10.7 1.3 3.9 3.9 0 0 1-.8 7.5"/><path d="M8.6 18.2l-.9 2.4M12 18.2l-.9 2.4M15.4 18.2l-.9 2.4"/>',
+  sea:'<path d="M2.5 10q2.4-3 4.8 0t4.8 0t4.8 0"/><path d="M2.5 15q2.4-3 4.8 0t4.8 0t4.8 0"/>',
+  leaf:'<path d="M20.2 4.2C10.4 3.4 4.6 8 4.6 14a5.6 5.6 0 0 0 5.6 5.6c6 0 10.6-5.8 10-15.4Z"/><path d="M4.8 20.4C7 16 11.4 12 16.6 9.6"/>',
+  mute:'<path d="M4.2 9.4h3.1L12 5.3v13.4l-4.7-4.1H4.2Z"/><path d="M16.4 9.6l4 4.8M20.4 9.6l-4 4.8"/>',
+  mark:'<path d="M6.6 3.8h10.8v16.9L12 16.4l-5.4 4.3Z"/>',
   fire:'<path d="M12 3.2c.6 2.5-.5 4-1.8 5.3-1.6 1.6-3.4 3-3.4 5.9A5.2 5.2 0 0 0 12 20.8a5.2 5.2 0 0 0 5.2-6.4c-.3-1.6-1.2-2.7-1.9-3.6-.5 1-1.2 1.6-2 1.9.6-2.4-.2-4.9-1.3-6.2Z"/>',
   simit:'<circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="3.2"/><circle cx="8.4" cy="8.6" r=".85" fill="currentColor" stroke="none"/><circle cx="15.6" cy="8.6" r=".85" fill="currentColor" stroke="none"/><circle cx="8.4" cy="15.4" r=".85" fill="currentColor" stroke="none"/><circle cx="15.6" cy="15.4" r=".85" fill="currentColor" stroke="none"/><circle cx="12" cy="6.6" r=".85" fill="currentColor" stroke="none"/><circle cx="12" cy="17.4" r=".85" fill="currentColor" stroke="none"/>',
   phones:'<path d="M4.4 15.6v-3.4a7.6 7.6 0 0 1 15.2 0v3.4"/><rect x="2.8" y="14.2" width="4.2" height="6" rx="2.1"/><rect x="17" y="14.2" width="4.2" height="6" rx="2.1"/>',
@@ -2291,7 +2296,7 @@ function ambStart(kind){
     return true;
   }catch(e){ return false; }
 }
-const AMBS = [["yagmur","🌧 Regen"],["deniz","🌊 Meer"],["ruzgar","🍃 Wind"]];
+const AMBS = [["yagmur","rain","Regen"],["deniz","sea","Meer"],["ruzgar","leaf","Wind"]];
 
 function sfx(kind){
   if(!S.sound) return;
@@ -2398,7 +2403,7 @@ function profileSheet(){
     ${names.map(k=>`<button class="row" data-sw="${esc(k)}">
         <span class="ava sm">${esc((USERS[k].name[0]||"?").toUpperCase())}</span>
         <span>Zu ${esc(USERS[k].name)} wechseln</span></button>`).join("")}
-    <button class="row" id="tgSound"><span class="ava sm" style="background:var(--surface);color:var(--muted)">${S.sound?"🔊":"🔇"}</span><span>Töne ${S.sound?"an":"aus"}</span></button>
+    <button class="row" id="tgSound"><span class="ava sm" style="background:var(--surface);color:var(--muted)">${S.sound?svgIcon("phones","mini"):svgIcon("mute","mini")}</span><span>Töne ${S.sound?"an":"aus"}</span></button>
     <button class="row" id="tgVoice"><span class="ava sm" style="background:var(--surface);color:var(--muted)">${S.voice?"🗣":"🤐"}</span><span>Türkische Stimme ${S.voice?"an":"aus"}</span></button>
     <button class="row" id="backup"><span class="ava sm" style="background:var(--surface);color:var(--muted)">💾</span><span>Fortschritt sichern oder laden</span></button>
     <button class="row" id="voiceHelp"><span class="ava sm" style="background:var(--surface);color:var(--muted)">❓</span><span>${canSpeakTr()?"Türkische Stimme ist installiert":"Türkische Stimme einrichten"}</span></button>
@@ -2725,8 +2730,8 @@ function voiceHelpScreen(){
 /* ---------- 4b1. KULTURECKE (zum Lesen) ---------- */
 function ambBar(){
   return `<div class="ambbar">
-    ${AMBS.map(([k,l])=>`<button class="${S.amb===k?"on":""}" data-amb="${k}">${l}</button>`).join("")}
-    <button class="${S.amb?"":"on"}" data-amb="off">🔇 Still</button>
+    ${AMBS.map(([k,ic,l])=>`<button class="${S.amb===k?"on":""}" data-amb="${k}">${svgIcon(ic,"mini")} ${l}</button>`).join("")}
+    <button class="${S.amb?"":"on"}" data-amb="off">${svgIcon("mute","mini")} Still</button>
   </div>`;
 }
 function wireAmb(){
@@ -2751,13 +2756,13 @@ function kulturScreen(){
       <p>Wie in der Türkei wirklich gelebt, gesprochen und geglaubt wird. Zum Lesen, in deinem Tempo.</p>
     </div>
     ${m && KULTUR[m.t] ? `<div class="homebtns" style="padding-bottom:14px">
-      <button id="cont" style="border-color:var(--gold);color:var(--gold)">🔖 Weiterlesen: ${esc(KULTUR[m.t].t)}</button>
+      <button id="cont" style="border-color:var(--gold);color:var(--gold)">${svgIcon("mark","mini")} Weiterlesen: ${esc(KULTUR[m.t].t)}</button>
     </div>` : ""}
     <div class="read" style="padding-top:0">
       ${KULTUR.map((th,ti)=>`<button class="themerow" data-th="${ti}">
         <span class="ti" style="color:${th.c};background:${th.c}1a">${svgIcon(th.ic)}</span>
         <span><b>${esc(th.t)}</b><small>${th.cards.length} Abschnitte</small></span>
-        ${m && m.t===ti ? `<span class="mk">🔖</span>` : ""}
+        ${m && m.t===ti ? `<span class="mk">${svgIcon("mark","mini")}</span>` : ""}
       </button>`).join("")}
     </div>
     <div class="foot"><button class="cta ghost" id="back">Zurück zur Übersicht</button></div>`;
@@ -2786,7 +2791,7 @@ function kulturRead(ti, scrollTo){
           <p class="tw">${esc(c.tr)}</p>
           <p>${esc(c.x)}</p>
           <div class="tp">${esc(c.tip)}</div>
-          <button class="mkbtn ${on?"on":""}" data-mk="${ci}">${on?"🔖 Lesezeichen hier":"🔖 Lesezeichen setzen"}</button>
+          <button class="mkbtn ${on?"on":""}" data-mk="${ci}">${svgIcon("mark","mini")} ${on?"Lesezeichen hier":"Lesezeichen setzen"}</button>
         </div>`;
       }).join("")}
     </div>
