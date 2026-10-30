@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Typisch Türkisch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15161c;
+    --surface:#1e2029;
+    --surface-2:#262933;
+    --line:#333745;
+    --text:#f2f1ee;
+    --muted:#9ba0b0;
+    --red:#e03a46;
+    --red-dark:#b22a35;
+    --nazar:#2f9ad6;
+    --nazar-dark:#1f76a8;
+    --gold:#e8b84b;
+    --green:#4caf72;
+    --green-dark:#3a8d59;
+    --r:16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-weight:600;
+    overscroll-behavior:none;
+  }
+  #app{
+    max-width:460px;margin:0 auto;min-height:100%;
+    display:flex;flex-direction:column;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  button{font-family:inherit;font-weight:800;cursor:pointer;border:0;color:inherit}
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;gap:14px;padding:14px 18px 10px}
+  .stat{display:flex;align-items:center;gap:6px;font-weight:800;font-size:15px}
+  .stat .ic{font-size:18px;line-height:1}
+  .stat.fire{color:var(--gold)}
+  .stat.gem{color:var(--nazar)}
+  .stat.heart{color:var(--red)}
+  .topbar .spacer{flex:1}
+
+  /* ---------- home ---------- */
+  .hero{padding:4px 18px 18px}
+  .hero h1{
+    margin:0;font-size:25px;font-weight:900;letter-spacing:-.4px;
+  }
+  .hero h1 .tr{color:var(--red)}
+  .hero p{margin:5px 0 0;color:var(--muted);font-size:14px;font-weight:600;line-height:1.45}
+
+  .daily{
+    margin:0 18px 18px;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--r);padding:14px 16px;
+  }
+  .daily-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+  .daily-row b{font-size:14px;font-weight:800}
+  .daily-row span{font-size:13px;color:var(--muted);font-weight:700}
+  .bar{height:9px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+  .bar>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),#f3d383);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+
+  .path{padding:0 18px 40px;display:flex;flex-direction:column;gap:0}
+  .unit{margin-bottom:10px}
+  .unit-head{
+    display:flex;align-items:center;gap:11px;
+    background:var(--surface);border:1px solid var(--line);
+    border-left:4px solid var(--red);
+    border-radius:12px;padding:11px 14px;margin:16px 0 4px;
+  }
+  .unit-head .n{
+    width:26px;height:26px;border-radius:8px;background:var(--red);
+    display:grid;place-items:center;font-size:13px;font-weight:900;flex:none;
+  }
+  .unit-head .t{font-size:15px;font-weight:900;line-height:1.2}
+  .unit-head .s{font-size:12px;color:var(--muted);font-weight:700;margin-top:1px}
+
+  .node{display:flex;align-items:center;gap:14px;padding:9px 2px;text-align:left;width:100%;background:none}
+  .orb{
+    width:58px;height:58px;border-radius:50%;flex:none;position:relative;
+    display:grid;place-items:center;font-size:24px;
+    background:var(--surface-2);border:2px solid var(--line);
+    transition:transform .12s ease;
+  }
+  .node:active .orb{transform:scale(.93)}
+  .orb.done{background:var(--green);border-color:var(--green-dark);box-shadow:0 4px 0 var(--green-dark)}
+  .orb.open{background:var(--red);border-color:var(--red-dark);box-shadow:0 4px 0 var(--red-dark)}
+  .orb.gold{background:var(--gold);border-color:#b8902f;color:#2a2109;box-shadow:0 4px 0 #b8902f}
+  .orb.lock{opacity:.42}
+  .orb .crown{
+    position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);
+    background:var(--gold);color:#2a2109;font-size:10px;font-weight:900;
+    padding:1px 7px;border-radius:99px;border:2px solid var(--bg);
+  }
+  .node .meta{flex:1;min-width:0}
+  .node .meta b{display:block;font-size:15px;font-weight:800}
+  .node .meta span{display:block;font-size:12.5px;color:var(--muted);font-weight:700;margin-top:2px}
+
+  /* ---------- lesson ---------- */
+  .lessbar{display:flex;align-items:center;gap:12px;padding:14px 18px 6px}
+  .x{background:none;font-size:24px;color:var(--muted);line-height:1;padding:0 2px;font-weight:700}
+  .lessbar .bar{flex:1}
+  .lessbar .bar>i{background:linear-gradient(90deg,var(--green),#7ed39b)}
+
+  .q{flex:1;display:flex;flex-direction:column;padding:18px 18px 0}
+  .q-kind{font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:8px}
+  .q-text{font-size:21px;font-weight:800;line-height:1.35;margin:0 0 4px}
+  .q-sub{font-size:14px;color:var(--muted);font-weight:700;margin:6px 0 0;line-height:1.45}
+
+  .speak{
+    margin-top:16px;display:flex;align-items:center;gap:12px;
+    background:var(--surface);border:2px solid var(--line);border-radius:14px;
+    padding:16px;width:100%;text-align:left;font-size:17px;font-weight:800;
+  }
+  .speak .sp{
+    width:42px;height:42px;border-radius:12px;background:var(--nazar);flex:none;
+    display:grid;place-items:center;font-size:20px;box-shadow:0 3px 0 var(--nazar-dark)
+  }
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+  .opt{
+    background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;
+    border-radius:14px;padding:15px 16px;font-size:16.5px;text-align:left;width:100%;
+    transition:background .1s,border-color .1s;
+  }
+  .opt:active{background:var(--surface-2)}
+  .opt.sel{background:rgba(47,154,214,.14);border-color:var(--nazar)}
+  .opt.ok{background:rgba(76,175,114,.16);border-color:var(--green)}
+  .opt.no{background:rgba(224,58,70,.14);border-color:var(--red)}
+  .opt small{display:block;color:var(--muted);font-size:12.5px;font-weight:700;margin-top:3px}
+
+  /* build */
+  .answerbox{
+    margin-top:20px;min-height:62px;border-top:2px solid var(--line);border-bottom:2px solid var(--line);
+    padding:10px 0;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;
+  }
+  .bank{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+  .tile{
+    background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;
+    border-radius:11px;padding:10px 14px;font-size:16px;
+  }
+  .tile.used{opacity:.22;pointer-events:none}
+  .tile.inans{background:var(--surface-2)}
+
+  /* match */
+  .matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+  .mcell{
+    background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;
+    border-radius:12px;padding:14px 10px;font-size:15px;text-align:center;min-height:56px;
+  }
+  .mcell.sel{background:rgba(47,154,214,.16);border-color:var(--nazar)}
+  .mcell.gone{opacity:.2;pointer-events:none;border-color:var(--green)}
+
+  /* culture card */
+  .card{
+    margin-top:14px;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--r);padding:18px;
+  }
+  .card .big{font-size:26px;font-weight:900;color:var(--gold);margin:0 0 4px}
+  .card .lit{font-size:13.5px;color:var(--muted);font-weight:700;margin:0 0 12px}
+  .card p{margin:0;font-size:15px;font-weight:600;line-height:1.6}
+  .card .tip{
+    margin-top:14px;padding-top:13px;border-top:1px solid var(--line);
+    font-size:14px;color:var(--muted);font-weight:700;line-height:1.55;
+  }
+
+  /* footer / feedback */
+  .foot{padding:16px 18px calc(18px + env(safe-area-inset-bottom));border-top:1px solid transparent}
+  .foot.ok{background:rgba(76,175,114,.1);border-top-color:rgba(76,175,114,.3)}
+  .foot.no{background:rgba(224,58,70,.09);border-top-color:rgba(224,58,70,.3)}
+  .fb{display:flex;align-items:flex-start;gap:10px;margin-bottom:13px}
+  .fb .mark{font-size:20px;line-height:1.25;flex:none}
+  .fb b{display:block;font-size:16px;font-weight:900;margin-bottom:2px}
+  .fb span{font-size:14px;font-weight:700;line-height:1.5;color:var(--text);opacity:.92}
+  .fb.ok b{color:var(--green)}
+  .fb.no b{color:var(--red)}
+  .cta{
+    width:100%;padding:16px;border-radius:14px;font-size:16px;letter-spacing:.3px;
+    background:var(--green);box-shadow:0 4px 0 var(--green-dark);text-transform:uppercase;
+  }
+  .cta:disabled{background:var(--surface-2);box-shadow:0 4px 0 #1b1d25;color:#5f6578;cursor:default}
+  .cta.red{background:var(--red);box-shadow:0 4px 0 var(--red-dark)}
+  .cta:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
+  .cta.ghost{background:none;box-shadow:none;color:var(--muted);text-transform:none;font-weight:800;padding:12px}
+
+  /* result */
+  .result{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px 24px;text-align:center}
+  .result .emo{font-size:58px;margin-bottom:10px}
+  .result h2{margin:0 0 6px;font-size:25px;font-weight:900}
+  .result p{margin:0;color:var(--muted);font-size:15px;font-weight:700;line-height:1.5}
+  .scores{display:flex;gap:12px;margin:26px 0 8px;width:100%}
+  .score{flex:1;border-radius:14px;padding:2px;background:var(--gold)}
+  .score.b{background:var(--nazar)}
+  .score .in{background:var(--surface);border-radius:12px;padding:11px 8px}
+  .score .k{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:800}
+  .score .v{font-size:21px;font-weight:900;margin-top:2px}
+
+  /* ---------- Bonus / Merkliste ---------- */
+  .bcard{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:20px;margin-top:16px;
+  }
+  .btag{
+    display:inline-block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+    font-weight:900;color:var(--gold);border:1px solid rgba(232,184,75,.4);
+    border-radius:99px;padding:3px 10px;margin-bottom:12px;
+  }
+  .bcard .tr{font-size:20px;font-weight:900;line-height:1.35;margin:0 0 8px}
+  .bcard .li{font-size:13.5px;color:var(--muted);font-weight:700;font-style:italic;margin:0 0 14px;line-height:1.45}
+  .bcard .me{font-size:15.5px;font-weight:700;margin:0;line-height:1.55}
+  .bcard .us{margin-top:13px;padding-top:12px;border-top:1px solid var(--line);
+    font-size:13.5px;color:var(--muted);font-weight:700;line-height:1.5}
+  .savebtn{
+    margin-top:16px;width:100%;background:var(--surface-2);border:2px solid var(--line);
+    border-radius:12px;padding:12px;font-size:14.5px;font-weight:800;color:var(--muted);
+  }
+  .savebtn.on{background:rgba(232,184,75,.14);border-color:var(--gold);color:var(--gold)}
+  .counter{font-size:13px;color:var(--muted);font-weight:800;text-align:center;margin-top:14px}
+
+  .listitem{
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:14px 15px;margin-bottom:10px;
+  }
+  .listitem .tr{font-size:16px;font-weight:900;margin:0 0 4px;line-height:1.35}
+  .listitem .me{font-size:14px;font-weight:700;color:var(--muted);margin:0;line-height:1.45}
+  .listitem button{background:none;color:var(--red);font-size:13px;font-weight:800;padding:8px 0 0}
+  .empty{text-align:center;color:var(--muted);font-size:14.5px;font-weight:700;line-height:1.6;padding:40px 10px}
+
+  /* ---------- Hörecke ---------- */
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:0 18px 14px;-webkit-overflow-scrolling:touch}
+  .chips::-webkit-scrollbar{display:none}
+  .chips button{
+    flex:none;background:var(--surface);border:2px solid var(--line);border-radius:99px;
+    padding:8px 14px;font-size:13.5px;font-weight:800;color:var(--muted);white-space:nowrap;
+  }
+  .chips button.on{background:rgba(47,154,214,.16);border-color:var(--nazar);color:var(--text)}
+  .player{padding:0 18px}
+  .pcard{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:22px 20px;min-height:260px;display:flex;flex-direction:column;
+  }
+  .pcard .ptr{font-size:22px;font-weight:900;line-height:1.35;margin:0 0 10px}
+  .pcard .pli{font-size:13.5px;color:var(--muted);font-weight:700;font-style:italic;margin:0 0 16px;line-height:1.45}
+  .pcard .pde{font-size:16px;font-weight:700;margin:0;line-height:1.55}
+  .pcard .pus{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);
+    font-size:13.5px;color:var(--muted);font-weight:700;line-height:1.5}
+  .pcard .now{margin-top:auto;padding-top:14px;font-size:11.5px;letter-spacing:1.1px;
+    text-transform:uppercase;font-weight:800;color:var(--nazar)}
+  .controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:20px}
+  .controls button{
+    width:54px;height:54px;border-radius:50%;background:var(--surface-2);
+    border:2px solid var(--line);font-size:20px;display:grid;place-items:center;
+  }
+  .controls .big{
+    width:74px;height:74px;background:var(--red);border-color:var(--red-dark);
+    box-shadow:0 4px 0 var(--red-dark);font-size:26px;
+  }
+  .controls button:disabled{opacity:.35}
+  .warn{
+    margin:0 18px 14px;background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.35);
+    border-radius:12px;padding:12px 14px;font-size:13px;font-weight:700;color:var(--gold);line-height:1.5;
+  }
+
+  /* ---------- Kulturecke / Lesen ---------- */
+  .themerow{
+    display:flex;align-items:center;gap:13px;width:100%;text-align:left;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:14px 15px;margin-bottom:10px;
+  }
+  .themerow .ti{
+    width:44px;height:44px;border-radius:12px;background:var(--surface-2);
+    display:grid;place-items:center;font-size:21px;flex:none;
+  }
+  .themerow b{display:block;font-size:15.5px;font-weight:900}
+  .themerow small{display:block;color:var(--muted);font-size:12.5px;font-weight:700;margin-top:2px}
+  .themerow .mk{margin-left:auto;color:var(--gold);font-size:15px;flex:none}
+
+  .ambbar{display:flex;gap:8px;padding:0 18px 14px;align-items:center}
+  .ambbar button{
+    flex:1;background:var(--surface);border:2px solid var(--line);border-radius:12px;
+    padding:10px 6px;font-size:13px;font-weight:800;color:var(--muted);
+  }
+  .ambbar button.on{background:rgba(47,154,214,.15);border-color:var(--nazar);color:var(--text)}
+
+  .read{padding:0 20px 40px}
+  .sec{padding:22px 0;border-bottom:1px solid var(--line)}
+  .sec:last-child{border-bottom:0}
+  .sec.marked{background:rgba(232,184,75,.05);margin:0 -14px;padding-left:14px;padding-right:14px;border-radius:12px}
+  .sec h3{margin:0 0 3px;font-size:18.5px;font-weight:900;line-height:1.3}
+  .sec .tw{font-size:14px;color:var(--gold);font-weight:800;margin:0 0 12px}
+  .sec p{margin:0;font-size:16px;font-weight:600;line-height:1.75;color:#e6e5e1}
+  .sec .tp{margin-top:13px;font-size:14.5px;color:var(--muted);font-weight:700;line-height:1.6;
+    border-left:3px solid var(--line);padding-left:12px}
+  .sec .mkbtn{margin-top:14px;background:none;color:var(--muted);font-size:13px;font-weight:800;padding:6px 0}
+  .sec .mkbtn.on{color:var(--gold)}
+
+  .homebtns{display:flex;gap:10px;padding:0 18px 4px}
+  .homebtns button{
+    flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;
+    padding:11px 8px;font-size:13.5px;font-weight:800;color:var(--text);
+  }
+
+  /* ---------- Anmeldung / Profile ---------- */
+  .auth{flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 22px}
+  .auth .brand{font-size:30px;font-weight:900;letter-spacing:-.6px;margin:0 0 4px}
+  .auth .brand .tr{color:var(--red)}
+  .auth .lead{color:var(--muted);font-size:14.5px;font-weight:600;line-height:1.5;margin:0 0 26px}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:12px;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}
+  .field input{
+    width:100%;background:var(--surface);border:2px solid var(--line);border-radius:13px;
+    padding:14px 15px;font-size:16px;font-family:inherit;font-weight:700;color:var(--text);
+  }
+  .field input:focus{outline:none;border-color:var(--nazar)}
+  .err{color:var(--red);font-size:13.5px;font-weight:700;margin:2px 0 10px;min-height:18px}
+  .auth .cta{margin-top:6px}
+  .switchline{text-align:center;margin-top:18px;font-size:14px;color:var(--muted);font-weight:700}
+  .switchline button{background:none;color:var(--nazar);font-size:14px;font-weight:800;padding:4px}
+  .known{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+  .known button{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;
+    border-radius:13px;padding:12px 14px;font-size:15.5px;
+  }
+  .ava{
+    width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:var(--nazar);color:#fff;font-size:16px;font-weight:900;
+  }
+  .ava.sm{width:30px;height:30px;font-size:13px}
+  .known button small{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-top:1px}
+
+  .chip{display:flex;align-items:center;gap:7px;background:none;padding:0;font-size:14px;font-weight:800}
+  .sheet{
+    position:fixed;inset:0;background:rgba(10,11,15,.72);
+    display:flex;align-items:flex-end;justify-content:center;z-index:40;
+  }
+  .sheet .inner{
+    width:100%;max-width:460px;background:var(--surface);
+    border-top-left-radius:22px;border-top-right-radius:22px;
+    padding:20px 20px calc(22px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line);
+  }
+  .sheet h3{margin:0 0 3px;font-size:18px;font-weight:900}
+  .sheet .who{color:var(--muted);font-size:13.5px;font-weight:700;margin:0 0 16px}
+  .sheet .row{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    background:var(--surface-2);border-radius:13px;padding:13px 14px;font-size:15px;margin-bottom:9px;
+  }
+  .note{
+    margin-top:14px;font-size:12.5px;color:var(--muted);font-weight:700;line-height:1.5;
+    border-top:1px solid var(--line);padding-top:13px;
+  }
+
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* =========================================================
+   TYPISCH TÜRKISCH
+   Türkisch und türkisches Leben für Deutschsprachige.
+   ========================================================= */
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+/* ---------- 1. INHALT ---------- */
+const UNITS = [
+  {
+    t:"Die ersten Worte", s:"Begrüßen, danken, verabschieden", icon:"👋",
+    lessons:[
+      { t:"Hallo und Tschüss", s:"7 Übungen", items:[
+        {k:"choice", de:"Hallo", tr:"Merhaba", opts:["Merhaba","Teşekkürler","Günaydın","Hoş geldin"]},
+        {k:"choice", de:"Guten Morgen", tr:"Günaydın", opts:["İyi geceler","Günaydın","Nasılsın","Görüşürüz"]},
+        {k:"listen", tr:"Teşekkür ederim", de:"Danke", opts:["Danke","Bitte","Entschuldigung","Willkommen"]},
+        {k:"culture", word:"Güle güle", lit:"wörtlich: lachend, lachend",
+          text:"Im Deutschen sagen beide Seiten „Tschüss\". Im Türkischen nicht. Wer geht, sagt <b>Hoşça kal</b>. Wer bleibt, sagt <b>Güle güle</b>.",
+          tip:"Wenn dein Gast die Tür schon in der Hand hat und du Güle güle sagst, machst du alles richtig."},
+        {k:"choice", de:"Du gehst aus dem Laden. Was sagst du?", tr:"Hoşça kalın", opts:["Hoşça kalın","Güle güle","Hoş geldin","Buyurun"],
+          why:"Du bist der, der geht, also Hoşça kal (höflich: Hoşça kalın). Güle güle sagt der Verkäufer."},
+        {k:"build", de:"Mir geht es gut, danke", tiles:["İyiyim","teşekkürler"], ans:"İyiyim teşekkürler"},
+        {k:"match", pairs:[["Evet","Ja"],["Hayır","Nein"],["Lütfen","Bitte"],["Görüşürüz","Bis bald"]]}
+      ]},
+      { t:"Wie geht es dir?", s:"6 Übungen", items:[
+        {k:"choice", de:"Wie geht es dir?", tr:"Nasılsın?", opts:["Nasılsın?","Kaç yaşındasın?","Nerelisin?","Ne kadar?"]},
+        {k:"culture", word:"Hoş geldin", lit:"wörtlich: schön bist du gekommen",
+          text:"Darauf gibt es eine feste Antwort, die man nicht erfinden kann: <b>Hoş bulduk</b>, „schön haben wir es gefunden\".",
+          tip:"Sag es beim ersten Schritt in eine türkische Wohnung. Die Reaktion ist jedes Mal die gleiche: ein Lächeln."},
+        {k:"choice", de:"Jemand sagt: Hoş geldin. Du antwortest:", tr:"Hoş bulduk", opts:["Hoş bulduk","Güle güle","Afiyet olsun","Teşekkürler"],
+          why:"Hoş bulduk ist die einzige übliche Antwort. Danke wäre nicht falsch, aber es klingt wie an der Sache vorbei."},
+        {k:"listen", tr:"Nerelisin?", de:"Woher kommst du?", opts:["Woher kommst du?","Wie heißt du?","Wie alt bist du?","Wohin gehst du?"]},
+        {k:"build", de:"Ich bin aus Deutschland", tiles:["Almanya'dan","geliyorum"], ans:"Almanya'dan geliyorum"},
+        {k:"match", pairs:[["İyi akşamlar","Guten Abend"],["İyi geceler","Gute Nacht"],["Adın ne?","Wie heißt du?"],["Benim adım","Ich heiße"]]}
+      ]}
+    ]
+  },
+  {
+    t:"Typisch Türkisch", s:"Sätze, die es im Deutschen nicht gibt", icon:"🫖",
+    lessons:[
+      { t:"Kolay gelsin", s:"6 Übungen", items:[
+        {k:"culture", word:"Kolay gelsin", lit:"wörtlich: möge es leicht kommen",
+          text:"Man sagt es zu jedem, der arbeitet. Dem Kellner, dem Busfahrer, der Kollegin am Schreibtisch, dem Handwerker auf der Leiter.",
+          tip:"Es gibt dafür kein deutsches Wort. „Viel Erfolg\" ist zu groß, „frohes Schaffen\" zu ironisch. Genau deshalb lernt man es am besten als Ganzes."},
+        {k:"choice", de:"Deine Kollegin sitzt seit Stunden an einer Aufgabe. Du sagst:", tr:"Kolay gelsin", opts:["Kolay gelsin","Afiyet olsun","Geçmiş olsun","Hayırlı olsun"]},
+        {k:"culture", word:"Geçmiş olsun", lit:"wörtlich: möge es vorbei sein",
+          text:"Nicht nur bei Krankheit. Auch nach einer Prüfung, einem Unfall, einem schweren Tag, einem Umzug, einer Trennung.",
+          tip:"Deutsch „Gute Besserung\" passt nur zur Grippe. Geçmiş olsun passt zu allem, was hinter jemandem liegt."},
+        {k:"choice", de:"Jemand erzählt, dass er gerade eine harte Woche hinter sich hat. Du sagst:", tr:"Geçmiş olsun", opts:["Geçmiş olsun","Kolay gelsin","Güle güle","Buyurun"]},
+        {k:"listen", tr:"Afiyet olsun", de:"Guten Appetit", opts:["Guten Appetit","Gute Besserung","Herzlich willkommen","Viel Glück"]},
+        {k:"match", pairs:[["Kolay gelsin","Zu jemandem, der arbeitet"],["Afiyet olsun","Zu jemandem, der isst"],["Geçmiş olsun","Zu jemandem, der etwas überstanden hat"],["Hayırlı olsun","Zu jemandem mit etwas Neuem"]]}
+      ]},
+      { t:"Am Tisch", s:"6 Übungen", items:[
+        {k:"culture", word:"Eline sağlık", lit:"wörtlich: Gesundheit deiner Hand",
+          text:"Das sagt man zu der Person, die gekocht hat. Nicht „es war lecker\", sondern ein Dank an die Hände, die es gemacht haben.",
+          tip:"Die Antwort darauf ist meistens <b>Afiyet olsun</b>. Ja, dasselbe wie „guten Appetit\" - es wird vor und nach dem Essen benutzt."},
+        {k:"choice", de:"Die Mutter deines Freundes hat gekocht. Du sagst:", tr:"Eline sağlık", opts:["Eline sağlık","Afiyet olsun","Doydum","Çok pahalı"],
+          why:"Eline sağlık geht an die Person, die gekocht hat. Afiyet olsun sagt sie dann zu dir zurück."},
+        {k:"choice", de:"Ich bin satt", tr:"Doydum", opts:["Doydum","Çok lezzetli","Buyurun","Aç değilim"]},
+        {k:"build", de:"Es war sehr lecker", tiles:["Çok","lezzetliydi"], ans:"Çok lezzetliydi"},
+        {k:"listen", tr:"Buyurun", de:"Bitte sehr", opts:["Bitte sehr","Danke sehr","Entschuldigung","Nein danke"]},
+        {k:"match", pairs:[["çay","Tee"],["su","Wasser"],["ekmek","Brot"],["peynir","Käse"]]}
+      ]}
+    ]
+  },
+  {
+    t:"Im Café", s:"Bestellen, bezahlen, fragen", icon:"☕",
+    lessons:[
+      { t:"Bir çay lütfen", s:"6 Übungen", items:[
+        {k:"choice", de:"Einen Tee bitte", tr:"Bir çay lütfen", opts:["Bir çay lütfen","Bir kahve lütfen","Hesap lütfen","Su lütfen"]},
+        {k:"build", de:"Zwei Kaffee bitte", tiles:["İki","kahve","lütfen"], ans:"İki kahve lütfen"},
+        {k:"culture", word:"Türk kahvesi", lit:"türkischer Kaffee",
+          text:"Bei der Bestellung wirst du nach der Süße gefragt: <b>sade</b> ohne Zucker, <b>orta</b> mittel, <b>şekerli</b> süß.",
+          tip:"Der Satz und Boden bleibt im Tässchen. Trink ihn nicht mit."},
+        {k:"choice", de:"Du willst Kaffee ohne Zucker. Du sagst:", tr:"sade", opts:["sade","orta","şekerli","çok şekerli"]},
+        {k:"listen", tr:"Hesap lütfen", de:"Die Rechnung bitte", opts:["Die Rechnung bitte","Die Karte bitte","Wasser bitte","Zahlen geht nicht"]},
+        {k:"match", pairs:[["kahvaltı","Frühstück"],["zeytin","Olive"],["bal","Honig"],["sıcak","heiß"]]}
+      ]},
+      { t:"Zahlen und Preise", s:"6 Übungen", items:[
+        {k:"match", pairs:[["bir","eins"],["iki","zwei"],["üç","drei"],["dört","vier"]]},
+        {k:"match", pairs:[["beş","fünf"],["altı","sechs"],["yedi","sieben"],["on","zehn"]]},
+        {k:"choice", de:"Wie viel kostet das?", tr:"Bu ne kadar?", opts:["Bu ne kadar?","Bu nedir?","Bu nerede?","Bu kim?"]},
+        {k:"build", de:"Das ist sehr teuer", tiles:["Bu","çok","pahalı"], ans:"Bu çok pahalı"},
+        {k:"culture", word:"Biraz indirim", lit:"ein wenig Rabatt",
+          text:"Auf dem Basar ist Handeln Teil des Gesprächs, nicht Streit. Der Satz dafür: <b>Biraz indirim yapar mısınız?</b>",
+          tip:"Im Supermarkt oder im Café funktioniert das nicht. Dort ist der Preis der Preis."},
+        {k:"listen", tr:"Çok pahalı", de:"Sehr teuer", opts:["Sehr teuer","Sehr günstig","Sehr lecker","Sehr schön"]}
+      ]}
+    ]
+  },
+  {
+    t:"Wie Türkisch funktioniert", s:"Die Logik hinter den Wörtern", icon:"🧩", pro:true,
+    lessons:[
+      { t:"Alles hängt hinten dran", s:"6 Übungen", items:[
+        {k:"culture", word:"ev → evim → evimde", lit:"Haus → mein Haus → in meinem Haus",
+          text:"Türkisch stapelt Endungen hinter das Wort, wo Deutsch eigene Wörter benutzt. Ein Wort kann einen halben deutschen Satz enthalten.",
+          tip:"Deshalb wirken türkische Wörter lang. Sie sind nicht lang, sie sind vollgepackt."},
+        {k:"choice", de:"mein Haus", tr:"evim", opts:["evim","evde","evler","ev"]},
+        {k:"choice", de:"in meinem Haus", tr:"evimde", opts:["evimde","evim","evde","evimiz"]},
+        {k:"culture", word:"Vokalharmonie", lit:"ünlü uyumu",
+          text:"Die Endung richtet sich nach dem letzten Vokal des Wortes. <b>ev</b> wird zu <b>evde</b>, aber <b>okul</b> wird zu <b>okulda</b>.",
+          tip:"Du musst die Regel nicht auswendig lernen. Nach etwa zwanzig Beispielen klingt die falsche Variante einfach schief."},
+        {k:"choice", de:"in der Schule (okul)", tr:"okulda", opts:["okulda","okulde","okuldu","okulta"],
+          why:"Nach dem dunklen Vokal u kommt da, nicht de. Das ist die Vokalharmonie."},
+        {k:"build", de:"Ich bin in Izmir", tiles:["İzmir'deyim"], ans:"İzmir'deyim"}
+      ]},
+      { t:"Das Verb kommt zuletzt", s:"5 Übungen", items:[
+        {k:"culture", word:"Ben çay içiyorum", lit:"ich Tee trinke",
+          text:"Im Türkischen steht das Verb am Satzende. Erst wer, dann was, dann die Handlung.",
+          tip:"Deutsche Nebensätze machen das auch: „weil ich Tee trinke\". Türkisch macht es immer so."},
+        {k:"build", de:"Ich trinke Tee", tiles:["Ben","çay","içiyorum"], ans:"Ben çay içiyorum"},
+        {k:"build", de:"Ich gehe nach Hause", tiles:["Eve","gidiyorum"], ans:"Eve gidiyorum"},
+        {k:"choice", de:"Es gibt im Türkischen kein Wort für:", tr:"der, die, das", opts:["der, die, das","ja","nein","und"],
+          why:"Türkisch hat keine grammatischen Geschlechter und keinen bestimmten Artikel. Eine Sorge weniger als im Deutschen."},
+        {k:"listen", tr:"Türkçe öğreniyorum", de:"Ich lerne Türkisch", opts:["Ich lerne Türkisch","Ich spreche Türkisch","Ich mag Türkisch","Ich verstehe Türkisch"]}
+      ]}
+    ]
+  },
+  {
+    t:"Gönül Wörter", s:"Wörter, für die Deutsch keine hat", icon:"🤍", pro:true,
+    lessons:[
+      { t:"Hasret und Özlem", s:"6 Übungen", items:[
+        {k:"culture", word:"Gönül", lit:"das Herz als Ort des Fühlens",
+          text:"Türkisch hat zwei Herzen. <b>Kalp</b> ist das Organ, das schlägt. <b>Gönül</b> ist das, was liebt, verzeiht und leidet.",
+          tip:"Darum heißt es gönülden, von Herzen, und nie kalpten."},
+        {k:"culture", word:"Hasret", lit:"Sehnsucht, die wehtut",
+          text:"Nicht die leichte Sehnsucht nach Urlaub. Hasret ist die nach einem Menschen oder einem Ort, zu dem man nicht zurückkann.",
+          tip:"Für Generationen von Türken in Deutschland ist das kein poetisches Wort, sondern eine Beschreibung ihres Lebens."},
+        {k:"choice", de:"Ich habe dich vermisst", tr:"Seni özledim", opts:["Seni özledim","Seni sevdim","Seni gördüm","Seni buldum"]},
+        {k:"build", de:"Ich habe meine Mutter vermisst", tiles:["Annemi","özledim"], ans:"Annemi özledim"},
+        {k:"listen", tr:"Seni çok özledim", de:"Ich habe dich sehr vermisst", opts:["Ich habe dich sehr vermisst","Ich liebe dich sehr","Ich mag dich sehr","Ich warte auf dich"]},
+        {k:"match", pairs:[["hüzün","sanfte Melancholie"],["sevda","tiefe Liebe"],["vefa","Treue"],["kısmet","Schicksalsfügung"]]}
+      ]},
+      { t:"Muhabbet", s:"5 Übungen", items:[
+        {k:"culture", word:"Muhabbet", lit:"Zuneigung, die beim Reden entsteht",
+          text:"Ein Abend am Tisch, Tee, Gespräch ohne Zweck, Stunden vergehen. Das ist muhabbet. Das Gespräch ist nicht das Mittel, es ist der Zweck.",
+          tip:"<b>Muhabbet etmek</b> heißt nicht „sich unterhalten\". Es heißt eher „gemeinsam Zeit haben\"."},
+        {k:"choice", de:"Zwei Menschen reden stundenlang ohne Thema und es ist schön. Das Wort dafür:", tr:"muhabbet", opts:["muhabbet","hasret","hüzün","kısmet"]},
+        {k:"culture", word:"Canım", lit:"meine Seele",
+          text:"Deutsch hat „Schatz\" für Partner und „Liebes\" für Nahestehende. Canım geht an beide, und oft auch an die Nachbarin.",
+          tip:"Pass auf: in scharfem Ton gesagt wird genau dasselbe Wort zur Zurechtweisung. Der Ton trägt alles."},
+        {k:"match", pairs:[["canım","meine Seele"],["gönlüm","mein Herz"],["yürek","Mut, Herz"],["ruh","Geist, Seele"]]},
+        {k:"listen", tr:"Gönülden teşekkür ederim", de:"Ich danke von Herzen", opts:["Ich danke von Herzen","Ich danke sehr","Ich bitte herzlich","Ich grüße herzlich"]}
+      ]}
+    ]
+  },
+  {
+    t:"Unterwegs", s:"Weg fragen, Taxi, Hotel", icon:"🧭", pro:true,
+    lessons:[
+      { t:"Nach dem Weg fragen", s:"6 Übungen", items:[
+        {k:"choice", de:"Wo ist die Toilette?", tr:"Tuvalet nerede?", opts:["Tuvalet nerede?","Tuvalet ne kadar?","Tuvalet var mı?","Tuvalet kimde?"]},
+        {k:"match", pairs:[["sağ","rechts"],["sol","links"],["düz","geradeaus"],["geri","zurück"]]},
+        {k:"culture", word:"Nerede?", lit:"wo ist?",
+          text:"Erwarte keine Wegbeschreibung. Sehr oft sagt der Gefragte <b>gel, göstereyim</b>, komm, ich zeige es dir, und läuft mit.",
+          tip:"Das ist keine Aufdringlichkeit, sondern Höflichkeit. Ein Teşekkür ederim am Ende reicht völlig."},
+        {k:"choice", de:"Ist es weit?", tr:"Uzak mı?", opts:["Uzak mı?","Yakın mı?","Açık mı?","Pahalı mı?"]},
+        {k:"build", de:"Ich suche den Bahnhof", tiles:["Garı","arıyorum"], ans:"Garı arıyorum"},
+        {k:"listen", tr:"Yakın, beş dakika", de:"Nah, fünf Minuten", opts:["Nah, fünf Minuten","Weit, fünf Kilometer","Nein, geschlossen","Ja, sehr teuer"]}
+      ]},
+      { t:"Taxi und Hotel", s:"6 Übungen", items:[
+        {k:"choice", de:"Zum Flughafen bitte", tr:"Havalimanına lütfen", opts:["Havalimanına lütfen","Otele lütfen","Hesap lütfen","Buraya lütfen"]},
+        {k:"culture", word:"Taksimetre", lit:"das Taxameter",
+          text:"Der wichtigste Satz im Taxi: <b>Taksimetre açar mısınız?</b>, schalten Sie bitte den Taxameter ein.",
+          tip:"Freundlich gefragt, gleich beim Einsteigen. Danach ist das Thema erledigt und niemand ist beleidigt."},
+        {k:"build", de:"Schalten Sie bitte den Taxameter ein", tiles:["Taksimetre","açar","mısınız"], ans:"Taksimetre açar mısınız"},
+        {k:"match", pairs:[["oda","Zimmer"],["anahtar","Schlüssel"],["bavul","Koffer"],["kat","Etage"]]},
+        {k:"choice", de:"Können Sie mir helfen?", tr:"Yardım edebilir misiniz?", opts:["Yardım edebilir misiniz?","Gelebilir misiniz?","Anlıyor musunuz?","Biliyor musunuz?"]},
+        {k:"listen", tr:"Rezervasyonum var", de:"Ich habe eine Reservierung", opts:["Ich habe eine Reservierung","Ich habe kein Zimmer","Ich möchte zahlen","Ich bleibe zwei Nächte"]}
+      ]}
+    ]
+  }
+];
+
+/* ---------- 1b. BONUS: ATASÖZLERİ UND DEYİMLER ----------
+   Pro Einheit zehn Karten. k = Art, tr = türkisch,
+   lit = wörtlich, de = Bedeutung, use = wann man es sagt.   */
+const BONUS = [
+  { t:"Worte und Zungen", cards:[
+    {k:"Atasözü", tr:"Tatlı dil yılanı deliğinden çıkarır.", lit:"Eine süße Zunge holt die Schlange aus ihrem Loch.", de:"Mit freundlichen Worten erreicht man mehr als mit Druck.", use:"Wenn jemand mit Härte nicht weiterkommt."},
+    {k:"Atasözü", tr:"Söz gümüşse sükût altındır.", lit:"Ist das Wort Silber, ist das Schweigen Gold.", de:"Manchmal ist nichts sagen die bessere Antwort.", use:"Das deutsche Sprichwort gibt es fast wortgleich."},
+    {k:"Atasözü", tr:"Bir dil, bir insan; iki dil, iki insan.", lit:"Eine Sprache, ein Mensch; zwei Sprachen, zwei Menschen.", de:"Jede neue Sprache macht dich zu einem größeren Menschen.", use:"Der Lieblingssatz jedes Sprachlehrers in der Türkei."},
+    {k:"Deyim", tr:"Ağzından bal damlıyor.", lit:"Honig tropft aus seinem Mund.", de:"Er oder sie spricht sehr schön und warm.", use:"Als Kompliment über jemanden, der gut redet."},
+    {k:"Deyim", tr:"Kulak misafiri olmak.", lit:"Ohrengast sein.", de:"Ungewollt mithören.", use:"Wenn du im Bus ein Gespräch mitbekommst."},
+    {k:"Atasözü", tr:"Söyleyene bakma, söyletene bak.", lit:"Schau nicht auf den, der spricht, sondern auf den, der ihn sprechen lässt.", de:"Frag dich, wer hinter einer Aussage steht.", use:"Wenn jemand nur ausrichtet, was ein anderer will."},
+    {k:"Deyim", tr:"Laf olsun diye.", lit:"Nur damit etwas gesagt ist.", de:"Ohne echte Bedeutung dahergeredet.", use:"Über leere Höflichkeitsfloskeln."},
+    {k:"Atasözü", tr:"Çok bilen çok yanılır.", lit:"Wer viel weiß, irrt viel.", de:"Selbstsicherheit schützt nicht vor Fehlern.", use:"Freundlicher Dämpfer für Besserwisser."},
+    {k:"Deyim", tr:"Dilimin ucunda.", lit:"Auf meiner Zungenspitze.", de:"Ich komme gerade nicht drauf.", use:"Genau dasselbe Bild wie im Deutschen."},
+    {k:"Atasözü", tr:"Rüzgâr eken fırtına biçer.", lit:"Wer Wind sät, erntet Sturm.", de:"Wer Streit sät, bekommt Streit zurück.", use:"Auch dieses Sprichwort teilen beide Sprachen."}
+  ]},
+  { t:"Gast und Nachbar", cards:[
+    {k:"Atasözü", tr:"Misafir umduğunu değil, bulduğunu yer.", lit:"Der Gast isst nicht, was er erhofft, sondern was er vorfindet.", de:"Ein Gast nimmt dankbar, was da ist.", use:"Sagt der Gastgeber, wenn er sich für das Essen entschuldigt."},
+    {k:"Atasözü", tr:"Ev alma, komşu al.", lit:"Kauf nicht das Haus, kauf den Nachbarn.", de:"Die Nachbarn sind wichtiger als die Wohnung.", use:"Rat bei jedem Umzug."},
+    {k:"Atasözü", tr:"Komşu komşunun külüne muhtaçtır.", lit:"Ein Nachbar braucht sogar die Asche des Nachbarn.", de:"Man kommt ohne einander nicht aus.", use:"Wenn jemand meint, er schaffe alles allein."},
+    {k:"Deyim", tr:"Kapısı herkese açık.", lit:"Seine Tür steht jedem offen.", de:"Sehr gastfreundlich.", use:"Das größte Lob für einen Haushalt."},
+    {k:"Atasözü", tr:"Misafir on kısmetle gelir, birini yer dokuzunu bırakır.", lit:"Der Gast kommt mit zehn Segen, isst einen und lässt neun da.", de:"Ein Gast bringt mehr, als er verbraucht.", use:"Erklärt, warum unangekündigter Besuch willkommen ist."},
+    {k:"Deyim", tr:"El üstünde tutmak.", lit:"Auf der Hand halten.", de:"Jemanden auf Händen tragen.", use:"Über die Behandlung von Gästen und Schwiegerkindern."},
+    {k:"Atasözü", tr:"Gülme komşuna, gelir başına.", lit:"Lach nicht über deinen Nachbarn, es kommt auf deinen Kopf.", de:"Spotte nicht über das Unglück anderer.", use:"Türkisch für Schadenfreude ist kein Kompliment."},
+    {k:"Deyim", tr:"Sofra kurmak.", lit:"Einen Tisch aufstellen.", de:"Ein Essen ausrichten.", use:"Sofra ist mehr als der Tisch, es ist die ganze Runde."},
+    {k:"Atasözü", tr:"Aç ayı oynamaz.", lit:"Ein hungriger Bär tanzt nicht.", de:"Ohne Essen läuft nichts.", use:"Halb im Scherz, wenn jemand vor dem Essen arbeiten soll."},
+    {k:"Deyim", tr:"Buyur etmek.", lit:"Bitten, einzutreten.", de:"Jemanden hereinbitten.", use:"Von buyurun, dem Wort für bitte sehr."}
+  ]},
+  { t:"Brot und Geld", cards:[
+    {k:"Atasözü", tr:"Ayağını yorganına göre uzat.", lit:"Strecke deine Füße nach deiner Decke.", de:"Lebe nach deinen Mitteln.", use:"Der häufigste Finanzrat in der Türkei."},
+    {k:"Atasözü", tr:"Damlaya damlaya göl olur.", lit:"Tropfen für Tropfen wird ein See.", de:"Kleine Beträge summieren sich.", use:"Beim Sparen und beim Lernen."},
+    {k:"Atasözü", tr:"Sakla samanı, gelir zamanı.", lit:"Heb das Stroh auf, seine Zeit kommt.", de:"Wirf nichts weg, du brauchst es noch.", use:"Die Antwort jeder türkischen Großmutter."},
+    {k:"Deyim", tr:"Ekmeğini taştan çıkarmak.", lit:"Sein Brot aus dem Stein holen.", de:"Sich unter harten Bedingungen durchschlagen.", use:"Respektvoll über jemanden, der schwer arbeitet."},
+    {k:"Atasözü", tr:"Ucuz etin yahnisi tatsız olur.", lit:"Vom billigen Fleisch wird der Eintopf fad.", de:"Billig gekauft ist am Ende teuer.", use:"Beim Handeln, wenn der Preis verdächtig niedrig ist."},
+    {k:"Deyim", tr:"Kesenin ağzını açmak.", lit:"Den Mund des Beutels öffnen.", de:"Tief in die Tasche greifen.", use:"Wenn jemand großzügig zahlt."},
+    {k:"Atasözü", tr:"Bir elin nesi var, iki elin sesi var.", lit:"Was hat eine Hand, zwei Hände haben einen Klang.", de:"Gemeinsam erreicht man mehr.", use:"Das Bild ist das Klatschen."},
+    {k:"Deyim", tr:"Hesabı görmek.", lit:"Die Rechnung sehen.", de:"Bezahlen.", use:"Im Lokal, oft begleitet von einem kleinen Streit darum, wer zahlt."},
+    {k:"Atasözü", tr:"Az tamah çok zarar getirir.", lit:"Kleine Gier bringt großen Schaden.", de:"Gier rächt sich.", use:"Wenn jemand für ein Schnäppchen zu viel riskiert."},
+    {k:"Deyim", tr:"Göz boyamak.", lit:"Das Auge bemalen.", de:"Blenden, Schein erzeugen.", use:"Über Werbung und schöne Fassaden."}
+  ]},
+  { t:"Geduld und Zeit", cards:[
+    {k:"Atasözü", tr:"Sabreden derviş muradına ermiş.", lit:"Der geduldige Derwisch hat sein Ziel erreicht.", de:"Geduld führt ans Ziel.", use:"Trost für jeden, der wartet."},
+    {k:"Atasözü", tr:"Acele işe şeytan karışır.", lit:"In eine eilige Sache mischt sich der Teufel.", de:"Eile führt zu Fehlern.", use:"Wenn jemand etwas überstürzt."},
+    {k:"Atasözü", tr:"Vakit nakittir.", lit:"Zeit ist Bargeld.", de:"Zeit ist Geld.", use:"Fast wörtlich dasselbe wie im Deutschen."},
+    {k:"Deyim", tr:"Göz açıp kapayıncaya kadar.", lit:"Bis man das Auge auf und zu macht.", de:"Im Nu, blitzschnell.", use:"Über Zeit, die viel zu schnell vergangen ist."},
+    {k:"Atasözü", tr:"Her işte bir hayır vardır.", lit:"In jeder Sache steckt etwas Gutes.", de:"Auch Rückschläge haben einen Sinn.", use:"Der Satz nach einer Absage oder einem verpassten Flug."},
+    {k:"Deyim", tr:"Pişmiş aşa su katmak.", lit:"Dem fertigen Essen Wasser zugeben.", de:"Etwas Gelungenes im Nachhinein verderben.", use:"Wenn jemand eine fertige Sache noch kaputtredet."},
+    {k:"Atasözü", tr:"Sabrın sonu selamettir.", lit:"Am Ende der Geduld steht das Heil.", de:"Durchhalten lohnt sich.", use:"Oft an schwierigen Tagen gesagt."},
+    {k:"Deyim", tr:"Eli kulağında.", lit:"Seine Hand ist an seinem Ohr.", de:"Es steht unmittelbar bevor.", use:"Das Bild kommt vom Gebetsruf."},
+    {k:"Atasözü", tr:"Bugünün işini yarına bırakma.", lit:"Lass die Arbeit von heute nicht auf morgen.", de:"Schieb nichts auf.", use:"Auch hier trifft sich Türkisch mit dem Deutschen."},
+    {k:"Deyim", tr:"İşi rast gitmek.", lit:"Die Sache geht gerade.", de:"Es läuft rund.", use:"Über eine Phase, in der alles klappt."}
+  ]},
+  { t:"Herz und Freundschaft", cards:[
+    {k:"Atasözü", tr:"Dost kara günde belli olur.", lit:"Der Freund zeigt sich am schwarzen Tag.", de:"Wahre Freunde erkennt man in der Not.", use:"Nach einer schweren Zeit, über die, die geblieben sind."},
+    {k:"Atasözü", tr:"Bir fincan kahvenin kırk yıl hatırı vardır.", lit:"Eine Tasse Kaffee hat vierzig Jahre Andenken.", de:"Eine kleine Geste verpflichtet lange.", use:"Das vielleicht bekannteste türkische Sprichwort überhaupt."},
+    {k:"Atasözü", tr:"Gönülden gönüle yol vardır.", lit:"Von Herz zu Herz führt ein Weg.", de:"Menschen spüren einander, auch ohne Worte.", use:"Wenn zwei gleichzeitig aneinander denken."},
+    {k:"Deyim", tr:"Gönlünü kaptırmak.", lit:"Sein Herz wegnehmen lassen.", de:"Sich verlieben.", use:"Weicher und schüchterner als âşık olmak."},
+    {k:"Deyim", tr:"Yüreği ağzına gelmek.", lit:"Das Herz kommt ihm in den Mund.", de:"Einen Riesenschreck bekommen.", use:"Nach einem Beinaheunfall."},
+    {k:"Deyim", tr:"Kalbi kırılmak.", lit:"Das Herz bricht.", de:"Gekränkt werden.", use:"Hier steht kalp, nicht gönül, weil es um die Verletzung geht."},
+    {k:"Atasözü", tr:"Akıl akıldan üstündür.", lit:"Verstand steht über Verstand.", de:"Zwei denken besser als einer.", use:"Bevor man jemanden um Rat fragt."},
+    {k:"Deyim", tr:"Canı gönülden.", lit:"Aus Seele und Herz.", de:"Von ganzem Herzen.", use:"Als Verstärkung bei Dank und Glückwunsch."},
+    {k:"Atasözü", tr:"Dostun attığı taş baş yarmaz.", lit:"Der Stein, den ein Freund wirft, verletzt den Kopf nicht.", de:"Von Freunden nimmt man auch harte Worte an.", use:"Nach einer ehrlichen, unangenehmen Kritik."},
+    {k:"Atasözü", tr:"Gönül kimi severse güzel odur.", lit:"Wen das Herz liebt, der ist schön.", de:"Schönheit liegt im Auge des Liebenden.", use:"Der türkische Zwilling von Liebe macht blind."}
+  ]},
+  { t:"Weg und Reise", cards:[
+    {k:"Atasözü", tr:"Sora sora Bağdat bulunur.", lit:"Durch Fragen findet man bis nach Bagdad.", de:"Wer fragt, kommt überall hin.", use:"Genau das Sprichwort für dich als Reisende."},
+    {k:"Deyim", tr:"Yola koyulmak.", lit:"Sich auf den Weg legen.", de:"Aufbrechen.", use:"Beim Abschied vor einer längeren Fahrt."},
+    {k:"Atasözü", tr:"Yolcu yolunda gerek.", lit:"Der Reisende gehört auf seinen Weg.", de:"Wer losmuss, muss los.", use:"Höflicher Satz, wenn man eine schöne Runde verlassen muss."},
+    {k:"Deyim", tr:"Yolu düşmek.", lit:"Der Weg fällt jemandem zu.", de:"Zufällig vorbeikommen.", use:"Yolun düşerse bize uğra, komm vorbei, wenn dein Weg dich herführt."},
+    {k:"Atasözü", tr:"Her yokuşun bir inişi vardır.", lit:"Jede Steigung hat ein Gefälle.", de:"Nach dem Schweren kommt das Leichtere.", use:"Trost mitten in einer anstrengenden Phase."},
+    {k:"Deyim", tr:"Yol almak.", lit:"Weg nehmen.", de:"Vorankommen.", use:"Sowohl auf der Straße als auch bei einem Projekt."},
+    {k:"Atasözü", tr:"Çok gezen çok bilir.", lit:"Wer viel reist, weiß viel.", de:"Reisen bildet.", use:"Es gibt auch die Variante mit dem vielen Lesen, beide streiten sich."},
+    {k:"Deyim", tr:"Yol açmak.", lit:"Weg öffnen.", de:"Den Weg bahnen, etwas auslösen.", use:"Auch im übertragenen Sinn, wie im Deutschen."},
+    {k:"Atasözü", tr:"Misafirlik üç gündür.", lit:"Ein Besuch dauert drei Tage.", de:"Auch der liebste Gast soll irgendwann gehen.", use:"Mit einem Augenzwinkern am dritten Tag."},
+    {k:"Deyim", tr:"Güle güle git, güle güle gel.", lit:"Geh lachend, komm lachend.", de:"Gute Reise und komm gut zurück.", use:"Der wärmste Abschiedswunsch, den es gibt."}
+  ]}
+];
+
+/* ---------- 1c. KULTURECKE ----------
+   Zum Lesen, nicht zum Abfragen. Sieben Bereiche.       */
+const KULTUR = [
+  { t:"Sprache und Schrift", icon:"📜", cards:[
+    {h:"Die ältesten türkischen Sätze", tr:"Orhun Yazıtları",
+     x:"Im 8. Jahrhundert ließen türkische Herrscher im heutigen Mongolei Steinstelen aufstellen, für Kültigin, Bilge Kağan und den Ratgeber Tonyukuk. Sie sind die ältesten bekannten Texte in einer Türksprache.",
+     tip:"Auf ihnen steht das Wort Türk zum ersten Mal geschrieben, als Name eines Volkes über sich selbst."},
+    {h:"Ein Buch über das gute Leben", tr:"Kutadgu Bilig",
+     x:"Um 1070 schrieb Yusuf Has Hacib ein langes Versgedicht darüber, wie ein Herrscher und ein Mensch gerecht leben sollen. Vier Figuren stehen darin für Gerechtigkeit, Glück, Verstand und Genügsamkeit.",
+     tip:"Der Titel heißt ungefähr: Wissen, das glücklich macht."},
+    {h:"Das erste türkische Wörterbuch", tr:"Divanü Lûgati't-Türk",
+     x:"Kaşgarlı Mahmud sammelte zwischen 1072 und 1074 türkische Wörter, Sprichwörter und Verse und erklärte sie auf Arabisch, damit die arabische Welt Türkisch lernen konnte. Eine Weltkarte ist auch dabei.",
+     tip:"Es ist damit das älteste Sprachlehrbuch für Türkisch, fast tausend Jahre vor dieser App."},
+    {h:"Warum du Türkisch sofort lesen kannst", tr:"Harf devrimi",
+     x:"1928 wurde die arabische Schrift durch das lateinische Alphabet ersetzt, erweitert um ç, ğ, ı, ö, ş und ü. Die Buchstaben wurden so gewählt, dass jeder Laut genau ein Zeichen bekommt.",
+     tip:"Deshalb gibt es im Türkischen fast keine Ausspracheregeln zu lernen. Du liest, was dasteht."},
+    {h:"Lieder statt Bücher", tr:"Türkü, destan, âşık",
+     x:"Vieles wurde jahrhundertelang nicht geschrieben, sondern gesungen. Wandernde Sänger, die âşık, trugen Geschichten mit der Saz von Dorf zu Dorf. Die Erzählungen um Dede Korkut gehören zu den ältesten.",
+     tip:"Ein türkü ist kein Schlager, sondern eher eine Ballade, oft über Abschied, Heimat oder Ungerechtigkeit."}
+  ]},
+  { t:"Glaube und Weltbild", icon:"🌙", cards:[
+    {h:"Vor dem Islam", tr:"Gök Tanrı",
+     x:"Die frühen Türken verehrten einen Himmelsgott, Gök Tanrı, dazu Naturgeister und die Ahnen. Schamanen vermittelten zwischen den Welten.",
+     tip:"Das Wort Tanrı für Gott ist aus dieser Zeit geblieben und wird bis heute benutzt."},
+    {h:"Spuren im Alltag", tr:"Nazar boncuğu",
+     x:"Das blaue Auge an Türen, Autos und Babykleidung ist keine Vorschrift des Glaubens, sondern eine viel ältere Alltagsgewohnheit gegen den bösen Blick.",
+     tip:"Maşallah sagt man, um ein Lob zu entschärfen, damit es nicht wie Neid klingt."},
+    {h:"Die innere Richtung", tr:"Tasavvuf",
+     x:"Nach der Annahme des Islam entstand eine starke mystische Strömung. Mevlana in Konya und Yunus Emre in einfachem Türkisch prägten eine Sprache von Liebe, Demut und Toleranz, die bis in die Alltagssprache reicht.",
+     tip:"Yunus Emre schrieb bewusst nicht auf Persisch oder Arabisch, sondern so, dass die Leute im Dorf ihn verstanden."},
+    {h:"Ehre im Handwerk", tr:"Ahilik",
+     x:"Im Mittelalter organisierten sich Handwerker in Bruderschaften mit eigenen Regeln: ehrliche Ware, fairer Preis, Verantwortung für den Lehrling, Hilfe für den Nachbarn im selben Gewerbe.",
+     tip:"Davon stammt die Vorstellung, dass ein Handwerk eine Haltung ist und nicht nur ein Beruf."},
+    {h:"Die Feste", tr:"Bayram",
+     x:"Zwei große Feste gliedern das Jahr: Ramazan Bayramı nach dem Fastenmonat, bekannt für Süßigkeiten, und Kurban Bayramı, bei dem Fleisch an Nachbarn und Bedürftige verteilt wird.",
+     tip:"Kinder küssen den Älteren die Hand und führen sie an die Stirn. Dafür gibt es Geld und Bonbons."}
+  ]},
+  { t:"Gast und Gemeinschaft", icon:"🚪", cards:[
+    {h:"Der Gast kommt von oben", tr:"Misafirperverlik",
+     x:"Gastfreundschaft ist keine nette Geste, sondern eine Pflicht. Wer kommt, bekommt das Beste im Haus, auch wenn es das Letzte ist. Ablehnen gilt leicht als Kränkung.",
+     tip:"Sag nicht zu schnell nein zum zweiten Teller. Ein einmaliges Nein wird oft nur als Höflichkeit verstanden."},
+    {h:"Gemeinsam arbeiten", tr:"İmece",
+     x:"Wenn im Dorf ein Dach gedeckt, geerntet oder ein Haus gebaut wird, hilft die Nachbarschaft ohne Rechnung. Dafür hilft man später zurück.",
+     tip:"Das Wort wird heute auch für gemeinsame Projekte in der Stadt benutzt."},
+    {h:"Die Nachbarin ist Familie", tr:"Abi, abla, teyze",
+     x:"Fremde werden nach Alter angesprochen, nicht nach Namen: abi großer Bruder, abla große Schwester, teyze Tante, amca Onkel. Das gilt auch für den Händler auf dem Markt.",
+     tip:"Für Deutschsprachige ist das oft der schönste Teil der Sprache, weil es sofort Nähe herstellt."},
+    {h:"Wenn jemand geht", tr:"Asker uğurlama",
+     x:"Abschiede werden laut gefeiert, nicht still begangen. Beim Abschied vor dem Wehrdienst wird mit Trommeln, Fahnen und Tanz durch die Straßen gezogen.",
+     tip:"Dasselbe Prinzip gilt für Hochzeiten, Rückkehr aus dem Ausland und bestandene Prüfungen."},
+    {h:"Die Henna-Nacht", tr:"Kına gecesi",
+     x:"Am Abend vor der Hochzeit kommen die Frauen zusammen. Der Braut wird Henna in die Hand gelegt, es wird gesungen und oft geweint, weil sie das Elternhaus verlässt.",
+     tip:"Das Weinen gehört dazu und ist kein schlechtes Zeichen."}
+  ]},
+  { t:"Küche und Tisch", icon:"🫖", cards:[
+    {h:"Çay", tr:"İnce belli bardak",
+     x:"Schwarzer Tee aus der Schwarzmeerregion, aufgebrüht in zwei gestapelten Kannen, serviert im tailliertem Glas. Im Basar wird er auf Tabletts durch die Gassen getragen.",
+     tip:"Die Teekultur wurde 2022 gemeinsam mit Aserbaidschan in die UNESCO-Liste des immateriellen Kulturerbes aufgenommen."},
+    {h:"Türk kahvesi", tr:"Sade, orta, şekerli",
+     x:"Fein gemahlener Kaffee wird im Cezve langsam aufgekocht und mit dem Satz serviert, dazu ein Glas Wasser und etwas Süßes. Die Süße wird beim Bestellen festgelegt, nicht danach.",
+     tip:"Der türkische Kaffee steht seit 2013 auf der UNESCO-Liste. Aus dem Satz wird anschließend gern die Zukunft gelesen."},
+    {h:"Frühstück ist eine Mahlzeit, kein Brötchen", tr:"Kahvaltı",
+     x:"Oliven, mehrere Käse, Tomaten, Gurken, Eier, Honig mit Sahne, Marmeladen, frisches Brot und immer Tee. Alles kommt gleichzeitig in kleinen Schalen auf den Tisch.",
+     tip:"Das Wort kahvaltı heißt wörtlich: das, was unter den Kaffee kommt."},
+    {h:"Essen auf der Straße", tr:"Sokak lezzetleri",
+     x:"Simit am Morgen, midye dolma mit Zitrone am Abend, kumpir mit zehn Belägen, çiğ köfte in Salatblättern. Straßenessen ist kein Notfall, sondern eigene Esskultur.",
+     tip:"Döner, wie Deutschland ihn kennt, ist eine Berliner Weiterentwicklung. In der Türkei bekommst du ihn meist auf dem Teller oder in dünnem Fladen."},
+    {h:"Geschützte Herkunft", tr:"Coğrafi işaret",
+     x:"Viele Produkte dürfen den Ortsnamen nur tragen, wenn sie wirklich von dort kommen: Antep baklavası, Malatya kayısısı, Aydın inciri, Taşköprü sarımsağı.",
+     tip:"Antep baklavası war das erste türkische Produkt mit einer geschützten Herkunftsangabe in der EU."}
+  ]},
+  { t:"Kunst und Handwerk", icon:"🎨", cards:[
+    {h:"Teppiche erzählen", tr:"Halı ve kilim",
+     x:"Die Muster sind kein Dekor, sondern Zeichen. Eli belinde, die Frau mit den Händen in den Hüften, steht für Fruchtbarkeit, koçboynuzu, das Widderhorn, für Kraft.",
+     tip:"Wer die Motive lesen kann, erkennt oft die Region und manchmal die Geschichte der Weberin."},
+    {h:"Das Blau von İznik", tr:"Çini",
+     x:"Zwischen dem 15. und 17. Jahrhundert entstanden in İznik Fliesen mit Tulpen, Nelken und einem Rot, das später niemand mehr nachmischen konnte.",
+     tip:"Ganze Moscheeinnenräume sind damit ausgekleidet. Die Tulpe kam übrigens von hier nach Holland."},
+    {h:"Schrift als Bild", tr:"Hat ve ebru",
+     x:"Kalligrafie machte aus Buchstaben Kunstwerke. Ebru ist Malerei auf Wasser: Farben werden auf eine zähe Flüssigkeit getropft, gezogen und mit Papier abgenommen.",
+     tip:"Ebru steht seit 2014 auf der UNESCO-Liste des immateriellen Kulturerbes."},
+    {h:"Kuppeln und Portale", tr:"Mimari",
+     x:"Die Seldschuken bauten gewaltige Steinportale mit tiefen Ornamenten. Die Osmanen setzten auf weite Kuppeln und ganze Anlagen mit Moschee, Schule, Küche und Bad.",
+     tip:"Mimar Sinan baute im 16. Jahrhundert hunderte Bauwerke. Die Selimiye in Edirne hielt er selbst für sein Meisterstück."},
+    {h:"Ringen in Olivenöl", tr:"Yağlı güreş",
+     x:"Beim Kırkpınar in Edirne ringen Männer in Lederhosen und mit Olivenöl eingerieben. Das Fest findet seit dem 14. Jahrhundert statt.",
+     tip:"Es steht seit 2010 auf der UNESCO-Liste und gilt als eines der ältesten durchgehend gefeierten Sportfeste der Welt."}
+  ]},
+  { t:"Nur hier so", icon:"🍋", cards:[
+    {h:"Limon kolonyası", tr:"Kolonya",
+     x:"Zitronenduftendes Kölnischwasser wird Gästen beim Ankommen über die Hände gegossen, im Bus nach langer Fahrt angeboten und an Feiertagen von Haus zu Haus gereicht.",
+     tip:"Es ist Begrüßung, Erfrischung und kleine Fürsorge in einem. Ablehnen tut niemand."},
+    {h:"Das Geld wandert nach vorn", tr:"Dolmuş",
+     x:"Im Sammeltaxi gibt man sein Geld dem Vordermann, der es weiterreicht bis zum Fahrer. Das Wechselgeld kommt denselben Weg zurück, über fremde Hände, und es kommt an.",
+     tip:"Zum Aussteigen reicht ein müsait bir yerde, an einer passenden Stelle bitte."},
+    {h:"Die Tasse umdrehen", tr:"Kahve falı",
+     x:"Nach dem Kaffee wird die Tasse auf die Untertasse gestülpt, abgekühlt und gedeutet. Die Figuren im Satz werden gelesen wie Wolken.",
+     tip:"Niemand glaubt es ganz, und alle hören trotzdem genau zu. Es ist vor allem ein Anlass, zusammenzusitzen."},
+    {h:"Decken auf allem", tr:"Dantel ve çeyiz",
+     x:"Handgehäkelte Deckchen auf Tischen, Sesselrücken und früher auf dem Fernseher. Vieles davon stammt aus der Aussteuertruhe, die über Jahre gefüllt wurde.",
+     tip:"Die Spitze am Rand eines Kopftuchs, oya, hatte früher eine eigene Zeichensprache."},
+    {h:"Die Teepause", tr:"Çay molası",
+     x:"Im Laden, in der Werkstatt, im Büro: Tee wird bestellt, geliefert und gemeinsam getrunken. Verhandlungen beginnen damit und enden damit.",
+     tip:"Ein Geschäft ohne angebotenen Tee gilt als unhöflich, auch wenn du nichts kaufst."}
+  ]},
+  { t:"Aberglaube", icon:"🧿", cards:[
+    {h:"Klopf auf Holz, aber zieh am Ohr", tr:"Tahtaya vur, kulağını çek",
+     x:"Wenn jemand etwas Schlimmes ausspricht, klopft man dreimal auf Holz, zieht sich am Ohrläppchen und schnalzt zweimal mit der Zunge. Die ganze Folge gehört dazu, nicht nur das Klopfen.",
+     tip:"Allah korusun oder Tövbe tövbe wird oft dazu gesagt."},
+    {h:"Wasser hinterhergießen", tr:"Arkasından su dökmek",
+     x:"Wenn jemand auf eine Reise geht, wird hinter ihm Wasser auf die Straße gegossen. Der Wunsch dahinter: Möge es gehen wie Wasser, leicht und ohne Hindernis.",
+     tip:"Du hörst dazu oft: Su gibi git, su gibi gel."},
+    {h:"Nicht am Abend", tr:"Akşam yapılmayanlar",
+     x:"Nach Sonnenuntergang schneidet man keine Nägel, kehrt nicht den Boden hinaus, gibt kein Salz und kein Brot aus dem Haus. Angeblich geht sonst das Glück mit.",
+     tip:"Viele halten sich daran, ohne daran zu glauben. Es ist eher Gewohnheit als Überzeugung."},
+    {h:"Brot hebt man auf", tr:"Ekmeğe saygı",
+     x:"Brot, das auf dem Boden liegt, wird aufgehoben, geküsst und an die Stirn geführt. Weggeworfen wird es nicht, altes Brot kommt in einen Beutel an den Zaun.",
+     tip:"Das ist weniger Aberglaube als tief sitzender Respekt vor Essen, aus Zeiten, in denen es knapp war."},
+    {h:"Die Schere nicht in die Hand", tr:"Makası elden vermek",
+     x:"Scheren und Messer reicht man nicht direkt von Hand zu Hand, sondern legt sie hin. Sonst soll es Streit geben.",
+     tip:"Ähnliches gilt für Salz. Wer es direkt überreicht, streitet sich angeblich bald."},
+    {h:"Das blaue Auge", tr:"Nazar",
+     x:"Zu viel Lob zieht den bösen Blick an, besonders bei Babys und bei guten Nachrichten. Deshalb das blaue Auge an der Wiege, im Auto und am Revers.",
+     tip:"Wenn du etwas lobst, häng Maşallah an. Das nimmt dem Lob den Neid."},
+    {h:"Juckende Hand, zuckendes Auge", tr:"Avuç kaşınması",
+     x:"Juckt die linke Hand, kommt Geld. Juckt die rechte, geht Geld. Zuckt das rechte Auge, kommt eine gute Nachricht, beim linken eine schlechte.",
+     tip:"Über die Seiten streiten sich die Leute, je nach Region genau andersherum."}
+  ]},
+  { t:"Orte", icon:"🎈", cards:[
+    {h:"Kapadokya", tr:"Peri bacaları",
+     x:"Weiches Tuffgestein, aus dem Wind und Wasser Kegel geformt haben, dazu Höhlenkirchen und unterirdische Städte. Morgens steigen hunderte Ballons auf.",
+     tip:"Der Nationalpark Göreme steht seit 1985 auf der UNESCO-Welterbeliste."},
+    {h:"Pamukkale", tr:"Travertenler",
+     x:"Kalkhaltiges Thermalwasser hat über Jahrtausende weiße Terrassen gebildet. Oben liegen die Ruinen der antiken Stadt Hierapolis.",
+     tip:"Der Name heißt Baumwollburg. Barfuß laufen ist Pflicht, zum Schutz der Kalkflächen."},
+    {h:"Göbeklitepe", tr:"Dünyanın en eski tapınağı",
+     x:"Bei Şanlıurfa stehen kreisförmige Anlagen mit T-förmigen Pfeilern, geschmückt mit Tieren. Sie sind rund elftausend Jahre alt, älter als Ackerbau, Töpferei und Schrift.",
+     tip:"Der Fund hat die Annahme umgedreht, dass erst Siedlungen entstanden und dann Tempel."},
+    {h:"Efes", tr:"Antik kent",
+     x:"Eine der besterhaltenen antiken Städte überhaupt, mit der Celsus-Bibliothek, dem großen Theater und Straßen aus Marmor.",
+     tip:"Seit 2015 UNESCO-Welterbe. Für viele deutsche Reisende der erste Berührungspunkt mit der Türkei."},
+    {h:"Nemrut Dağı", tr:"Dev heykeller",
+     x:"Auf über zweitausend Metern liegen die kolossalen Steinköpfe eines Königsgrabs aus dem ersten Jahrhundert vor Christus, vom Erdbeben vom Sockel geworfen.",
+     tip:"Die meisten kommen zum Sonnenaufgang. Es ist kalt dort oben, auch im Sommer."}
+  ]}
+];
+
+/* ---------- 1d. WORTSCHATZ-POOLS ----------
+   Aus diesen Listen baut die App zusätzliche Lektionen,
+   mit Wiederholung älterer Wörter. Erweitern heißt:
+   hier unten Paare anhängen, sonst nichts.               */
+const POOL = [
+  /* 1 Die ersten Worte */ [
+    ["merhaba","Hallo"],["günaydın","Guten Morgen"],["iyi günler","Guten Tag"],["iyi akşamlar","Guten Abend"],
+    ["iyi geceler","Gute Nacht"],["hoş geldin","Willkommen"],["hoş bulduk","Danke, schön hier zu sein"],
+    ["güle güle","Auf Wiedersehen (sagt der Bleibende)"],["hoşça kal","Mach es gut"],["görüşürüz","Bis bald"],
+    ["teşekkür ederim","Danke"],["sağ ol","Danke (vertraut)"],["rica ederim","Gern geschehen"],["lütfen","Bitte"],
+    ["evet","Ja"],["hayır","Nein"],["tamam","In Ordnung"],["belki","Vielleicht"],
+    ["affedersiniz","Entschuldigung"],["özür dilerim","Es tut mir leid"],
+    ["nasılsın","Wie geht es dir"],["nasılsınız","Wie geht es Ihnen"],["iyiyim","Mir geht es gut"],
+    ["fena değil","Nicht schlecht"],["adın ne","Wie heißt du"],["benim adım","Ich heiße"],
+    ["memnun oldum","Freut mich"],["nerelisin","Woher kommst du"],["Almanya'danım","Ich bin aus Deutschland"],
+    ["Türkiye","Türkei"],["Almanya","Deutschland"],["Türkçe","Türkisch"],["Almanca","Deutsch"],
+    ["anlamadım","Ich habe nicht verstanden"],["anlıyorum","Ich verstehe"],["bilmiyorum","Ich weiß nicht"],
+    ["yavaş","langsam"],["tekrar","noch einmal"],
+    ["ben","ich"],["sen","du"],["o","er, sie, es"],["biz","wir"],["siz","ihr, Sie"],["onlar","sie (Mehrzahl)"],
+    ["anne","Mutter"],["baba","Vater"],["kardeş","Geschwisterkind"],["abi","großer Bruder"],
+    ["abla","große Schwester"],["oğul","Sohn"],["kız","Tochter, Mädchen"],["eş","Ehepartner"],
+    ["arkadaş","Freund"],["komşu","Nachbar"],["aile","Familie"],["çocuk","Kind"],
+    ["kadın","Frau"],["adam","Mann"],["insan","Mensch"],["isim","Name"],["yaş","Alter"],
+    ["bugün","heute"],["yarın","morgen"],["dün","gestern"],["şimdi","jetzt"],["sonra","später"],
+    ["her zaman","immer"],["hiç","nie"],["günaydın demek","Guten Morgen sagen"],
+    ["iyi şanslar","Viel Glück"],["kendine iyi bak","Pass auf dich auf"],["yarın görüşürüz","Bis morgen"],
+    /* Erweiterung 1: Wochentage, Tageszeiten */
+    ["pazartesi","Montag"],["salı","Dienstag"],["çarşamba","Mittwoch"],["perşembe","Donnerstag"],
+    ["cuma","Freitag"],["cumartesi","Samstag"],["pazar günü","Sonntag"],["hafta sonu","Wochenende"],
+    ["sabah","Morgen (Tageszeit)"],["öğlen","Mittag"],["akşam","Abend"],["gece","Nacht"],
+    /* Zahlen */
+    ["altı","sechs"],["yedi","sieben"],["sekiz","acht"],["dokuz","neun"],
+    ["yirmi","zwanzig"],["otuz","dreißig"],["kırk","vierzig"],["elli","fünfzig"],
+    ["yüz","hundert"],["bin","tausend"],
+    /* Farben */
+    ["renk","Farbe"],["kırmızı","rot"],["mavi","blau"],["yeşil","grün"],["sarı","gelb"],
+    ["siyah","schwarz"],["beyaz","weiß"],["turuncu","orange"],["mor","lila"],["pembe","rosa"],
+    /* Alltagssätze */
+    ["ne haber","Was gibt es Neues"],["iyilik","Alles gut (Antwort auf ne haber)"],
+    ["ne var ne yok","Wie läuft es so"],["bir dakika","Einen Moment"],
+    ["acelem var","Ich habe es eilig"],["vaktim yok","Ich habe keine Zeit"],
+    ["müsait misin","Hast du kurz Zeit"],["emin misin","Bist du sicher"],["eminim","Ich bin sicher"],
+    ["haklısın","Du hast recht"],["doğru","richtig"],["yanlış","falsch"],
+    ["unuttum","Ich habe es vergessen"],["hatırlamıyorum","Ich erinnere mich nicht"],
+    ["yardım eder misin","Kannst du mir helfen"],
+    /* kurze Aufforderungen */
+    ["gel","Komm"],["git","Geh"],["dur","Halt"],["bekle","Warte"],["otur","Setz dich"],
+    ["bak","Schau"],["dinle","Hör zu"],["söyle","Sag"],["anlat","Erzähl"],["tekrar et","Wiederhole"],
+    /* Grundverben */
+    ["vermek","geben"],["almak","nehmen"],["görmek","sehen"],["duymak","hören"],
+    ["söylemek","sagen"],["sormak","fragen"],["okumak","lesen"],["yazmak","schreiben"],
+    ["açmak","öffnen"],["kapatmak","schließen"],
+    /* weitere Grundwörter */
+    ["iş","Arbeit"],["telefon","Telefon"],["adres","Adresse"]
+  ],
+  /* 2 Typisch Türkisch */ [
+    ["kolay gelsin","Möge die Arbeit leicht fallen"],["afiyet olsun","Guten Appetit"],
+    ["eline sağlık","Gesundheit deiner Hand"],["geçmiş olsun","Gute Besserung"],
+    ["başın sağ olsun","Mein Beileid"],["sıhhatler olsun","Wohl bekomme das Bad"],
+    ["hayırlı olsun","Möge es Gutes bringen"],["gözün aydın","Schön für dich"],
+    ["maşallah","Wie schön, möge nichts es treffen"],["inşallah","Hoffentlich"],
+    ["Allah korusun","Gott bewahre"],["çok yaşa","Gesundheit (beim Niesen)"],
+    ["sen de gör","Danke (Antwort auf çok yaşa)"],["buyurun","Bitte sehr"],
+    ["baş üstüne","Sehr gerne, selbstverständlich"],["estağfurullah","Aber ich bitte dich"],
+    ["canım","meine Liebe"],["kardeşim","mein Bruder, meine Schwester"],["teyze","Tante"],["amca","Onkel"],
+    ["misafir","Gast"],["ev sahibi","Gastgeber"],["davet","Einladung"],["davet etmek","einladen"],
+    ["ikram","Bewirtung"],["ikram etmek","anbieten"],["sofra","gedeckter Tisch"],
+    ["misafirperver","gastfreundlich"],["komşuluk","Nachbarschaft"],["yardım","Hilfe"],
+    ["yardım etmek","helfen"],["el","Hand"],["sağlık","Gesundheit"],["hasta","krank"],
+    ["iyileşmek","gesund werden"],["doktor","Arzt"],["hastane","Krankenhaus"],["ilaç","Medikament"],
+    ["dinlenmek","sich ausruhen"],["uyumak","schlafen"],["yorgun","müde"],["mutlu","glücklich"],
+    ["üzgün","traurig"],["kızgın","wütend"],["rahat","entspannt"],["güzel","schön"],
+    ["iyi","gut"],["kötü","schlecht"],["büyük","groß"],["küçük","klein"],["yeni","neu"],["eski","alt"],
+    ["sıcak","heiß"],["soğuk","kalt"],["kolay","leicht"],["zor","schwer"],["hızlı","schnell"],
+    ["çok","viel, sehr"],["az","wenig"],["biraz","ein bisschen"],["bazen","manchmal"],
+    ["tabii","natürlich"],["elbette","selbstverständlich"],["olur","geht klar"],["olmaz","geht nicht"],
+    ["neden","warum"],["çünkü","weil"],["ama","aber"],["ve","und"],["ya da","oder"],
+    ["birlikte","gemeinsam"],["tekrar hoş geldin","Willkommen zurück"]
+  ],
+  /* 3 Im Café */ [
+    ["çay","Tee"],["kahve","Kaffee"],["Türk kahvesi","türkischer Kaffee"],["su","Wasser"],
+    ["ayran","Ayran"],["süt","Milch"],["şeker","Zucker"],["sade","ohne Zucker"],
+    ["orta","mittelsüß"],["şekerli","süß"],["bardak","Glas"],["fincan","Tasse"],
+    ["tabak","Teller"],["çatal","Gabel"],["bıçak","Messer"],["kaşık","Löffel"],["peçete","Serviette"],
+    ["ekmek","Brot"],["simit","Sesamkringel"],["peynir","Käse"],["zeytin","Olive"],["yumurta","Ei"],
+    ["bal","Honig"],["reçel","Marmelade"],["tereyağı","Butter"],["domates","Tomate"],
+    ["salatalık","Gurke"],["salata","Salat"],["çorba","Suppe"],["pilav","Reis"],
+    ["köfte","Frikadelle"],["kebap","Kebab"],["balık","Fisch"],["tavuk","Hähnchen"],
+    ["et","Fleisch"],["sebze","Gemüse"],["meyve","Obst"],["elma","Apfel"],["portakal","Orange"],
+    ["üzüm","Traube"],["karpuz","Wassermelone"],["tatlı","Nachtisch"],["baklava","Baklava"],
+    ["dondurma","Eis"],["kahvaltı","Frühstück"],["öğle yemeği","Mittagessen"],
+    ["akşam yemeği","Abendessen"],["aç","hungrig"],["tok","satt"],["doydum","Ich bin satt"],
+    ["lezzetli","lecker"],["acı","scharf"],["tuzlu","salzig"],["ekşi","sauer"],
+    ["hesap","Rechnung"],["para","Geld"],["pahalı","teuer"],["ucuz","billig"],["indirim","Rabatt"],
+    ["ne kadar","wie viel"],["market","Supermarkt"],["pazar","Markt"],["dükkan","Laden"],
+    ["lokanta","Restaurant"],["garson","Kellner"],["sipariş","Bestellung"],
+    ["bir","eins"],["iki","zwei"],["üç","drei"],["dört","vier"],["beş","fünf"],["on","zehn"]
+  ],
+  /* 4 Wie Türkisch funktioniert */ [
+    ["ev","Haus"],["evim","mein Haus"],["evin","dein Haus"],["evde","zu Hause"],
+    ["evden","von zu Hause"],["eve","nach Hause"],["okul","Schule"],["okulda","in der Schule"],
+    ["araba","Auto"],["arabayla","mit dem Auto"],["kitap","Buch"],["kitabım","mein Buch"],
+    ["kitaplar","Bücher"],["geliyorum","ich komme"],["gidiyorum","ich gehe"],["yapıyorum","ich mache"],
+    ["istiyorum","ich möchte"],["seviyorum","ich mag"],["görüyorum","ich sehe"],["duyuyorum","ich höre"],
+    ["konuşuyorum","ich spreche"],["öğreniyorum","ich lerne"],["çalışıyorum","ich arbeite"],
+    ["yiyorum","ich esse"],["içiyorum","ich trinke"],["var","es gibt"],["yok","es gibt nicht"],
+    ["değil","nicht"],["var mı","gibt es"],["ne","was"],["kim","wer"],["nerede","wo"],
+    ["nereye","wohin"],["nereden","woher"],["ne zaman","wann"],["nasıl","wie"],["kaç","wie viele"],
+    ["hangi","welche"],["bu","dieses"],["şu","das da"],["burada","hier"],["orada","dort"],
+    ["içinde","drinnen"],["dışında","draußen"],["üstünde","oben auf"],["altında","unter"],
+    ["yanında","neben"],["arkasında","hinter"],["önünde","vor"],["ile","mit"],["için","für"],
+    ["gibi","wie"],["kadar","bis"],["geldim","ich kam"],["gittim","ich ging"],["yaptım","ich machte"],
+    ["gelmiş","er ist wohl gekommen"],["yapacağım","ich werde machen"],["gelecek","er wird kommen"],
+    ["yapabilirim","ich kann machen"],["gelemem","ich kann nicht kommen"],["gelirsen","wenn du kommst"],
+    ["gelince","wenn ich komme"],["giderken","während ich gehe"],["yaparak","indem ich mache"],
+    ["daha büyük","größer"],["en büyük","am größten"],["benim","mein"],["senin","dein"],
+    ["onun","sein, ihr"],["bizim","unser"]
+  ],
+  /* 5 Gönül Wörter */ [
+    ["gönül","Herz als Ort des Fühlens"],["kalp","Herz als Organ"],["can","Seele, Leben"],
+    ["canım benim","meine Liebste"],["ruh","Geist"],["yürek","Mut"],["sevgi","Liebe"],
+    ["sevmek","lieben"],["aşk","leidenschaftliche Liebe"],["âşık olmak","sich verlieben"],
+    ["sevda","tiefe Liebe"],["hasret","schmerzliche Sehnsucht"],["özlem","Sehnsucht"],
+    ["özlemek","vermissen"],["seni özledim","Ich habe dich vermisst"],["hüzün","sanfte Melancholie"],
+    ["keder","Kummer"],["gözyaşı","Träne"],["ağlamak","weinen"],["gülmek","lachen"],
+    ["mutluluk","Glück"],["sevinç","Freude"],["umut","Hoffnung"],["korku","Angst"],
+    ["merak","Neugier"],["gurur","Stolz"],["pişmanlık","Reue"],["affetmek","vergeben"],
+    ["unutmak","vergessen"],["hatırlamak","sich erinnern"],["hatıra","Erinnerung"],
+    ["dost","enger Freund"],["dostluk","Freundschaft"],["vefa","Treue"],["sadakat","Loyalität"],
+    ["güven","Vertrauen"],["saygı","Respekt"],["muhabbet","herzliches Beisammensein"],
+    ["sohbet","Gespräch"],["samimi","aufrichtig"],["içten","von innen heraus"],
+    ["kırgın","gekränkt"],["küsmek","beleidigt sein"],["barışmak","sich versöhnen"],
+    ["teselli","Trost"],["yalnız","allein"],["yalnızlık","Einsamkeit"],["beraber","zusammen"],
+    ["ayrılık","Trennung"],["kavuşmak","wieder zusammenkommen"],["kısmet","Schicksalsfügung"],
+    ["kader","Schicksal"],["şans","Glück im Sinne von Zufall"],["nasip","das Zugeteilte"],
+    ["dua","Gebet"],["sabır","Geduld"],["şükür","Dankbarkeit"],["huzur","innerer Frieden"],
+    ["sakin","ruhig"],["kıymetli","wertvoll"],["değer","Wert"],["emek","Mühe"],
+    ["fedakârlık","Aufopferung"],["vicdan","Gewissen"],["merhamet","Barmherzigkeit"],
+    ["gönülden","von Herzen"],["candan","herzlich"],["sevgili","Liebling"],
+    ["hasretle","voller Sehnsucht"],["özledim seni","Ich vermisse dich"],["kalpten","vom Herzen"]
+  ],
+  /* 6 Unterwegs */ [
+    ["yol","Weg"],["sokak","Straße"],["cadde","Allee"],["meydan","Platz"],["şehir","Stadt"],
+    ["köy","Dorf"],["mahalle","Viertel"],["otel","Hotel"],["oda","Zimmer"],["anahtar","Schlüssel"],
+    ["bavul","Koffer"],["çanta","Tasche"],["pasaport","Pass"],["bilet","Ticket"],
+    ["havalimanı","Flughafen"],["uçak","Flugzeug"],["otobüs","Bus"],["dolmuş","Sammeltaxi"],
+    ["taksi","Taxi"],["tren","Zug"],["vapur","Fähre"],["durak","Haltestelle"],["gar","Bahnhof"],
+    ["iskele","Anlegestelle"],["yolcu","Reisender"],["şoför","Fahrer"],["gitmek","fahren"],
+    ["gelmek","kommen"],["varmak","ankommen"],["kalkmak","abfahren"],["inmek","aussteigen"],
+    ["binmek","einsteigen"],["beklemek","warten"],["geç","spät"],["erken","früh"],
+    ["saat","Uhr"],["dakika","Minute"],["gün","Tag"],["hafta","Woche"],["ay","Monat"],["yıl","Jahr"],
+    ["sağ","rechts"],["sol","links"],["düz","geradeaus"],["geri","zurück"],["ileri","vorwärts"],
+    ["yakın","nah"],["uzak","weit"],["tuvalet","Toilette"],["eczane","Apotheke"],["polis","Polizei"],
+    ["müze","Museum"],["cami","Moschee"],["kale","Burg"],["deniz","Meer"],["plaj","Strand"],
+    ["dağ","Berg"],["göl","See"],["nehir","Fluss"],["orman","Wald"],["hava","Wetter"],
+    ["güneş","Sonne"],["yağmur","Regen"],["kar","Schnee"],["rüzgar","Wind"],
+    ["kayboldum","Ich habe mich verlaufen"],["sola dön","Bieg links ab"],["sağa dön","Bieg rechts ab"],
+    ["düz git","Geh geradeaus"],["burada inecek var","Hier möchte jemand aussteigen"],
+    ["müsait bir yerde","An einer passenden Stelle bitte"]
+  ]
+].map(list=>{
+  const seenTr = {}, seenDe = {}, out = [];
+  list.forEach(([tr,de])=>{
+    if(seenTr[tr] || seenDe[de]) return;
+    seenTr[tr] = seenDe[de] = 1;
+    out.push({tr, de});
+  });
+  return out;
+});
+
+const LESSON_TARGET = 30;
+function genLessons(){
+  UNITS.forEach((u,ui)=>{
+    const pool = POOL[ui]; if(!pool || pool.length < 6) return;
+    const other = (w, key) => shuffle(pool.filter(x=>x[key] !== w[key])).slice(0,3).map(x=>x[key]);
+    const opts = (w, key) => shuffle([w[key], ...other(w, key)]);
+    let n = 0;
+    while(u.lessons.length < LESSON_TARGET && n + 3 <= pool.length){
+      const neu = pool.slice(n, n+3);
+      const seen = pool.slice(0, n);
+      const rev = [];
+      for(let i=0; i<3 && seen.length; i++) rev.push(seen[(n*7 + i*17) % seen.length]);
+
+      const pairs = [], usedTr = {}, usedDe = {};
+      [...neu, ...rev, ...pool].forEach(w=>{
+        if(pairs.length >= 4 || usedTr[w.tr] || usedDe[w.de]) return;
+        usedTr[w.tr] = usedDe[w.de] = 1;
+        pairs.push([w.tr, w.de]);
+      });
+
+      const items = [
+        {k:"choice", de:neu[0].de, tr:neu[0].tr, opts:opts(neu[0],"tr")},
+        {k:"choice", de:neu[1].de, tr:neu[1].tr, opts:opts(neu[1],"tr")},
+        {k:"listen", tr:neu[2].tr, de:neu[2].de, opts:opts(neu[2],"de")},
+        {k:"match", pairs},
+        {k:"choice", lbl:"Was heißt das auf Deutsch", de:neu[0].tr, tr:neu[0].de, opts:opts(neu[0],"de")}
+      ];
+      const r = rev[0] || neu[1];
+      items.push({k:"choice", de:r.de, tr:r.tr, opts:opts(r,"tr")});
+
+      u.lessons.push({ t: neu.map(w=>w.tr).join(", "), s:"6 Übungen", items });
+      n += 3;
+    }
+  });
+}
+genLessons();
+
+const FLAT = [];
+UNITS.forEach((u,ui)=>u.lessons.forEach((l,li)=>FLAT.push({ui,li,...l})));
+const TOTAL = FLAT.length;
+const DAILY_GOAL = 40;
+
+/* ---------- PREMIUM ----------
+   KAUF_LINK: hier den Zahlungslink eintragen (Lemon Squeezy, Gumroad, Stripe).
+   Solange er leer ist, führt der Button zu Instagram und der Zugang
+   wird von Hand per Code vergeben.                                        */
+const PAYWALL_AN = false;   /* auf true stellen, wenn bezahlt werden kann */
+const KAUF_LINK = "";
+const INSTA = "https://www.instagram.com/typisch__turkisch/";
+const PREIS_EINMAL = "19,90 €";
+const PREIS_MONAT  = "4,99 €";
+const CODES = ["TT-7F3K9","TT-2M8Q4","TT-9X1V6","TT-4B7N2","TT-6J5R8",
+               "TT-1D4W7","TT-8H2Z5","TT-3P9L1","TT-5T6Y3","TT-7C1A9",
+               "TT-2G8E4","TT-6K3U7","TT-9N5S2","TT-4R7M8","TT-1V2F6",
+               "TT-8W9D3","TT-3Z4H5","TT-5L1P7","TT-7Y8T2","TT-2A6C9",
+               "TT-6E3G1","TT-9U7K4","TT-4S2N8","TT-1M5R6","TT-8F9B3"];
+
+/* ---------- 2. PROFILE UND ZUSTAND ----------
+   Achtung: das sind lokale Profile, keine echten Konten.
+   Alles liegt im Browser dieses Geräts. Ein echtes Konto
+   mit Passwort und geräteübergreifendem Fortschritt
+   braucht einen Server.                                   */
+const UKEY = "tt_users_v2", AKEY = "tt_active_v2", OLDKEY = "tt_progress_v1";
+const todayStr = () => new Date().toISOString().slice(0,10);
+
+const fresh = () => ({done:[],xp:0,streak:0,lastDay:null,dayXp:0,hearts:5,heartDay:todayStr(),
+                      pro:false, passed:[], bonusDone:[], saved:[], sound:true, voice:true,
+                      mark:null, amb:null});
+
+let USERS = {}, ACTIVE = null, S = fresh();
+
+function loadAll(){
+  try{ USERS = JSON.parse(localStorage.getItem(UKEY) || "{}") || {}; }catch(e){ USERS = {}; }
+  try{ ACTIVE = localStorage.getItem(AKEY); }catch(e){ ACTIVE = null; }
+  // alten Einzelfortschritt einmalig in ein Gastprofil übernehmen
+  try{
+    const old = localStorage.getItem(OLDKEY);
+    if(old && !USERS["__gast"]){
+      USERS["__gast"] = {name:"Gast", pin:"", data:Object.assign(fresh(), JSON.parse(old))};
+      localStorage.removeItem(OLDKEY);
+    }
+  }catch(e){}
+  if(ACTIVE && USERS[ACTIVE]) S = Object.assign(fresh(), USERS[ACTIVE].data);
+  else { ACTIVE = null; S = fresh(); }
+}
+function saveAll(){
+  try{
+    if(ACTIVE && USERS[ACTIVE]) USERS[ACTIVE].data = S;
+    localStorage.setItem(UKEY, JSON.stringify(USERS));
+    if(ACTIVE) localStorage.setItem(AKEY, ACTIVE); else localStorage.removeItem(AKEY);
+  }catch(e){}
+}
+const slug = n => n.trim().toLowerCase();
+const tage = n => n + (n === 1 ? " Tag" : " Tage");
+const displayName = () => (ACTIVE && USERS[ACTIVE]) ? USERS[ACTIVE].name : "Gast";
+const initial = () => (displayName()[0] || "?").toUpperCase();
+
+loadAll();
+
+function rollDay(){
+  const t = todayStr();
+  if(S.heartDay !== t){ S.hearts = 5; S.heartDay = t; }
+  if(S.lastDay !== t){ S.dayXp = 0; }
+  // Streak bricht, wenn ein ganzer Tag ohne XP liegt
+  if(S.lastDay){
+    const diff = Math.round((new Date(t) - new Date(S.lastDay))/864e5);
+    if(diff > 1) S.streak = 0;
+  }
+}
+rollDay();
+
+function save(){ saveAll(); }
+
+function addXp(n){
+  const t = todayStr();
+  if(S.lastDay !== t){
+    S.streak = (S.streak || 0) + 1;
+    S.lastDay = t;
+    S.dayXp = 0;
+  }
+  S.xp += n; S.dayXp += n;
+  save();
+}
+
+const isDone = i => S.done.includes(i);
+
+/* Fortschritt läuft jetzt Einheit für Einheit:
+   Lektionen -> Bonus -> Abschlusstest -> nächste Einheit */
+const lessonsOf = ui => FLAT.map((f,i)=> f.ui===ui ? i : -1).filter(i=>i>=0);
+const unitOpen  = ui => ui === 0 || S.passed.includes(ui-1);
+const unitDone  = ui => lessonsOf(ui).every(isDone);
+const bonusOpen = ui => unitOpen(ui) && unitDone(ui);
+const examOpen  = ui => bonusOpen(ui) && S.bonusDone.includes(ui);
+function isOpen(i){
+  const ui = FLAT[i].ui, arr = lessonsOf(ui), pos = arr.indexOf(i);
+  return unitOpen(ui) && (pos === 0 || isDone(arr[pos-1]));
+}
+
+/* ---------- 3. HILFSMITTEL ---------- */
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- Stimmen ----------
+   Benutzt die Stimmen des Geräts. Türkisch wird bevorzugt
+   weiblich gewählt, wenn das Gerät eine solche Stimme hat.  */
+let ttsOk = true, trVoice = null, deVoice = null;
+function pickVoices(){
+  try{
+    const vs = speechSynthesis.getVoices() || [];
+    if(!vs.length) return;
+    const tr = vs.filter(v=>/^tr/i.test(v.lang));
+    const deAll = vs.filter(v=>/^de/i.test(v.lang));
+    const fem = /(yelda|filiz|seda|zeynep|ayla|meltem|female|woman|kad[ıi]n)/i;
+    const femDe = /(anna|petra|marlene|katja|helena|female|woman)/i;
+    trVoice = tr.find(v=>fem.test(v.name)) || tr[0] || null;
+    deVoice = deAll.find(v=>femDe.test(v.name)) || deAll[0] || null;
+    ttsOk = !!tr.length;
+  }catch(e){ ttsOk = false; }
+}
+try{
+  if(window.speechSynthesis){ pickVoices(); speechSynthesis.onvoiceschanged = pickVoices; }
+  else ttsOk = false;
+}catch(e){ ttsOk = false; }
+
+function speak(text, lang, cb){
+  try{
+    if(!window.speechSynthesis){ cb && cb(); return; }
+    /* Türkisch niemals mit einer deutschen Stimme vorlesen:
+       das würde eine falsche Aussprache antrainieren. */
+    if(lang !== "de" && !trVoice){ cb && cb(); return; }
+    const u = new SpeechSynthesisUtterance(text);
+    if(lang === "de"){ u.lang = "de-DE"; if(deVoice) u.voice = deVoice; u.rate = .95; }
+    else { u.lang = "tr-TR"; if(trVoice) u.voice = trVoice; u.rate = .82; }
+    u.onend = () => cb && cb();
+    u.onerror = () => cb && cb();
+    speechSynthesis.speak(u);
+  }catch(e){ cb && cb(); }
+}
+function say(text, lang, cb){
+  try{ speechSynthesis.cancel(); }catch(e){}
+  speak(text, lang || "tr", cb);
+}
+
+/* ---------- Echte Aufnahmen ----------
+   AUDIO["0-3"] = "data:audio/mp4;base64,...."
+   Sobald hier eine Aufnahme liegt, wird sie statt der
+   Gerätestimme abgespielt. Fehlt sie, greift die
+   Gerätestimme, und fehlt die auch, sagt die App es.      */
+const AUDIO = {};
+let curAudio = null;
+function stopClip(){
+  try{ if(curAudio){ curAudio.pause(); curAudio = null; } }catch(e){}
+  try{ speechSynthesis.cancel(); }catch(e){}
+}
+function playClip(key, text, lang, cb){
+  const src = AUDIO[key];
+  if(src){
+    try{
+      curAudio = new Audio(src);
+      curAudio.onended = () => cb && cb();
+      curAudio.onerror = () => speak(text, lang, cb);
+      const pr = curAudio.play();
+      if(pr && pr.catch) pr.catch(()=>speak(text, lang, cb));
+      return;
+    }catch(e){}
+  }
+  speak(text, lang, cb);
+}
+const canSpeakTr = () => !!trVoice;
+const canPlayAudio = () => Object.keys(AUDIO).length > 0 || canSpeakTr();
+
+/* kurze türkische Rückmeldungen */
+const V_RIGHT = ["Doğru","Aferin","Çok güzel","Başardın","Harika","Bildin"];
+const V_WRONG = ["Olmadı","Tekrar dene","Bu yanlış oldu","Yakındın","Bir daha dene"];
+const V_DONE  = ["Tebrikler","Çok iyi gidiyorsun","Bugün de yaptın"];
+const V_PASS  = ["Tebrikler, sınavı geçtin"];
+const V_FAIL  = ["Olmadı, tekrar dene"];
+const pick = a => a[Math.random()*a.length|0];
+function voiceFb(list, delay){
+  if(!S.voice || !trVoice) return;
+  setTimeout(()=>{ try{ speechSynthesis.cancel(); }catch(e){} speak(pick(list), "tr"); }, delay || 260);
+}
+
+/* ---------- Töne ----------
+   Alles wird im Browser erzeugt, keine Audiodateien.    */
+let AC = null;
+function ac(){
+  try{
+    if(!AC){ const C = window.AudioContext || window.webkitAudioContext; if(!C) return null; AC = new C(); }
+    if(AC.state === "suspended") AC.resume();
+    return AC;
+  }catch(e){ return null; }
+}
+function tone(freq, start, dur, vol, type){
+  const c = ac(); if(!c) return;
+  try{
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type || "sine"; o.frequency.value = freq;
+    const t0 = c.currentTime + start;
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t0); o.stop(t0 + dur + 0.02);
+  }catch(e){}
+}
+/* ---------- Naturklang im Hintergrund ----------
+   Wird im Browser erzeugt, keine Audiodatei, läuft endlos. */
+let AMB = null;
+function ambStop(){
+  try{ if(AMB){ AMB.src.stop(); if(AMB.lfo) AMB.lfo.stop(); } }catch(e){}
+  AMB = null;
+}
+function ambStart(kind){
+  const c = ac(); if(!c) return false;
+  ambStop();
+  try{
+    const n = 3 * c.sampleRate;
+    const buf = c.createBuffer(1, n, c.sampleRate);
+    const d = buf.getChannelData(0);
+    let last = 0;
+    for(let i=0;i<n;i++){
+      const w = Math.random()*2 - 1;
+      last = (last + 0.02*w) / 1.02;
+      d[i] = last * 3.2;
+    }
+    const src = c.createBufferSource(); src.buffer = buf; src.loop = true;
+    const flt = c.createBiquadFilter();
+    const g = c.createGain();
+    let lfo = null;
+    if(kind === "yagmur"){ flt.type = "bandpass"; flt.frequency.value = 1500; flt.Q.value = 0.35; g.gain.value = 0.17; }
+    else if(kind === "deniz"){ flt.type = "lowpass"; flt.frequency.value = 520; g.gain.value = 0.20; }
+    else { flt.type = "lowpass"; flt.frequency.value = 340; g.gain.value = 0.16; }
+    src.connect(flt); flt.connect(g); g.connect(c.destination);
+    src.start();
+    if(kind === "deniz"){
+      lfo = c.createOscillator(); lfo.frequency.value = 0.11;
+      const lg = c.createGain(); lg.gain.value = 0.11;
+      lfo.connect(lg); lg.connect(g.gain); lfo.start();
+    }
+    AMB = { src, g, lfo, kind };
+    return true;
+  }catch(e){ return false; }
+}
+const AMBS = [["yagmur","🌧 Regen"],["deniz","🌊 Meer"],["ruzgar","🍃 Wind"]];
+
+function sfx(kind){
+  if(!S.sound) return;
+  if(kind === "right"){ tone(784, 0, .10, .13); tone(1175, .075, .14, .11); }
+  else if(kind === "wrong"){ tone(196, 0, .16, .13, "triangle"); tone(147, .1, .20, .10, "triangle"); }
+  else if(kind === "done"){ [523,659,784,1047].forEach((f,i)=>tone(f, i*.085, .22, .11)); }
+  else if(kind === "pass"){ [523,659,784,1047,1319].forEach((f,i)=>tone(f, i*.09, .3, .12)); }
+  else if(kind === "fail"){ tone(330, 0, .2, .11, "triangle"); tone(247, .15, .3, .10, "triangle"); }
+  else if(kind === "save"){ tone(988, 0, .08, .09); }
+}
+
+function topbar(){
+  return `<div class="topbar">
+    <button class="chip" id="chip"><span class="ava sm">${esc(initial())}</span></button>
+    <div class="stat fire"><span class="ic">🔥</span>${S.streak}</div>
+    <div class="stat gem"><span class="ic">☕</span>${S.xp}</div>
+    <div class="spacer"></div>
+    <div class="stat heart"><span class="ic">🥯</span>${S.hearts}</div>
+  </div>`;
+}
+
+/* ---------- 3b. PROFILE ---------- */
+function authScreen(mode){
+  const names = Object.keys(USERS).filter(k=>k!=="__gast");
+  const isNew = mode === "new" || names.length === 0;
+  app.innerHTML = `<div class="auth">
+    <h1 class="brand">Typisch <span class="tr">Türkisch</span></h1>
+    <p class="lead">${isNew
+      ? "Türkisch lernen und verstehen, wie in der Türkei wirklich gelebt wird. Leg ein Profil an, damit dein Fortschritt gespeichert bleibt."
+      : "Willkommen zurück. Wähle dein Profil."}</p>
+
+    ${(!isNew && names.length) ? `<div class="known">${names.map(k=>`
+        <button data-pick="${esc(k)}">
+          <span class="ava">${esc((USERS[k].name[0]||"?").toUpperCase())}</span>
+          <span><b>${esc(USERS[k].name)}</b><small>${USERS[k].data.done.length} Lektionen, ${USERS[k].data.xp} Çay</small></span>
+        </button>`).join("")}</div>` : ""}
+
+    ${isNew ? `
+      <div class="field"><label>Benutzername</label>
+        <input id="u" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="z.B. lena_b" maxlength="20"></div>
+      <div class="field"><label>PIN, vier Ziffern, optional</label>
+        <input id="p" inputmode="numeric" autocomplete="off" placeholder="2468" maxlength="4"></div>
+      <div class="err" id="e"></div>
+      <button class="cta" id="go">Profil erstellen</button>
+      ${names.length ? `<div class="switchline">Schon ein Profil? <button id="toLogin">Anmelden</button></div>` : ""}
+    ` : `
+      <div class="switchline" style="margin-top:4px">Neu hier? <button id="toNew">Profil erstellen</button></div>
+    `}
+
+    <div class="switchline" style="margin-top:22px"><button id="guest">Ohne Profil weiterlernen</button></div>
+  </div>`;
+
+  const g = id => document.getElementById(id);
+  if(g("go")) g("go").onclick = () => {
+    const name = (g("u").value||"").trim();
+    const pin = (g("p").value||"").trim();
+    if(name.length < 2){ g("e").textContent = "Bitte einen Namen mit mindestens zwei Zeichen."; return; }
+    if(pin && !/^\d{4}$/.test(pin)){ g("e").textContent = "Die PIN muss aus genau vier Ziffern bestehen."; return; }
+    if(USERS[slug(name)]){ g("e").textContent = "Diesen Namen gibt es auf diesem Gerät schon."; return; }
+    USERS[slug(name)] = { name, pin, data: fresh() };
+    ACTIVE = slug(name); S = USERS[ACTIVE].data;
+    saveAll(); home();
+  };
+  if(g("toLogin")) g("toLogin").onclick = () => authScreen("login");
+  if(g("toNew")) g("toNew").onclick = () => authScreen("new");
+  if(g("guest")) g("guest").onclick = () => {
+    if(!USERS["__gast"]) USERS["__gast"] = {name:"Gast", pin:"", data:fresh()};
+    ACTIVE = "__gast"; S = USERS[ACTIVE].data; saveAll(); home();
+  };
+  app.querySelectorAll("[data-pick]").forEach(b=>{
+    b.onclick = () => pinScreen(b.dataset.pick);
+  });
+}
+
+function pinScreen(key){
+  const u = USERS[key];
+  if(!u.pin){ ACTIVE = key; S = Object.assign(fresh(), u.data); saveAll(); home(); return; }
+  app.innerHTML = `<div class="auth">
+    <h1 class="brand">Hallo ${esc(u.name)}</h1>
+    <p class="lead">Gib deine vierstellige PIN ein.</p>
+    <div class="field"><label>PIN</label>
+      <input id="p" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="••••"></div>
+    <div class="err" id="e"></div>
+    <button class="cta" id="go">Weiter</button>
+    <div class="switchline" style="margin-top:18px"><button id="back">Anderes Profil</button></div>
+  </div>`;
+  const g = id => document.getElementById(id);
+  g("p").focus();
+  g("go").onclick = () => {
+    if((g("p").value||"").trim() !== u.pin){ g("e").textContent = "Die PIN stimmt nicht."; return; }
+    ACTIVE = key; S = Object.assign(fresh(), u.data); saveAll(); home();
+  };
+  g("back").onclick = () => authScreen("login");
+}
+
+function profileSheet(){
+  const el = document.createElement("div");
+  el.className = "sheet";
+  const names = Object.keys(USERS).filter(k => k !== ACTIVE && k !== "__gast");
+  el.innerHTML = `<div class="inner">
+    <h3>${esc(displayName())}</h3>
+    <p class="who">${S.done.length} von ${TOTAL} Lektionen, ${S.xp} Çay, ${tage(S.streak)} Serie</p>
+    ${names.map(k=>`<button class="row" data-sw="${esc(k)}">
+        <span class="ava sm">${esc((USERS[k].name[0]||"?").toUpperCase())}</span>
+        <span>Zu ${esc(USERS[k].name)} wechseln</span></button>`).join("")}
+    <button class="row" id="tgSound"><span class="ava sm" style="background:var(--surface);color:var(--muted)">${S.sound?"🔊":"🔇"}</span><span>Töne ${S.sound?"an":"aus"}</span></button>
+    <button class="row" id="tgVoice"><span class="ava sm" style="background:var(--surface);color:var(--muted)">${S.voice?"🗣":"🤐"}</span><span>Türkische Stimme ${S.voice?"an":"aus"}</span></button>
+    <button class="row" id="voiceHelp"><span class="ava sm" style="background:var(--surface);color:var(--muted)">❓</span><span>${canSpeakTr()?"Türkische Stimme ist installiert":"Türkische Stimme einrichten"}</span></button>
+    <button class="row" data-sw="__new__"><span class="ava sm">+</span><span>Neues Profil</span></button>
+    <button class="row" id="out"><span class="ava sm" style="background:var(--surface);color:var(--muted)">⎋</span><span>Abmelden</span></button>
+    <p class="note">Dein Fortschritt liegt auf diesem Gerät. Auf einem anderen Handy startest du neu.</p>
+    <button class="cta ghost" id="close">Schließen</button>
+  </div>`;
+  document.body.appendChild(el);
+  const kill = () => el.remove();
+  el.onclick = e => { if(e.target === el) kill(); };
+  el.querySelector("#close").onclick = kill;
+  el.querySelector("#tgSound").onclick = () => { S.sound = !S.sound; save(); if(S.sound) sfx("save"); kill(); profileSheet(); };
+  el.querySelector("#tgVoice").onclick = () => { S.voice = !S.voice; save(); kill(); profileSheet(); };
+  el.querySelector("#voiceHelp").onclick = () => { kill(); voiceHelpScreen(); };
+  el.querySelector("#out").onclick = () => { saveAll(); ACTIVE = null; S = fresh(); saveAll(); kill(); authScreen("login"); };
+  el.querySelectorAll("[data-sw]").forEach(b=>{
+    b.onclick = () => {
+      saveAll(); kill();
+      if(b.dataset.sw === "__new__") authScreen("new"); else pinScreen(b.dataset.sw);
+    };
+  });
+}
+
+/* ---------- 3c. PREMIUM-SPERRE ---------- */
+const proLocked = i => PAYWALL_AN && UNITS[FLAT[i].ui].pro && !S.pro;
+
+function paywall(){
+  app.innerHTML = topbar() + `<div class="auth" style="justify-content:flex-start;padding-top:10px">
+    <h1 class="brand">Premium</h1>
+    <p class="lead">Die Einheiten zur Grammatik, den Gönül Wörtern und dem Alltag unterwegs. Dazu alles, was später dazukommt.</p>
+    <button class="cta" id="buy">${PREIS_EINMAL} einmalig, dauerhaft</button>
+    <div class="switchline" style="margin-top:10px">oder ${esc(PREIS_MONAT)} im Monat</div>
+    <div class="field" style="margin-top:26px"><label>Zugangscode</label>
+      <input id="c" autocomplete="off" autocapitalize="characters" placeholder="TT-XXXXX"></div>
+    <div class="err" id="e"></div>
+    <button class="cta" id="redeem">Code einlösen</button>
+    <div class="switchline" style="margin-top:18px"><button id="back">Zurück</button></div>
+  </div>`;
+  const g = id => document.getElementById(id);
+  g("buy").onclick = () => { const a = document.createElement("a"); a.href = KAUF_LINK || INSTA; a.target="_blank"; a.rel="noopener"; a.click(); };
+  g("redeem").onclick = () => {
+    const v = (g("c").value||"").trim().toUpperCase();
+    if(CODES.includes(v)){ S.pro = true; save(); home(); }
+    else g("e").textContent = "Dieser Code ist nicht gültig.";
+  };
+  g("back").onclick = home;
+  g("chip").onclick = profileSheet;
+}
+
+/* ---------- 4. STARTBILDSCHIRM ---------- */
+function home(){
+  rollDay();
+  const pct = Math.min(100, Math.round(S.dayXp/DAILY_GOAL*100));
+  let path = "";
+  UNITS.forEach((u,ui)=>{
+    const open = unitOpen(ui), passed = S.passed.includes(ui);
+    const arr = lessonsOf(ui);
+    const fertig = arr.filter(isDone).length;
+    path += `<div class="unit">
+      <div class="unit-head" ${open?"":'style="border-left-color:var(--line);opacity:.6"'}>
+        <div class="n" ${open?"":'style="background:var(--surface-2);color:var(--muted)"'}>${passed?"✓":ui+1}</div>
+        <div><div class="t">${esc(u.t)}</div>
+          <div class="s">${open ? `${esc(u.s)} · ${fertig}/${arr.length}` : "Erst den Test der Einheit davor bestehen"}</div></div>
+      </div>`;
+
+    if(open){
+      arr.forEach(i=>{
+        const l = FLAT[i], pro = proLocked(i);
+        const st = pro ? "lock" : (isDone(i) ? "done" : (isOpen(i) ? "open" : "lock"));
+        const ic = pro ? "⭐" : (isDone(i) ? "✓" : (isOpen(i) ? u.icon : "🔒"));
+        const sub = pro ? "Mit Premium freischalten" : (st==="lock" ? "Erst die Lektion davor" : esc(l.s));
+        const dis = (!pro && st==="lock") ? "disabled" : "";
+        path += `<button class="node" ${pro?'data-pay="1"':`data-les="${i}"`} ${dis}>
+          <div class="orb ${st}">${ic}${(!pro&&isDone(i))?'<span class="crown">fertig</span>':""}</div>
+          <div class="meta"><b>${esc(l.t)}</b><span>${sub}</span></div>
+        </button>`;
+      });
+
+      const bDone = S.bonusDone.includes(ui), bOpen = bonusOpen(ui);
+      path += `<button class="node" ${bOpen?`data-bonus="${ui}"`:""} ${bOpen?"":"disabled"}>
+        <div class="orb ${bDone?"done":(bOpen?"gold":"lock")}">${bDone?"✓":(bOpen?"📜":"🔒")}</div>
+        <div class="meta"><b>Bonus: ${esc(BONUS[ui].t)}</b>
+          <span>${bOpen?"10 Sprichwörter und Redewendungen":"Erst alle Lektionen dieser Einheit"}</span></div>
+      </button>`;
+
+      const eOpen = examOpen(ui);
+      path += `<button class="node" ${eOpen?`data-exam="${ui}"`:""} ${eOpen?"":"disabled"}>
+        <div class="orb ${passed?"done":(eOpen?"gold":"lock")}">${passed?"✓":(eOpen?"🎓":"🔒")}</div>
+        <div class="meta"><b>Abschlusstest</b>
+          <span>${passed?"Bestanden, noch einmal üben":(eOpen?"8 Fragen aus dieser Einheit":"Erst die Lektionen und den Bonus")}</span></div>
+      </button>`;
+    }
+    path += `</div>`;
+  });
+
+  app.innerHTML = topbar() + `
+    <div class="hero">
+      <h1>${ACTIVE === "__gast" ? `Typisch <span class="tr">Türkisch</span>` : `Hallo ${esc(displayName())}`}</h1>
+      <p>${ACTIVE === "__gast"
+        ? "Türkisch und türkisches Leben. Wie wirklich gesprochen wird, was man sagt und was man glaubt."
+        : (S.streak > 0 ? `Du bist seit ${S.streak} ${S.streak===1?"Tag":"Tagen"} dabei, weiter geht es.` : "Such dir eine Lektion aus und fang an.")}</p>
+    </div>
+    <div class="daily">
+      <div class="daily-row"><b>Tagesziel</b><span>${S.dayXp>=DAILY_GOAL ? "geschafft" : S.dayXp+" / "+DAILY_GOAL+" Çay"}</span></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="daily-row" style="margin:9px 0 0"><span>${S.done.length} von ${TOTAL} Lektionen</span><span>${S.streak>0?"🔥 "+tage(S.streak):"Heute starten"}</span></div>
+    </div>
+    <div class="homebtns">
+      <button id="kulturBtn">🧿 Kulturecke</button>
+      <button id="hoerBtn">🎧 Hörecke</button>
+      <button id="savedBtn">📜 ${S.saved.length}</button>
+    </div>
+    <div class="path">${path}</div>`;
+
+  document.getElementById("chip").onclick = profileSheet;
+  document.getElementById("savedBtn").onclick = savedScreen;
+  document.getElementById("kulturBtn").onclick = kulturScreen;
+  document.getElementById("hoerBtn").onclick = () => hoerScreen(null);
+  app.querySelectorAll("[data-les]").forEach(b=>{ b.onclick = () => startLesson(+b.dataset.les); });
+  app.querySelectorAll("[data-bonus]").forEach(b=>{ b.onclick = () => bonusScreen(+b.dataset.bonus, 0); });
+  app.querySelectorAll("[data-exam]").forEach(b=>{ b.onclick = () => startExam(+b.dataset.exam); });
+  app.querySelectorAll("[data-pay]").forEach(b=>{ b.onclick = paywall; });
+}
+
+/* ---------- 4b. BONUS ---------- */
+function bonusScreen(ui, pos){
+  const set = BONUS[ui], c = set.cards[pos], id = ui + "-" + pos;
+  const on = S.saved.includes(id);
+  app.innerHTML = `<div class="lessbar">
+      <button class="x" id="quit">✕</button>
+      <div class="bar"><i style="width:${Math.round(pos/set.cards.length*100)}%"></i></div>
+      <div class="stat gem"><span class="ic">📜</span>${pos+1}/${set.cards.length}</div>
+    </div>
+    <div class="q">
+      <div class="q-kind">Bonus · ${esc(set.t)}</div>
+      <div class="bcard">
+        <span class="btag">${esc(c.k)}</span>
+        <p class="tr">${esc(c.tr)}</p>
+        <p class="li">${esc(c.lit)}</p>
+        <p class="me">${esc(c.de)}</p>
+        <div class="us">${esc(c.use)}</div>
+      </div>
+      <button class="speak" id="sp" style="margin-top:14px"><span class="sp">🔊</span><span>Anhören</span></button>
+      <button class="savebtn ${on?"on":""}" id="save">${on?"★ Gemerkt":"☆ Merken"}</button>
+    </div>
+    <div class="foot">
+      <button class="cta" id="next">${pos+1 < set.cards.length ? "Weiter" : "Bonus abschließen"}</button>
+    </div>`;
+  const g = id2 => document.getElementById(id2);
+  g("quit").onclick = home;
+  g("sp").onclick = () => say(c.tr);
+  g("save").onclick = () => {
+    const i = S.saved.indexOf(id);
+    if(i >= 0) S.saved.splice(i,1); else { S.saved.push(id); sfx("save"); }
+    save(); bonusScreen(ui, pos);
+  };
+  g("next").onclick = () => {
+    if(pos+1 < set.cards.length){ bonusScreen(ui, pos+1); return; }
+    if(!S.bonusDone.includes(ui)){ S.bonusDone.push(ui); addXp(30); }
+    sfx("done"); save(); home();
+  };
+}
+
+function savedScreen(){
+  const items = S.saved.map(id=>{
+    const [ui,pos] = id.split("-").map(Number);
+    return (BONUS[ui] && BONUS[ui].cards[pos]) ? {id, c:BONUS[ui].cards[pos], t:BONUS[ui].t} : null;
+  }).filter(Boolean);
+  app.innerHTML = topbar() + `
+    <div class="hero"><h1>Merkliste</h1>
+      <p>${items.length ? "Alles, was du dir gemerkt hast. Jederzeit zum Nachlesen." : ""}</p></div>
+    <div class="path">
+      ${items.length ? items.map(it=>`<div class="listitem">
+          <p class="tr">${esc(it.c.tr)}</p>
+          <p class="me">${esc(it.c.de)}</p>
+          <button data-rm="${esc(it.id)}">Entfernen</button>
+        </div>`).join("") : `<div class="empty">Noch nichts gemerkt.<br>Tippe im Bonus einer Einheit auf Merken,<br>dann sammelt sich hier deine eigene Liste.</div>`}
+    </div>
+    <div class="foot"><button class="cta" id="back">Zurück</button></div>`;
+  document.getElementById("chip").onclick = profileSheet;
+  document.getElementById("back").onclick = home;
+  app.querySelectorAll("[data-rm]").forEach(b=>{
+    b.onclick = () => { const i = S.saved.indexOf(b.dataset.rm); if(i>=0) S.saved.splice(i,1); save(); savedScreen(); };
+  });
+}
+
+/* ---------- 4a. TÜRKISCHE STIMME EINRICHTEN ---------- */
+function voiceHelpScreen(){
+  const ok = canSpeakTr();
+  app.innerHTML = topbar() + `
+    <div class="hero">
+      <h1>Türkische Stimme</h1>
+      <p>${ok
+        ? "Auf diesem Gerät ist eine türkische Stimme vorhanden. Das Vorlesen funktioniert."
+        : "Auf diesem Gerät ist noch keine türkische Stimme installiert. Deshalb bleibt das Vorlesen stumm."}</p>
+    </div>
+    ${ok ? "" : `<div class="warn">Wir lesen türkische Sätze bewusst nicht mit einer deutschen Stimme vor.
+      Sie würde die Wörter falsch aussprechen, und genau das willst du dir nicht angewöhnen.</div>`}
+    <div class="read" style="padding-top:0">
+      <div class="sec">
+        <h3>iPhone und iPad</h3>
+        <p class="tw">Einmal einrichten, dann bleibt es</p>
+        <p>Öffne die Einstellungen, geh zu Bedienungshilfen, dann Gesprochene Inhalte, dann Stimmen.
+        Wähle dort Türkisch aus und lade eine Stimme herunter. Yelda ist eine weibliche türkische Stimme.</p>
+        <div class="tp">Die Namen der Menüpunkte sind je nach iOS-Version leicht anders, der Weg bleibt aber derselbe.</div>
+      </div>
+      <div class="sec">
+        <h3>Android</h3>
+        <p class="tw">Über die Sprachausgabe</p>
+        <p>Öffne die Einstellungen und such nach Text-in-Sprache oder Sprachausgabe. Wähle die
+        Google Sprachausgabe, geh auf Sprachdaten installieren und lade Türkisch herunter.</p>
+        <div class="tp">Je nach Hersteller liegt der Punkt unter System, unter Allgemeine Verwaltung oder unter Bedienungshilfen.</div>
+      </div>
+      <div class="sec">
+        <h3>Danach</h3>
+        <p class="tw">Kurz neu laden</p>
+        <p>Schließ diese Seite einmal und öffne sie wieder. Dann findet die App die neue Stimme
+        und die Hörecke spielt ab.</p>
+        <div class="tp">Du kannst alles auch ohne Stimme nutzen. Lesen, Merken und die Übungen funktionieren vollständig.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <button class="cta" id="test" ${ok?"":"disabled"}>${ok?"Stimme testen":"Noch keine Stimme gefunden"}</button>
+      <button class="cta ghost" id="back">Zurück</button>
+    </div>`;
+  document.getElementById("chip").onclick = profileSheet;
+  document.getElementById("back").onclick = home;
+  const t = document.getElementById("test");
+  if(t && ok) t.onclick = () => say("Merhaba, hoş geldin. Türkçe öğrenmeye hazır mısın?");
+}
+
+/* ---------- 4b1. KULTURECKE (zum Lesen) ---------- */
+function ambBar(){
+  return `<div class="ambbar">
+    ${AMBS.map(([k,l])=>`<button class="${S.amb===k?"on":""}" data-amb="${k}">${l}</button>`).join("")}
+    <button class="${S.amb?"":"on"}" data-amb="off">🔇 Still</button>
+  </div>`;
+}
+function wireAmb(){
+  app.querySelectorAll("[data-amb]").forEach(b=>{
+    b.onclick = () => {
+      const k = b.dataset.amb;
+      if(k === "off" || S.amb === k){ ambStop(); S.amb = null; }
+      else { if(ambStart(k)) S.amb = k; else S.amb = null; }
+      save();
+      app.querySelectorAll("[data-amb]").forEach(x=>{
+        x.classList.toggle("on", S.amb ? x.dataset.amb === S.amb : x.dataset.amb === "off");
+      });
+    };
+  });
+}
+
+function kulturScreen(){
+  const m = S.mark;
+  app.innerHTML = topbar() + `
+    <div class="hero">
+      <h1>Kulturecke</h1>
+      <p>Wie in der Türkei wirklich gelebt, gesprochen und geglaubt wird. Zum Lesen, in deinem Tempo.</p>
+    </div>
+    ${m && KULTUR[m.t] ? `<div class="homebtns" style="padding-bottom:14px">
+      <button id="cont" style="border-color:var(--gold);color:var(--gold)">🔖 Weiterlesen: ${esc(KULTUR[m.t].t)}</button>
+    </div>` : ""}
+    <div class="read" style="padding-top:0">
+      ${KULTUR.map((th,ti)=>`<button class="themerow" data-th="${ti}">
+        <span class="ti">${th.icon}</span>
+        <span><b>${esc(th.t)}</b><small>${th.cards.length} Abschnitte</small></span>
+        ${m && m.t===ti ? `<span class="mk">🔖</span>` : ""}
+      </button>`).join("")}
+    </div>
+    <div class="foot"><button class="cta ghost" id="back">Zurück zur Übersicht</button></div>`;
+  document.getElementById("chip").onclick = profileSheet;
+  document.getElementById("back").onclick = home;
+  const c = document.getElementById("cont");
+  if(c) c.onclick = () => kulturRead(m.t, m.c);
+  app.querySelectorAll("[data-th]").forEach(b=>{ b.onclick = () => kulturRead(+b.dataset.th, null); });
+}
+
+function kulturRead(ti, scrollTo){
+  const th = KULTUR[ti];
+  app.innerHTML = `<div class="lessbar">
+      <button class="x" id="quit">✕</button>
+      <div style="flex:1;font-size:15px;font-weight:900">${esc(th.t)}</div>
+      <span style="font-size:19px">${th.icon}</span>
+    </div>
+    ${ambBar()}
+    <div class="read">
+      ${th.cards.map((c,ci)=>{
+        const on = S.mark && S.mark.t===ti && S.mark.c===ci;
+        return `<div class="sec ${on?"marked":""}" id="sec${ci}">
+          <h3>${esc(c.h)}</h3>
+          <p class="tw">${esc(c.tr)}</p>
+          <p>${esc(c.x)}</p>
+          <div class="tp">${esc(c.tip)}</div>
+          <button class="mkbtn ${on?"on":""}" data-mk="${ci}">${on?"🔖 Lesezeichen hier":"🔖 Lesezeichen setzen"}</button>
+        </div>`;
+      }).join("")}
+    </div>
+    <div class="foot"><button class="cta ghost" id="back">Zur Kulturecke</button></div>`;
+
+  document.getElementById("quit").onclick = () => { leaveRead(); home(); };
+  document.getElementById("back").onclick = () => { leaveRead(); kulturScreen(); };
+  wireAmb();
+  app.querySelectorAll("[data-mk]").forEach(b=>{
+    b.onclick = () => {
+      const ci = +b.dataset.mk;
+      if(S.mark && S.mark.t===ti && S.mark.c===ci) S.mark = null;
+      else { S.mark = {t:ti, c:ci}; sfx("save"); }
+      save(); kulturRead(ti, ci);
+    };
+  });
+  if(S.amb && !AMB){ if(ambStart(S.amb)) wireAmb(); }
+  if(scrollTo !== null && scrollTo !== undefined){
+    const el = document.getElementById("sec"+scrollTo);
+    if(el) setTimeout(()=>el.scrollIntoView({block:"start"}), 60);
+  }
+}
+function leaveRead(){ ambStop(); }
+
+/* ---------- 4b2. HÖRECKE ---------- */
+let PL = { set:null, list:[], i:0, playing:false, step:0 }, plToken = 0;
+
+function buildList(set){
+  const out = [];
+  BONUS.forEach((b,ui)=>{
+    if(set === null || set === ui)
+      b.cards.forEach((c,ci)=> out.push({ c, ui, ci, id: ui+"-"+ci }));
+  });
+  return out;
+}
+
+function hoerScreen(set){
+  stopClip(); plToken++;
+  PL = { set: (set === undefined ? PL.set : set), list: [], i:0, playing:false, step:0 };
+  PL.list = buildList(PL.set);
+  hoerRender();
+}
+
+function hoerRender(){
+  const e = PL.list[PL.i];
+  if(!e){ home(); return; }
+  const c = e.c, on = S.saved.includes(e.id);
+  const stepTxt = !PL.playing ? "Bereit" :
+    (PL.step === 1 ? "Türkisch" : PL.step === 2 ? "Bedeutung" : "Wann man es sagt");
+
+  app.innerHTML = topbar() + `
+    <div class="hero" style="padding-bottom:12px">
+      <h1>Hörecke</h1>
+      <p>Zuhören statt tippen. Sprichwort, Bedeutung und wann man es sagt, eins nach dem anderen.</p>
+    </div>
+    ${canPlayAudio() ? "" : `<div class="warn">
+      Auf diesem Gerät ist keine türkische Stimme installiert. Wir lesen türkische Sätze
+      bewusst nicht mit einer deutschen Stimme vor, sonst würdest du dir eine falsche
+      Aussprache angewöhnen. Lesen und Merken funktioniert weiterhin.</div>`}
+    <div class="chips">
+      <button class="${PL.set===null?"on":""}" data-set="all">Alle</button>
+      ${BONUS.map((b,ui)=>`<button class="${PL.set===ui?"on":""}" data-set="${ui}">${esc(b.t)}</button>`).join("")}
+    </div>
+    <div class="player">
+      <div class="pcard">
+        <span class="btag">${esc(c.k)}</span>
+        <p class="ptr">${esc(c.tr)}</p>
+        <p class="pli">${esc(c.lit)}</p>
+        <p class="pde">${esc(c.de)}</p>
+        <div class="pus">${esc(c.use)}</div>
+        <div class="now">${PL.playing ? "▶ "+stepTxt : "Pause"}</div>
+      </div>
+      <div class="controls">
+        <button id="prev" ${PL.i===0?"disabled":""}>⏮</button>
+        <button class="big" id="play" ${canPlayAudio()?"":"disabled"}>${PL.playing?"⏸":"▶"}</button>
+        <button id="next" ${PL.i+1>=PL.list.length?"disabled":""}>⏭</button>
+      </div>
+      <div class="counter">${PL.i+1} / ${PL.list.length}</div>
+      <button class="savebtn ${on?"on":""}" id="save">${on?"★ Gemerkt":"☆ Merken"}</button>
+    </div>
+    <div class="foot"><button class="cta ghost" id="back">Zurück zur Übersicht</button></div>`;
+
+  const g = id => document.getElementById(id);
+  g("chip").onclick = profileSheet;
+  g("back").onclick = () => { stopClip(); plToken++; home(); };
+  g("play").onclick = () => PL.playing ? plStop() : plPlay();
+  g("prev").onclick = () => plGo(-1);
+  g("next").onclick = () => plGo(1);
+  g("save").onclick = () => {
+    const i = S.saved.indexOf(e.id);
+    if(i >= 0) S.saved.splice(i,1); else { S.saved.push(e.id); sfx("save"); }
+    save(); hoerRender();
+  };
+  app.querySelectorAll("[data-set]").forEach(b=>{
+    b.onclick = () => hoerScreen(b.dataset.set === "all" ? null : +b.dataset.set);
+  });
+}
+
+function plGo(d){
+  const n = PL.i + d;
+  if(n < 0 || n >= PL.list.length) return;
+  const wasPlaying = PL.playing;
+  stopClip(); plToken++; PL.playing = false;
+  PL.i = n; PL.step = 0;
+  if(wasPlaying) plPlay(); else hoerRender();
+}
+
+function plStop(){
+  plToken++; PL.playing = false; PL.step = 0; stopClip(); hoerRender();
+}
+
+function plPlay(){
+  const my = ++plToken;
+  PL.playing = true;
+  stopClip();
+  const e = PL.list[PL.i], c = e.c;
+  const steps = [[c.tr,"tr",e.id], [c.de,"de",null], [c.use,"de",null]];
+  let s = 0;
+  const run = () => {
+    if(my !== plToken || !PL.playing) return;
+    if(s >= steps.length){
+      if(PL.i + 1 < PL.list.length){
+        PL.i++; PL.step = 0; hoerRender();
+        setTimeout(()=>{ if(my === plToken && PL.playing) plPlay(); }, 500);
+      } else { PL.playing = false; PL.step = 0; hoerRender(); }
+      return;
+    }
+    const st = steps[s++];
+    PL.step = s; hoerRender();
+    playClip(st[2], st[0], st[1], () => setTimeout(run, 320));
+  };
+  run();
+}
+
+/* ---------- 4c. ABSCHLUSSTEST ---------- */
+const EXAM_N = 8, EXAM_PASS = 6;
+
+function startExam(ui){
+  const pool = [];
+  lessonsOf(ui).forEach(i=>{
+    FLAT[i].items.forEach(it=>{ if(it.k !== "culture") pool.push(it); });
+  });
+  const picked = shuffle(pool).slice(0, Math.min(EXAM_N, pool.length));
+  picked.forEach(it=>{ delete it._played; });
+  L = { idx:-1, ui, exam:true, items:picked, pos:0, right:0, wrong:0,
+        title:"Abschlusstest", state:"ask", picked:null, built:[], matched:[], msel:null, score:0 };
+  render();
+}
+
+function boot(){
+  if(ACTIVE && USERS[ACTIVE]) home(); else authScreen("login");
+}
+
+/* ---------- 5. LEKTION ---------- */
+let L = null;
+
+function startLesson(idx){
+  if(S.hearts <= 0){ noHearts(); return; }
+  const les = FLAT[idx];
+  les.items.forEach(it => { delete it._played; });
+  L = { idx, items: les.items.slice(), pos:0, right:0, wrong:0, title:les.t, state:"ask", picked:null, built:[], matched:[], msel:null };
+  render();
+}
+
+function noHearts(){
+  app.innerHTML = topbar() + `<div class="result">
+    <div class="emo">🥯</div>
+    <h2>Simit alle</h2>
+    <p>Jeder Fehler kostet ein Simit. Morgen liegen wieder fünf im Korb. Im Abschlusstest kostet dich ein Fehler übrigens keins.</p>
+  </div>
+  <div class="foot"><button class="cta red" id="back">Zur Übersicht</button></div>`;
+  document.getElementById("back").onclick = home;
+  document.getElementById("chip").onclick = profileSheet;
+}
+
+function render(){
+  const it = L.items[L.pos];
+  const pct = Math.round(L.pos / L.items.length * 100);
+  let body = "", foot = "";
+
+  /* ---- Aufgabe zeichnen ---- */
+  if(it.k === "culture"){
+    body = `<div class="q">
+      <div class="q-kind">Typisch Türkisch</div>
+      <div class="card">
+        <p class="big">${esc(it.word)}</p>
+        <p class="lit">${esc(it.lit)}</p>
+        <p>${it.text}</p>
+        <div class="tip">${it.tip}</div>
+      </div>
+      <button class="speak" id="sp" style="margin-top:14px">
+        <span class="sp">🔊</span><span>${esc(it.word)}</span>
+      </button>
+    </div>`;
+    foot = `<div class="foot"><button class="cta" id="next">Verstanden</button></div>`;
+  }
+
+  if(it.k === "choice"){
+    const opts = it._opts || (it._opts = shuffle(it.opts));
+    body = `<div class="q">
+      <div class="q-kind">${esc(it.lbl || "Wähle die richtige Antwort")}</div>
+      <h2 class="q-text">${esc(it.de)}</h2>
+      <div class="opts">${opts.map((o,i)=>{
+        let cls = "";
+        if(L.state==="ask") cls = L.picked===i ? "sel" : "";
+        else cls = (o===it.tr) ? "ok" : (L.picked===i ? "no" : "");
+        return `<button class="opt ${cls}" data-opt="${i}">${esc(o)}</button>`;
+      }).join("")}</div>
+    </div>`;
+  }
+
+  if(it.k === "listen"){
+    const opts = it._opts || (it._opts = shuffle(it.opts));
+    body = `<div class="q">
+      <div class="q-kind">Hören und verstehen</div>
+      <h2 class="q-text">Was bedeutet das?</h2>
+      <button class="speak" id="sp"><span class="sp">🔊</span><span>Antippen zum Hören</span></button>
+      ${(!canSpeakTr() || L.state!=="ask")?`<p class="q-sub">${canSpeakTr()?"Gesagt wurde":"Ohne türkische Stimme auf diesem Gerät"}: <b>${esc(it.tr)}</b></p>`:""}
+      <div class="opts">${opts.map((o,i)=>{
+        let cls = "";
+        if(L.state==="ask") cls = L.picked===i ? "sel" : "";
+        else cls = (o===it.de) ? "ok" : (L.picked===i ? "no" : "");
+        return `<button class="opt ${cls}" data-opt="${i}">${esc(o)}</button>`;
+      }).join("")}</div>
+    </div>`;
+  }
+
+  if(it.k === "build"){
+    const bank = it._bank || (it._bank = shuffle(it.tiles));
+    body = `<div class="q">
+      <div class="q-kind">Satz bauen</div>
+      <h2 class="q-text">${esc(it.de)}</h2>
+      <div class="answerbox" id="ans">${L.built.map((t,i)=>`<button class="tile inans" data-rm="${i}">${esc(t)}</button>`).join("")}</div>
+      <div class="bank">${bank.map((t,i)=>{
+        const usedCount = L.built.filter(x=>x===t).length;
+        const bankCount = bank.slice(0,i+1).filter(x=>x===t).length;
+        const isUsed = usedCount >= bankCount;
+        return `<button class="tile ${isUsed?"used":""}" data-add="${i}">${esc(t)}</button>`;
+      }).join("")}</div>
+    </div>`;
+  }
+
+  if(it.k === "match"){
+    const left = it._l || (it._l = shuffle(it.pairs.map(p=>p[0])));
+    const right = it._r || (it._r = shuffle(it.pairs.map(p=>p[1])));
+    const cell = (v,side) => {
+      const gone = L.matched.includes(v);
+      const sel = L.msel && L.msel.v===v;
+      return `<button class="mcell ${gone?"gone":""} ${sel?"sel":""}" data-m="${esc(v)}" data-side="${side}">${esc(v)}</button>`;
+    };
+    const rows = left.map((lv,i)=>cell(lv,"l") + cell(right[i],"r")).join("");
+    body = `<div class="q">
+      <div class="q-kind">Paare finden</div>
+      <h2 class="q-text">Was gehört zusammen?</h2>
+      <div class="matchgrid">${rows}</div>
+    </div>`;
+  }
+
+  /* ---- Fußzeile ---- */
+  if(it.k !== "culture" && it.k !== "match"){
+    if(L.state === "ask"){
+      const ready = it.k==="build" ? L.built.length===it.tiles.length : L.picked!==null;
+      foot = `<div class="foot"><button class="cta" id="check" ${ready?"":"disabled"}>Prüfen</button></div>`;
+    } else {
+      const ok = L.state === "right";
+      const correct = it.k==="build" ? it.ans : (it.k==="listen" ? it.de : it.tr);
+      foot = `<div class="foot ${ok?"ok":"no"}">
+        <div class="fb ${ok?"ok":"no"}">
+          <span class="mark">${ok?"✓":"✕"}</span>
+          <span><b>${ok?"Richtig":"Richtige Antwort: "+esc(correct)}</b>
+          <span>${esc(it.why || (it.k==="listen" ? it.tr : (ok ? "" : it.tr||"")))}</span></span>
+        </div>
+        <button class="cta ${ok?"":"red"}" id="next">Weiter</button>
+      </div>`;
+    }
+  }
+  if(it.k === "match"){
+    const allDone = L.matched.length === it.pairs.length*2;
+    foot = `<div class="foot ${allDone?"ok":""}">
+      ${allDone?`<div class="fb ok"><span class="mark">✓</span><span><b>Alle Paare gefunden</b></span></div>`:""}
+      <button class="cta" id="next" ${allDone?"":"disabled"}>Weiter</button>
+    </div>`;
+  }
+
+  app.innerHTML = `<div class="lessbar">
+      <button class="x" id="quit">✕</button>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="stat heart"><span class="ic">🥯</span>${S.hearts}</div>
+    </div>` + body + foot;
+
+  wire(it);
+}
+
+function wire(it){
+  const q = id => document.getElementById(id);
+  if(q("quit")) q("quit").onclick = home;
+  if(q("sp")) q("sp").onclick = () => {
+    say(it.k==="culture" ? it.word : it.tr);
+    const rw = q("revealWrap");
+    if(rw && L.state!=="ask") rw.innerHTML = "Gesagt wurde: <b>"+esc(it.tr)+"</b>";
+  };
+
+  // auto-play beim Hörverstehen
+  if(it.k==="listen" && L.state==="ask" && !it._played){ it._played = true; setTimeout(()=>say(it.tr), 350); }
+
+  app.querySelectorAll("[data-opt]").forEach(b=>{
+    b.onclick = () => { if(L.state!=="ask") return; L.picked = +b.dataset.opt; render(); };
+  });
+
+  app.querySelectorAll("[data-add]").forEach(b=>{
+    b.onclick = () => {
+      if(L.state!=="ask") return;
+      L.built.push(it._bank[+b.dataset.add]); render();
+    };
+  });
+  app.querySelectorAll("[data-rm]").forEach(b=>{
+    b.onclick = () => { if(L.state!=="ask") return; L.built.splice(+b.dataset.rm,1); render(); };
+  });
+
+  app.querySelectorAll("[data-m]").forEach(b=>{
+    b.onclick = () => {
+      const v = b.dataset.m, side = b.dataset.side;
+      if(L.matched.includes(v)) return;
+      if(!L.msel){ L.msel = {v,side}; render(); return; }
+      if(L.msel.v === v){ L.msel = null; render(); return; }
+      if(L.msel.side === side){ L.msel = {v,side}; render(); return; }
+      const a = L.msel.side==="l" ? L.msel.v : v;
+      const bb = L.msel.side==="l" ? v : L.msel.v;
+      const hit = it.pairs.some(p=>p[0]===a && p[1]===bb);
+      if(hit){ L.matched.push(a,bb); L.right++; sfx("right"); }
+      else {
+        L.wrong++; L.qWrong = true; sfx("wrong");
+        if(!L.exam){ S.hearts = Math.max(0,S.hearts-1); save(); }
+      }
+      L.msel = null; render();
+    };
+  });
+
+  if(q("check")) q("check").onclick = () => {
+    let ok;
+    if(it.k==="build") ok = L.built.join(" ") === it.ans;
+    else if(it.k==="listen") ok = it._opts[L.picked] === it.de;
+    else ok = it._opts[L.picked] === it.tr;
+    if(ok){ L.right++; L.state="right"; sfx("right"); voiceFb(V_RIGHT); }
+    else {
+      L.wrong++; L.qWrong = true; L.state="wrong"; sfx("wrong"); voiceFb(V_WRONG);
+      if(!L.exam){ S.hearts = Math.max(0,S.hearts-1); save(); }
+    }
+    render();
+  };
+
+  if(q("next")) q("next").onclick = () => {
+    if(L.exam){
+      if(it.k === "match"){ if(!L.qWrong) L.score++; }
+      else if(L.state === "right") L.score++;
+    } else if(S.hearts <= 0){ noHearts(); return; }
+    L.pos++; L.state="ask"; L.picked=null; L.built=[]; L.matched=[]; L.msel=null; L.qWrong=false;
+    if(L.pos >= L.items.length) finish(); else render();
+  };
+}
+
+/* ---------- 6. ERGEBNIS ---------- */
+function finish(){
+  if(L.exam) return examResult();
+  const gained = L.right*10 + (L.wrong===0 ? 15 : 5);
+  addXp(gained);
+  if(!S.done.includes(L.idx)){ S.done.push(L.idx); save(); }
+  const perfect = L.wrong===0;
+  const total = L.right + L.wrong;
+  const acc = total ? Math.round(L.right/total*100) : 100;
+
+  app.innerHTML = `<div class="result">
+    <div class="emo">${perfect?"🏆":"👏"}</div>
+    <h2>${perfect ? (ACTIVE==="__gast" ? "Ohne Fehler" : "Ohne Fehler, "+esc(displayName())) : "Lektion geschafft"}</h2>
+    <p>${esc(L.title)}</p>
+    <div class="scores">
+      <div class="score"><div class="in"><div class="k">Çay</div><div class="v">+${gained}</div></div></div>
+      <div class="score b"><div class="in"><div class="k">Treffer</div><div class="v">${acc}%</div></div></div>
+    </div>
+  </div>
+  <div class="foot">
+    <button class="cta" id="cont">Weiter</button>
+    ${FLAT[L.idx+1] ? `<button class="cta ghost" id="nextles">Direkt zur nächsten Lektion</button>` : ""}
+  </div>`;
+  document.getElementById("cont").onclick = home;
+  const nl = document.getElementById("nextles");
+  if(nl) nl.onclick = () => startLesson(L.idx+1);
+  sfx("done"); voiceFb(V_DONE, 520);
+}
+
+function examResult(){
+  const ui = L.ui, n = L.items.length;
+  const need = Math.min(EXAM_PASS, Math.max(1, Math.ceil(n*0.75)));
+  const ok = L.score >= need;
+  const first = ok && !S.passed.includes(ui);
+  if(first){ S.passed.push(ui); addXp(100); }
+  else if(ok){ addXp(20); }
+  save();
+  sfx(ok ? "pass" : "fail");
+  voiceFb(ok ? V_PASS : V_FAIL, 620);
+
+  const nextUnit = UNITS[ui+1];
+  app.innerHTML = `<div class="result">
+    <div class="emo">${ok?"🎓":"📚"}</div>
+    <h2>${ok ? (first ? "Test bestanden" : "Noch einmal bestanden") : "Noch nicht bestanden"}</h2>
+    <p>${esc(UNITS[ui].t)}</p>
+    <div class="scores">
+      <div class="score"><div class="in"><div class="k">Richtig</div><div class="v">${L.score}/${n}</div></div></div>
+      <div class="score b"><div class="in"><div class="k">Nötig</div><div class="v">${need}/${n}</div></div></div>
+    </div>
+    <p style="margin-top:20px">${ok
+      ? (first && nextUnit ? "Einheit "+(ui+2)+" ist jetzt offen: "+esc(nextUnit.t) : "Du kannst jederzeit weiterüben.")
+      : "Geh die Lektionen dieser Einheit noch einmal durch und versuch es dann erneut. Im Test kostet dich ein Fehler kein Simit."}</p>
+  </div>
+  <div class="foot">
+    <button class="cta ${ok?"":"red"}" id="cont">${ok?"Weiter":"Zur Übersicht"}</button>
+    ${ok?"":`<button class="cta ghost" id="again">Test noch einmal</button>`}
+  </div>`;
+  document.getElementById("cont").onclick = home;
+  const ag = document.getElementById("again");
+  if(ag) ag.onclick = () => startExam(ui);
+}
+
+boot();
+</script>
+</body>
+</html>
