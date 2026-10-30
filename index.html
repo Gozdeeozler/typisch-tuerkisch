@@ -1389,6 +1389,7 @@ function profileSheet(){
         <span>Zu ${esc(USERS[k].name)} wechseln</span></button>`).join("")}
     <button class="row" id="tgSound"><span class="ava sm" style="background:var(--surface);color:var(--muted)">${S.sound?"🔊":"🔇"}</span><span>Töne ${S.sound?"an":"aus"}</span></button>
     <button class="row" id="tgVoice"><span class="ava sm" style="background:var(--surface);color:var(--muted)">${S.voice?"🗣":"🤐"}</span><span>Türkische Stimme ${S.voice?"an":"aus"}</span></button>
+    <button class="row" id="backup"><span class="ava sm" style="background:var(--surface);color:var(--muted)">💾</span><span>Fortschritt sichern oder laden</span></button>
     <button class="row" id="voiceHelp"><span class="ava sm" style="background:var(--surface);color:var(--muted)">❓</span><span>${canSpeakTr()?"Türkische Stimme ist installiert":"Türkische Stimme einrichten"}</span></button>
     <button class="row" data-sw="__new__"><span class="ava sm">+</span><span>Neues Profil</span></button>
     <button class="row" id="out"><span class="ava sm" style="background:var(--surface);color:var(--muted)">⎋</span><span>Abmelden</span></button>
@@ -1403,6 +1404,7 @@ function profileSheet(){
   el.querySelector("#tgSound").onclick = () => { S.sound = !S.sound; save(); if(S.sound) sfx("save"); kill(); profileSheet(); };
   el.querySelector("#tgVoice").onclick = () => { S.voice = !S.voice; save(); kill(); profileSheet(); };
   el.querySelector("#voiceHelp").onclick = () => { kill(); voiceHelpScreen(); };
+  el.querySelector("#backup").onclick = () => { kill(); backupScreen(); };
   el.querySelector("#out").onclick = () => { saveAll(); ACTIVE = null; S = fresh(); saveAll(); kill(); authScreen("login"); };
   el.querySelectorAll("[data-sw]").forEach(b=>{
     b.onclick = () => {
@@ -1573,6 +1575,83 @@ function savedScreen(){
   app.querySelectorAll("[data-rm]").forEach(b=>{
     b.onclick = () => { const i = S.saved.indexOf(b.dataset.rm); if(i>=0) S.saved.splice(i,1); save(); savedScreen(); };
   });
+}
+
+/* ---------- 4a0. FORTSCHRITT SICHERN ----------
+   Der Fortschritt liegt im Browser, also an einer Adresse
+   auf einem Gerät. Mit diesem Code lässt er sich auf ein
+   anderes Gerät oder nach einem gelöschten Browser
+   zurückholen.                                            */
+function makeCode(){
+  try{ return btoa(unescape(encodeURIComponent(JSON.stringify({u:USERS, a:ACTIVE})))); }
+  catch(e){ return ""; }
+}
+function readCode(txt){
+  try{
+    const o = JSON.parse(decodeURIComponent(escape(atob(txt.trim()))));
+    if(!o || typeof o.u !== "object") return null;
+    return o;
+  }catch(e){ return null; }
+}
+
+function backupScreen(){
+  const code = makeCode();
+  app.innerHTML = topbar() + `
+    <div class="hero">
+      <h1>Fortschritt sichern</h1>
+      <p>Dein Fortschritt liegt in diesem Browser, auf diesem Gerät, unter dieser Adresse.
+      Mit dem Code unten holst du ihn woanders zurück.</p>
+    </div>
+    <div class="read" style="padding-top:0">
+      <div class="sec">
+        <h3>Sicherungscode</h3>
+        <p class="tw">Kopieren und irgendwo aufbewahren</p>
+        <textarea id="out" readonly style="width:100%;height:110px;background:var(--surface);
+          border:2px solid var(--line);border-radius:12px;padding:12px;color:var(--text);
+          font-family:monospace;font-size:12px;font-weight:600;resize:none">${esc(code)}</textarea>
+        <button class="savebtn" id="copy">Code kopieren</button>
+        <div class="tp">Schick ihn dir selbst per Nachricht oder E-Mail. Er enthält alle Profile dieses Geräts.</div>
+      </div>
+      <div class="sec">
+        <h3>Fortschritt laden</h3>
+        <p class="tw">Code von einem anderen Gerät einfügen</p>
+        <textarea id="in" placeholder="Code hier einfügen" style="width:100%;height:90px;background:var(--surface);
+          border:2px solid var(--line);border-radius:12px;padding:12px;color:var(--text);
+          font-family:monospace;font-size:12px;font-weight:600;resize:none"></textarea>
+        <div class="err" id="e"></div>
+        <button class="savebtn" id="load">Laden und ersetzen</button>
+        <div class="tp">Achtung: das ersetzt die Profile, die jetzt auf diesem Gerät liegen.</div>
+      </div>
+    </div>
+    <div class="foot"><button class="cta ghost" id="back">Zurück</button></div>`;
+
+  const g = id => document.getElementById(id);
+  g("chip").onclick = profileSheet;
+  g("back").onclick = home;
+  g("copy").onclick = () => {
+    const t = g("out");
+    t.select(); t.setSelectionRange(0, 999999);
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(t.value).then(
+          ()=>{ g("copy").textContent = "Kopiert"; },
+          ()=>{ g("copy").textContent = "Bitte von Hand markieren und kopieren"; }
+        );
+        ok = true;
+      }
+    }catch(e){}
+    if(!ok) g("copy").textContent = "Bitte von Hand markieren und kopieren";
+  };
+  g("load").onclick = () => {
+    const o = readCode(g("in").value || "");
+    if(!o){ g("e").textContent = "Der Code ist nicht lesbar."; return; }
+    USERS = o.u;
+    ACTIVE = (o.a && o.u[o.a]) ? o.a : null;
+    S = ACTIVE ? Object.assign(fresh(), USERS[ACTIVE].data) : fresh();
+    saveAll(); sfx("pass");
+    if(ACTIVE) home(); else authScreen("login");
+  };
 }
 
 /* ---------- 4a. TÜRKISCHE STIMME EINRICHTEN ---------- */
